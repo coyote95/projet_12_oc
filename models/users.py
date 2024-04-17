@@ -1,0 +1,46 @@
+import bcrypt
+from sqlalchemy import Column, String, Integer
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String, unique=True)
+    departement = Column(String)
+    password = Column(String)
+
+    def __init__(self, name, email, departement, password):
+        self.name = name
+        self.email = email
+        self.departement = departement
+        self.password = self.set_password(password)
+
+    def __str__(self):
+        return f"<User(nom='{self.name}', password='{self.password}')>"
+
+    def __repr__(self):
+        return f"<User(nom='{self.name}', password='{self.password}')>"
+
+    def get_id(self):
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def get_password(self):
+        return self.password
+
+    def set_password(self, password):
+        # Hasher et saler le mot de passe
+        if password is not None:
+            self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        return self.password
+
+    def check_password(self, password):
+        # Vérifier si le mot de passe fourni correspond au mot de passe stocké
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
