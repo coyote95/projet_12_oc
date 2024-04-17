@@ -7,9 +7,11 @@ class UserController:
         self.view = UserView()
 
     def inscription_user(self):
-        print("Inscription réussie !")
+
         name, email, departement, password = self.view.input_infos_user()
-        return self.model(name=name, email=email, password=password, departement=departement)
+        new_user= self.model(name=name, email=email, password=password, departement=departement)
+        print("Inscription réussie !")
+        return new_user
 
     # def connecter_client(self, email):
     #     client = self.session.query(Client).filter_by(email=email).first()

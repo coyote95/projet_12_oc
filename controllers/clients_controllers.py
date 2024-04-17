@@ -1,21 +1,14 @@
 from models.clients import Client
+from views.clients_view import ClientView
 
 
 class ClientController:
-    def __init__(self, session):
-        self.session = session
+    def __init__(self, client):
+        self.model = client
+        self.view = ClientView
 
-    def add_client(self, nom_complet, email, telephone, entreprise):
-        nouveau_client = Client(nom_complet=nom_complet, email=email, telephone=telephone, entreprise=entreprise)
-        self.session.add(nouveau_client)
-        self.session.commit()
+    def add_client(self):
+        name, email, phone, company = self.view.add_client()
+        new_client = self.model(name=name, email=email, phone=phone, company=company)
         print("Inscription réussie !")
-
-    def connecter_client(self, email):
-        client = self.session.query(Client).filter_by(email=email).first()
-        if client:
-            print("Connexion réussie !")
-            return client
-        else:
-            print("Adresse e-mail non trouvée. Veuillez vous inscrire.")
-            return None
+        return new_client

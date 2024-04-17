@@ -8,10 +8,17 @@ class Client(Base):
     __tablename__ = 'clients'
 
     id = Column(Integer, primary_key=True)
-    nom_complet = Column(String)
+    name = Column(String)
     email = Column(String, unique=True)
-    telephone = Column(String)
-    entreprise = Column(String)
+    phone = Column(String)
+    company = Column(String)
+
+    def __init__(self, name, email, phone, company):
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.company = company
 
     def __repr__(self):
-        return f"<Client(nom_complet='{self.nom_complet}', email='{self.email}', téléphone='{self.telephone}', entreprise='{self.entreprise}')>"
+        return (f"<Client(nom_complet='{self.name}', email='{self.email}', téléphone='{self.phone}', entreprise="
+                f"'{self.company}')>")
