@@ -9,10 +9,10 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String, unique=True)
-    departement = Column(String)
-    password = Column(String)
+    name = Column(String(255))
+    email = Column(String(255), unique=True)
+    departement = Column(String(255))
+    password = Column(String(255))
 
     def __init__(self, name, email, departement, password):
         self.name = name

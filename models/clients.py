@@ -8,10 +8,11 @@ class Client(Base):
     __tablename__ = 'clients'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String, unique=True)
-    phone = Column(String)
-    company = Column(String)
+    name = Column(String(255))
+    email = Column(String(255), unique=True)
+    phone = Column(String(255))
+    company = Column(String(255))
+
 
     def __init__(self, name, email, phone, company):
         self.name = name

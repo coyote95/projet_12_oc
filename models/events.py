@@ -13,10 +13,10 @@ class Event(Base):
     contract = relationship("Contract")
     client_name = Column(Integer, ForeignKey('clients.id'))
     client = relationship("Client")
-    client_contact = Column(String)  # voir relation clien
+    client_contact = Column(String(255))  # voir relation clien
     start_date = Column(DateTime)
     end_date = Column(DateTime)
-    support_contact = Column(String)  # voir relation user
-    location = Column(String)
+    support_contact = Column(String(255))  # voir relation user
+    location = Column(String(255))
     participants = Column(Integer)
-    notes = Column(String)
+    notes = Column(String(255))

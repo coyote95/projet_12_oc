@@ -6,7 +6,7 @@ from models.clients import Base as BaseClients
 from models.users import Base as BaseUsers
 
 
-engine = create_engine('sqlite:///database.sql', echo=True)
+engine = create_engine('mysql+pymysql://root:DATAstockage95?@localhost/epicevents', echo=True)
 BaseClients.metadata.create_all(engine)
 BaseUsers.metadata.create_all(engine)
 

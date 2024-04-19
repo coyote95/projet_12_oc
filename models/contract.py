@@ -11,7 +11,7 @@ class Contract(Base):
     id = Column(Integer, primary_key=True)
     client_id = Column(Integer, ForeignKey('clients.id'))  # relation dans la table
     client = relationship("Client")  # relation modele python
-    sales_contact = Column(String) # users?
+    sales_contact = Column(String(255)) # users?
     total_amount = Column(Float)
     remaining_amount = Column(Float)
     creation_date = Column(DateTime)
