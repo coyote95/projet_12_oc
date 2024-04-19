@@ -1,14 +1,22 @@
 from controllers.menu_controllers import ApplicationController
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
+from models import Base
 
-from models.clients import Base as BaseClients
-from models.users import Base as BaseUsers
+
+from models.clients import Client
+from models.users import User
+
+from models.contract import Base as BaseContracts
+from models.events import Base as BaseEvents
 
 
 engine = create_engine('mysql+pymysql://root:DATAstockage95?@localhost/epicevents', echo=True)
-BaseClients.metadata.create_all(engine)
-BaseUsers.metadata.create_all(engine)
+
+# BaseUsers.metadata.create_all(engine)
+Base.metadata.create_all(engine)
+# BaseContracts.metadata.create_all(engine)
+# BaseEvents.metadata.create_all(engine)
 
 # Inspecter le schéma de la base de données pour voir les tables créées
 inspector = inspect(engine)

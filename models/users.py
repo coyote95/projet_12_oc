@@ -1,18 +1,19 @@
 import bcrypt
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Enum
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from . import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
     email = Column(String(255), unique=True)
-    departement = Column(String(255))
+    departement = Column(Enum('commercial', 'support', 'gestion'))
     password = Column(String(255))
+    clients = relationship('Client', backref="users")
 
     def __init__(self, name, email, departement, password):
         self.name = name

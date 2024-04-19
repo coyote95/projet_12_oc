@@ -6,15 +6,16 @@ Base = declarative_base()
 
 
 class Contract(Base):
-    __tablename__ = 'contracts'
+    __tablename__ = 'contract'
 
     id = Column(Integer, primary_key=True)
-    client_id = Column(Integer, ForeignKey('clients.id'))  # relation dans la table
+    client_id = Column(Integer, ForeignKey('client.id'))  # relation dans la table
     client = relationship("Client")  # relation modele python
     sales_contact = Column(String(255)) # users?
     total_amount = Column(Float)
     remaining_amount = Column(Float)
     creation_date = Column(DateTime)
     signed_contract = Column(Boolean)
+    events = relationship("Event",backref="contracts")
 
 

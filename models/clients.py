@@ -1,18 +1,24 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from sqlalchemy.orm import relationship
+from . import Base
 
 
 class Client(Base):
-    __tablename__ = 'clients'
+    __tablename__ = 'client'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
+    surname = Column(String(255))
     email = Column(String(255), unique=True)
-    phone = Column(String(255))
+    phone = Column(Integer)
     company = Column(String(255))
-
+    creation_date = Column(DateTime)
+    last_update = Column(DateTime)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship('User')
+    # contracts = relationship("Contact", backref="clients")
+    # events = relationship("Event", backref="clients")
 
     def __init__(self, name, email, phone, company):
         self.name = name

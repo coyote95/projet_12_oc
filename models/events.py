@@ -6,12 +6,12 @@ Base = declarative_base()
 
 
 class Event(Base):
-    __tablename__ = 'events'
+    __tablename__ = 'event'
 
     event_id = Column(Integer, primary_key=True)
-    contract_id = Column(Integer, ForeignKey('contracts.id'))
+    contract_id = Column(Integer, ForeignKey('contract.id'))
     contract = relationship("Contract")
-    client_name = Column(Integer, ForeignKey('clients.id'))
+    client_id = Column(Integer, ForeignKey('client.id'))
     client = relationship("Client")
     client_contact = Column(String(255))  # voir relation clien
     start_date = Column(DateTime)
