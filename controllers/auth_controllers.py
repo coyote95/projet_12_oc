@@ -44,7 +44,7 @@ class AuthController:
         payload = {
             'user_id': self.user.id,
             'username': self.user.name,
-            # 'roles': self.user.role,
+            'roles': self.user.departement,
             'exp': expiration.timestamp()  # Date d'expiration du token (en secondes)
         }
 
