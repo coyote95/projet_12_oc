@@ -1,7 +1,7 @@
 import bcrypt
 from sqlalchemy import Column, String, Integer, Enum
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from models.role import user_role_association
 from . import Base
 
 
@@ -14,6 +14,7 @@ class User(Base):
     departement = Column(Enum('commercial', 'support', 'gestion'))
     password = Column(String(255))
     clients = relationship('Client', backref="users")
+    roles = relationship('Role', secondary=user_role_association, backref="users")
 
     def __init__(self, name, email, departement, password):
         self.name = name

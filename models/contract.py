@@ -1,8 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Float, DateTime, Boolean
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-
-Base = declarative_base()
+from . import Base
 
 
 class Contract(Base):
