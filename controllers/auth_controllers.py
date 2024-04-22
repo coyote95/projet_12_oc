@@ -1,15 +1,38 @@
 import jwt
 from datetime import datetime, timedelta, timezone
+import configparser
 
 
 class AuthController:
+    def __init__(self, user):
+        self.user = user
+        self.config = configparser.ConfigParser()
 
-    def __init__(self, user_service):
-        self.user_service = user_service
+    def store_token(self, token):
+        # Lecture du fichier de configuration existant
+        self.config.read('config.ini')
 
-    def generate_jwt(self, user_id, username, roles):
-        # Clé secrète pour signer le JWT (à conserver en sécurité)
-        secret_key = "your_secret_key"
+        # Ajout du jeton à la section JWT
+        if 'JWT' not in self.config:
+            self.config['JWT'] = {}
+        self.config['JWT']['token'] = token
+
+        # ÉcrituQre des modifications dans le fichier de configuration
+        with open('config.ini', 'w') as configfile:
+            self.config.write(configfile)
+
+    def read_token(self):
+        self.config.read('config.ini')
+        # Lecture du jeton à partir du fichier de configuration
+        if 'JWT' in self.config and 'token' in self.config['JWT']:
+            return self.config['JWT']['token']
+        else:
+            return None
+
+    def generate_token(self):
+        self.config.read('config.ini')
+        # Lecture de la clé secrète à partir du fichier de configuration
+        secret_key = self.config['APP']['SECRET_KEY']
 
         # Date et heure actuelles avec un fuseau horaire UTC
         now_utc = datetime.now(timezone.utc)
@@ -19,20 +42,23 @@ class AuthController:
 
         # Création des données à inclure dans le JWT
         payload = {
-            'user_id': user_id,
-            'username': username,
-            'roles': roles,
-            'exp': expiration  # Date d'expiration du token
+            'user_id': self.user.id,
+            'username': self.user.name,
+            # 'roles': self.user.role,
+            'exp': expiration.timestamp()  # Date d'expiration du token (en secondes)
         }
 
         # Génération du JWT avec la clé secrète et les données payload
         token = jwt.encode(payload, secret_key, algorithm='HS256')
 
+        self.store_token(token)
+
         return token
 
-    def decode_jwt(self, token):
-        # Clé secrète utilisée pour vérifier le JWT
-        secret_key = "your_secret_key"
+    def decode_token(self, token):
+        self.config.read('config.ini')
+        # Lecture de la clé secrète à partir du fichier de configuration
+        secret_key = self.config['APP']['SECRET_KEY']
 
         try:
             # Décodage du JWT avec la clé secrète
@@ -47,16 +73,3 @@ class AuthController:
             print("Le jeton est invalide. Veuillez vous reconnecter.")
             return None
 
-    def login(self, username, password):
-        # Authentification de l'utilisateur et génération du JWT
-        user = self.user_service.get_user_by_username(username)
-
-        if user and user.check_password(password):
-            roles = user.get_roles()  # Récupérer les rôles de l'utilisateur depuis le modèle User
-            token = self.generate_jwt(user.id, user.username, roles)
-            return token
-        else:
-            return None
-
-    def logout(self):
-        pass

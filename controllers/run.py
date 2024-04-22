@@ -1,5 +1,6 @@
 import controllers.menu_controllers
 from controllers.users_controllers import UserController
+from controllers.auth_controllers import AuthController
 from sqlalchemy import inspect
 from models.users import User
 from models.clients import Client
@@ -25,11 +26,16 @@ class RunConnexion:
 
     def __call__(self, *args, **kwargs):
         user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
+
         name, password = user_controller.connecter_user()  # Appeler la méthode inscr
         try:
             user = self.session.query(User).filter_by(name=name).first()
             if user and user.check_password(password):
                 print("Connexion réussie !")
+                user_authcontroller = AuthController(user)
+
+                token = user_authcontroller.generate_token()
+                print(token)
                 return controllers.menu_controllers.EpicEventMenuController(self.session, self.engine)
             else:
                 print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
