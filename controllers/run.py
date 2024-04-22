@@ -18,6 +18,28 @@ class RunInscription:
         return controllers.menu_controllers.HomeMenuController(self.session, self.engine)
 
 
+class RunConnexion:
+    def __init__(self, session, engine):
+        self.session = session
+        self.engine = engine
+
+    def __call__(self, *args, **kwargs):
+        user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
+        name, password = user_controller.connecter_user()  # Appeler la méthode inscr
+        try:
+            user = self.session.query(User).filter_by(name=name).first()
+            if user and user.check_password(password):
+                print("Connexion réussie !")
+                return controllers.menu_controllers.EpicEventMenuController(self.session, self.engine)
+            else:
+                print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
+                return None
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de la recherche de l'utilisateur : {e}")
+            print("Connexion impossible en raison d'une erreur.")
+            return None
+
+
 class RunBaseDeDonnee:
     def __init__(self, session, engine=None):
         self.engine = engine

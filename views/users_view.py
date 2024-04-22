@@ -11,3 +11,9 @@ class UserView:
         departement= input("Entrez le departement: ")
         password = input("Entrez votre mot de passe : ")
         return name, email, departement, password
+
+    @staticmethod
+    def ask_infos_user_login():
+        name = input("Entrez votre nom complet : ")
+        password = input("Entrez votre mot de passe : ")
+        return name, password

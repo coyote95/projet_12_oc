@@ -7,17 +7,18 @@ class UserController:
         self.view = UserView()
 
     def inscription_user(self):
-
         name, email, departement, password = self.view.input_infos_user()
-        new_user= self.model(name=name, email=email, password=password, departement=departement)
+        new_user = self.model(name=name, email=email, password=password, departement=departement)
         print("Inscription réussie !")
         return new_user
 
-    # def connecter_client(self, email):
-    #     client = self.session.query(Client).filter_by(email=email).first()
-    #     if client:
-    #         print("Connexion réussie !")
-    #         return client
-    #     else:
-    #         print("Adresse e-mail non trouvée. Veuillez vous inscrire.")
-    #         return None
+    def connecter_user(self):
+        name,password= self.view.ask_infos_user_login()
+        return name, password
+
+        # if name == self.model.name and password == self.model.check_password:
+        #     print("Connexion réussie !")
+        #     return self.model
+        # else:
+        #     print("Adresse e-mail non trouvée. Veuillez vous inscrire.")
+        #     return None
