@@ -1,7 +1,7 @@
 import bcrypt
 from sqlalchemy import Column, String, Integer, Enum
 from sqlalchemy.orm import relationship
-from models.role import user_role_association
+from models.role import user_role_association, Role
 from . import Base
 
 
@@ -20,6 +20,7 @@ class User(Base):
         self.name = name
         self.email = email
         self.departement = departement
+        self.roles = self.set_role_from_departement()
         self.password = self.set_password(password)
 
     def __str__(self):
@@ -46,3 +47,13 @@ class User(Base):
     def check_password(self, password):
         # Vérifier si le mot de passe fourni correspond au mot de passe stocké
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+    def set_role_from_departement(self):
+        if self.departement == 'commercial':
+            return [Role(role='commercial')]
+        elif self.departement == 'gestion':
+            return [Role(role='gestion')]
+        elif self.departement == 'support':
+            return [Role(role='support')]
+        else:
+            raise ValueError("Invalid departement value")

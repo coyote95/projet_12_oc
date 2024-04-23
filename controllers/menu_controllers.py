@@ -2,7 +2,7 @@ import sys
 
 from models.menu import Menu
 from views.menu_view import HomeMenuView
-from controllers.run import RunInscription, RunBaseDeDonnee, RunConnexion
+from controllers.run import RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser
 
 
 class ApplicationController:
@@ -62,7 +62,7 @@ class UserMenuController:
     def __call__(self, *args, **kwargs):
         print("***  Menu User   ***")
         self.menu.add("auto", "Lire", None)
-        self.menu.add("auto", "Creer", None)
+        self.menu.add("auto", "Creer", RunCreateUser(self.session, self.engine))
         self.menu.add("auto", "Modifier", None)
         self.menu.add("auto", "Supprimer", None)
         self.menu.add("r", "Retour", EpicEventMenuController(self.session, self.engine))

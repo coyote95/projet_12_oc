@@ -16,8 +16,8 @@ class Client(Base):
     last_update = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship('User')
-    # contracts = relationship("Contact", backref="clients")
-    # events = relationship("Event", backref="clients")
+    contracts = relationship("Contract", backref="clients")
+    events = relationship("Event", backref="clients")
 
     def __init__(self, name, email, phone, company):
         self.name = name

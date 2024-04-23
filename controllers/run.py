@@ -4,6 +4,7 @@ from controllers.auth_controllers import AuthController
 from sqlalchemy import inspect
 from models.users import User
 from models.clients import Client
+from models.role import Role
 
 
 class RunInscription:
@@ -70,4 +71,27 @@ class RunBaseDeDonnee:
         else:
             print("Erreur: Aucun moteur de base de données n'a été fourni.")
 
+        return controllers.menu_controllers.HomeMenuController(self.session, self.engine)
+
+
+class RunCreateUser:
+    def __init__(self, session, engine):
+        self.session = session
+        self.engine = engine
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            payload=user_authcontroller.decode_token(token)
+            role = payload.get("roles")
+            permission= Role(role)
+            if "create_user" in permission.has_user_permissions():
+                user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
+                new_user = user_controller.inscription_user()  # Appeler la méthode inscr
+                self.session.add(new_user)
+                self.session.commit()
+            else:
+                print("Vous n'avez pas la permission de créer un utilisateur.")
         return controllers.menu_controllers.HomeMenuController(self.session, self.engine)

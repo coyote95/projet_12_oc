@@ -4,7 +4,7 @@ import configparser
 
 
 class AuthController:
-    def __init__(self, user):
+    def __init__(self, user=None):
         self.user = user
         self.config = configparser.ConfigParser()
 
