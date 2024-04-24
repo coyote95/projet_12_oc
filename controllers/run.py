@@ -5,32 +5,27 @@ from sqlalchemy import inspect
 from models.users import User
 from models.clients import Client
 from models.role import Role
+from config import session, engine
 
 
 class RunInscription:
-    def __init__(self, session, engine):
-        self.session = session
-        self.engine = engine
 
     def __call__(self, *args, **kwargs):
         user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
         new_user = user_controller.inscription_user()  # Appeler la méthode inscr
-        self.session.add(new_user)
-        self.session.commit()
-        return controllers.menu_controllers.HomeMenuController(self.session, self.engine)
+        session.add(new_user)
+        session.commit()
+        return controllers.menu_controllers.HomeMenuController()
 
 
 class RunConnexion:
-    def __init__(self, session, engine):
-        self.session = session
-        self.engine = engine
 
     def __call__(self, *args, **kwargs):
         user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
 
         name, password = user_controller.connecter_user()  # Appeler la méthode inscr
         try:
-            user = self.session.query(User).filter_by(name=name).first()
+            user = session.query(User).filter_by(name=name).first()
             print(user)
             if user and user.check_password(password):
                 print("Connexion réussie !")
@@ -39,7 +34,7 @@ class RunConnexion:
                     token = user_authcontroller.generate_token()
                 except Exception as token_error:
                     print(f"Une erreur s'est produite lors de la génération du token : {token_error}")
-                return controllers.menu_controllers.EpicEventMenuController(self.session, self.engine)
+                return controllers.menu_controllers.EpicEventMenuController()
             else:
                 print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
                 return None
@@ -49,19 +44,16 @@ class RunConnexion:
 
 
 class RunBaseDeDonnee:
-    def __init__(self, session, engine=None):
-        self.engine = engine
-        self.session = session
 
     def __call__(self, *args, **kwargs):
-        if self.engine is not None:
+        if engine is not None:
             # Inspecter le schéma de la base de données pour voir les tables créées
-            inspector = inspect(self.engine)
+            inspector = inspect(engine)
             tables = inspector.get_table_names()
             print("Tables créées :", tables)
 
-            clients = self.session.query(Client).all()
-            users = self.session.query(User).all()
+            clients = session.query(Client).all()
+            users = session.query(User).all()
             # Afficher les données
             for client in clients:
                 print(client)
@@ -72,27 +64,24 @@ class RunBaseDeDonnee:
         else:
             print("Erreur: Aucun moteur de base de données n'a été fourni.")
 
-        return controllers.menu_controllers.HomeMenuController(self.session, self.engine)
+        return controllers.menu_controllers.HomeMenuController()
 
 
 class RunCreateUser:
-    def __init__(self, session, engine):
-        self.session = session
-        self.engine = engine
 
     def __call__(self, *args, **kwargs):
         user_authcontroller = AuthController()
         token = user_authcontroller.read_token()
 
         if token:
-            payload=user_authcontroller.decode_token(token)
+            payload = user_authcontroller.decode_token(token)
             role = payload.get("roles")
-            permission= Role(role)
+            permission = Role(role)
             if "create_user" in permission.has_user_permissions():
                 user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
                 new_user = user_controller.inscription_user()  # Appeler la méthode inscr
-                self.session.add(new_user)
-                self.session.commit()
+                session.add(new_user)
+                session.commit()
             else:
                 print("Vous n'avez pas la permission de créer un utilisateur.")
-        return controllers.menu_controllers.HomeMenuController(self.session, self.engine)
+        return controllers.menu_controllers.HomeMenuController()
