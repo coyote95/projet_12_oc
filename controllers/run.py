@@ -31,19 +31,20 @@ class RunConnexion:
         name, password = user_controller.connecter_user()  # Appeler la méthode inscr
         try:
             user = self.session.query(User).filter_by(name=name).first()
+            print(user)
             if user and user.check_password(password):
                 print("Connexion réussie !")
                 user_authcontroller = AuthController(user)
-
-                token = user_authcontroller.generate_token()
-                print(token)
+                try:
+                    token = user_authcontroller.generate_token()
+                except Exception as token_error:
+                    print(f"Une erreur s'est produite lors de la génération du token : {token_error}")
                 return controllers.menu_controllers.EpicEventMenuController(self.session, self.engine)
             else:
                 print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
                 return None
         except Exception as e:
-            print(f"Une erreur s'est produite lors de la recherche de l'utilisateur : {e}")
-            print("Connexion impossible en raison d'une erreur.")
+            print(f"Connexion impossible en raison d'une erreur. : {e}")
             return None
 
 

@@ -13,7 +13,7 @@ class UserController:
         return new_user
 
     def connecter_user(self):
-        name,password= self.view.ask_infos_user_login()
+        name, password = self.view.ask_infos_user_login()
         return name, password
 
         # if name == self.model.name and password == self.model.check_password:

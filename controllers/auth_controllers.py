@@ -1,38 +1,35 @@
 import jwt
 from datetime import datetime, timedelta, timezone
-import configparser
-
+import os
+from dotenv import load_dotenv
+dotenv_path = os.path.join('settings', '.env')
+load_dotenv(dotenv_path)
 
 class AuthController:
     def __init__(self, user=None):
         self.user = user
-        self.config = configparser.ConfigParser()
 
     def store_token(self, token):
-        # Lecture du fichier de configuration existant
-        self.config.read('config.ini')
-
-        # Ajout du jeton à la section JWT
-        if 'JWT' not in self.config:
-            self.config['JWT'] = {}
-        self.config['JWT']['token'] = token
-
-        # ÉcrituQre des modifications dans le fichier de configuration
-        with open('config.ini', 'w') as configfile:
-            self.config.write(configfile)
+        try:
+            with open(os.path.join('settings', '.token'), 'w') as token_file:
+                token_file.write(token)
+        except IOError:
+            print("Erreur lors de l'écriture du fichier .token")
 
     def read_token(self):
-        self.config.read('config.ini')
-        # Lecture du jeton à partir du fichier de configuration
-        if 'JWT' in self.config and 'token' in self.config['JWT']:
-            return self.config['JWT']['token']
-        else:
+        try:
+            with open(os.path.join('settings', '.token'), 'r') as token_file:
+                return token_file.read().strip()
+        except IOError:
+            print("Erreur lors de la lecture du fichier .token")
             return None
 
     def generate_token(self):
-        self.config.read('config.ini')
         # Lecture de la clé secrète à partir du fichier de configuration
-        secret_key = self.config['APP']['SECRET_KEY']
+        try:
+            secret_key = os.getenv('SECRET_KEY')
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de la récupération de la clé secrète : {e}")
 
         # Date et heure actuelles avec un fuseau horaire UTC
         now_utc = datetime.now(timezone.utc)
@@ -56,9 +53,7 @@ class AuthController:
         return token
 
     def decode_token(self, token):
-        self.config.read('config.ini')
-        # Lecture de la clé secrète à partir du fichier de configuration
-        secret_key = self.config['APP']['SECRET_KEY']
+        secret_key = os.getenv('SECRET_KEY')
 
         try:
             # Décodage du JWT avec la clé secrète
@@ -72,4 +67,3 @@ class AuthController:
             # Le JWT est invalide
             print("Le jeton est invalide. Veuillez vous reconnecter.")
             return None
-
