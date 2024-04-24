@@ -1,4 +1,5 @@
 from views.users_view import UserView
+from config import session
 
 
 class UserController:
@@ -6,9 +7,11 @@ class UserController:
         self.model = user
         self.view = UserView()
 
-    def inscription_user(self):
+    def add_user(self):
         name, email, departement, password = self.view.input_infos_user()
         new_user = self.model(name=name, email=email, password=password, departement=departement)
+        session.add(new_user)
+        session.commit()
         print("Inscription réussie !")
         return new_user
 
@@ -16,9 +19,4 @@ class UserController:
         name, password = self.view.ask_infos_user_login()
         return name, password
 
-        # if name == self.model.name and password == self.model.check_password:
-        #     print("Connexion réussie !")
-        #     return self.model
-        # else:
-        #     print("Adresse e-mail non trouvée. Veuillez vous inscrire.")
-        #     return None
+

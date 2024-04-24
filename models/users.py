@@ -20,7 +20,7 @@ class User(Base):
         self.name = name
         self.email = email
         self.departement = departement
-        self.roles = self.set_role_from_departement()
+        self.role = self.set_role_from_departement()
         self.password = self.set_password(password)
 
     def __str__(self):

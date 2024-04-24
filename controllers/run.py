@@ -11,19 +11,16 @@ from config import session, engine
 class RunInscription:
 
     def __call__(self, *args, **kwargs):
-        user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
-        new_user = user_controller.inscription_user()  # Appeler la méthode inscr
-        session.add(new_user)
-        session.commit()
+        user_controller = UserController(User)
+        user_controller.add_user()
         return controllers.menu_controllers.HomeMenuController()
 
 
 class RunConnexion:
 
     def __call__(self, *args, **kwargs):
-        user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
-
-        name, password = user_controller.connecter_user()  # Appeler la méthode inscr
+        user_controller = UserController(User)
+        name, password = user_controller.connecter_user()
         try:
             user = session.query(User).filter_by(name=name).first()
             print(user)
@@ -51,16 +48,13 @@ class RunBaseDeDonnee:
             inspector = inspect(engine)
             tables = inspector.get_table_names()
             print("Tables créées :", tables)
-
             clients = session.query(Client).all()
             users = session.query(User).all()
             # Afficher les données
             for client in clients:
                 print(client)
-
             for user in users:
                 print(user)
-
         else:
             print("Erreur: Aucun moteur de base de données n'a été fourni.")
 
@@ -79,9 +73,7 @@ class RunCreateUser:
             permission = Role(role)
             if "create_user" in permission.has_user_permissions():
                 user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
-                new_user = user_controller.inscription_user()  # Appeler la méthode inscr
-                session.add(new_user)
-                session.commit()
+                user_controller.add_user()  # Appeler la méthode inscr
             else:
                 print("Vous n'avez pas la permission de créer un utilisateur.")
         return controllers.menu_controllers.HomeMenuController()
