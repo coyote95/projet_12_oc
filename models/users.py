@@ -1,7 +1,7 @@
 import bcrypt
-from sqlalchemy import Column, String, Integer, Enum
+from sqlalchemy import Column, String, Integer, Enum, ForeignKey
 from sqlalchemy.orm import relationship
-from models.role import user_role_association, Role
+from models.role import  Role
 from . import Base
 
 
@@ -13,8 +13,9 @@ class User(Base):
     email = Column(String(255), unique=True)
     departement = Column(Enum('commercial', 'support', 'gestion'))
     password = Column(String(255))
-    clients = relationship('Client', backref="users")
-    roles = relationship('Role', secondary=user_role_association, backref="users")
+    clients = relationship('Client', back_populates="user",passive_deletes='all')
+    role_id = Column(Integer, ForeignKey('role.id', ondelete='SET NULL'))
+    role = relationship('Role', back_populates="users")
 
     def __init__(self, name, email, departement, password):
         self.name = name
@@ -50,10 +51,10 @@ class User(Base):
 
     def set_role_from_departement(self):
         if self.departement == 'commercial':
-            return [Role(role='commercial')]
+            return Role(role='commercial')
         elif self.departement == 'gestion':
-            return [Role(role='gestion')]
+            return Role(role='gestion')
         elif self.departement == 'support':
-            return [Role(role='support')]
+            return Role(role='support')
         else:
             raise ValueError("Invalid departement value")

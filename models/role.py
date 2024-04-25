@@ -1,11 +1,6 @@
-from sqlalchemy import Column, String, Integer, Table, ForeignKey,Enum
+from sqlalchemy import Column, String, Integer
+from sqlalchemy.orm import relationship
 from . import Base
-
-# Modèle pour la table intermédiaire entre User et Role
-user_role_association = Table('user_role_association', Base.metadata,
-                              Column('user_id', Integer, ForeignKey('user.id')),
-                              Column('role_id', Integer, ForeignKey('role.id'))
-                              )
 
 
 class Role(Base):
@@ -13,6 +8,7 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True)
     role = Column(String(255))
+    users = relationship('User', back_populates='role', passive_deletes='all')
 
     def __init__(self, role):
         self.role = role

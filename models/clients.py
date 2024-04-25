@@ -14,8 +14,8 @@ class Client(Base):
     company = Column(String(255))
     creation_date = Column(DateTime)
     last_update = Column(DateTime)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship('User')
+    user_id = Column(Integer, ForeignKey('user.id',ondelete='SET NULL'))
+    user = relationship('User', back_populates='clients')
     contracts = relationship("Contract", backref="clients")
     events = relationship("Event", backref="clients")
 
