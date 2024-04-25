@@ -40,6 +40,16 @@ class UserView:
             else:
                 print("Votre mot de passe est trop court!")
 
+    @staticmethod
+    def input_id_user_delete():
+        while True:
+            user_id = input("Entrez l'id du user à supprimer: ")
+            try:
+                user_id = int(user_id)
+                return user_id
+            except ValueError:
+                print("Vous n'avez pas écrit un entier.")
+
 
 
     @staticmethod

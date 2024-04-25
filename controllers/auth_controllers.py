@@ -67,3 +67,8 @@ class AuthController:
             # Le JWT est invalide
             print("Le jeton est invalide. Veuillez vous reconnecter.")
             return None
+
+    def decode_payload_role_token(self,token):
+        payload=self.decode_token(token)
+        role = payload.get("roles")
+        return role

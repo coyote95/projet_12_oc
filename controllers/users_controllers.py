@@ -15,6 +15,16 @@ class UserController:
         print("Inscription réussie !")
         return new_user
 
+    def delete_user_by_id(self):
+        ask_user_id=self.view.input_id_user_delete()
+        user=session.query(self.model).filter_by(id=ask_user_id).first()
+        if user:
+            session.delete(user)
+            session.commit()
+            print("Utilisateur supprimé avec succès.")
+        else:
+            print("Utilisateur non trouvé.")
+
     def connecter_user(self):
         name, password = self.view.ask_infos_user_login()
         return name, password
