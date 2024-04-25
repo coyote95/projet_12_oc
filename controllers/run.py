@@ -21,6 +21,9 @@ class RunConnexion:
     def __call__(self, *args, **kwargs):
         user_controller = UserController(User)
         name, password = user_controller.connecter_user()
+        print(name)
+        print("******")
+        print(password)
         try:
             user = session.query(User).filter_by(name=name).first()
             print(user)

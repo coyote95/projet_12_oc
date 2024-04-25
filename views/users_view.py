@@ -45,7 +45,7 @@ class UserView:
     @staticmethod
     def ask_infos_user_login():
         name = UserView.input_name()
-        password = UserView.input_password
+        password = UserView.input_password()
         return name, password
 
     @staticmethod
