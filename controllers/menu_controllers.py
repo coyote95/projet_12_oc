@@ -1,7 +1,7 @@
 import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
-from controllers.run import RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser
+from controllers.run import RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser
 
 
 class ApplicationController:
@@ -52,7 +52,7 @@ class UserMenuController:
 
     def __call__(self, *args, **kwargs):
         print("***  Menu User   ***")
-        self.menu.add("auto", "Lire", None)
+        self.menu.add("auto", "Lire", RunReadUser())
         self.menu.add("auto", "Creer", RunCreateUser())
         self.menu.add("auto", "Modifier", None)
         self.menu.add("auto", "Supprimer", RunDeleteUser())

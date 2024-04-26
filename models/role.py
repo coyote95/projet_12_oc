@@ -23,7 +23,7 @@ class Role(Base):
         if self.role == "commercial":
             return ["read_user"]
         elif self.role == "gestion":
-            return ["create_user", "delete_user", "update_user", "edit_user"]
+            return ["read_user","create_user", "delete_user", "update_user"]
         elif self.role == "support":
             return ["read_user"]
         else:

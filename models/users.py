@@ -37,6 +37,9 @@ class User(Base):
     def get_name(self):
         return self.name
 
+    def get_departement(self):
+        return self.departement
+
     def get_password(self):
         return self.password
 

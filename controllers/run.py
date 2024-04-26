@@ -94,3 +94,19 @@ class RunDeleteUser:
             else:
                 print("Vous n'avez pas la permission de créer un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
+
+
+class RunReadUser:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "read_user" in Role(role_decode).has_user_permissions():
+                user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
+                user_controller.read_all_users()  # Appeler la méthode inscr
+            else:
+                print("Vous n'avez pas la permission de créer un utilisateur.")
+        return controllers.menu_controllers.UserMenuController()

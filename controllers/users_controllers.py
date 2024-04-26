@@ -29,4 +29,14 @@ class UserController:
         name, password = self.view.ask_infos_user_login()
         return name, password
 
+    def read_all_users(self):
+        try:
+            users = session.query(self.model).all()
+            if users:
+                for user in users:
+                    self.view.display_user(user)
+            else:
+                print("Aucun utilisateur trouvé.")
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de la récupération des utilisateurs : {e}")
 

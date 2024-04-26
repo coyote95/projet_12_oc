@@ -50,8 +50,6 @@ class UserView:
             except ValueError:
                 print("Vous n'avez pas écrit un entier.")
 
-
-
     @staticmethod
     def ask_infos_user_login():
         name = UserView.input_name()
@@ -65,3 +63,11 @@ class UserView:
         departement = UserView.input_departement()
         password = UserView.input_password()
         return name, email, departement, password
+
+    @staticmethod
+    def display_user(user):
+        print(
+            f"id:{user.get_id()}    "
+            f"Nom:{user.get_name()}    "
+            f"Departement:{user.get_departement()}    "
+        )#add clients
