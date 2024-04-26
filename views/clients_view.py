@@ -52,3 +52,5 @@ class ClientView:
         phone = ClientView.input_phone()
         company = ClientView.input_company()
         return name, surname, email, phone, company
+
+

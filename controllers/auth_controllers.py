@@ -2,8 +2,10 @@ import jwt
 from datetime import datetime, timedelta, timezone
 import os
 from dotenv import load_dotenv
+
 dotenv_path = os.path.join('settings', '.env')
 load_dotenv(dotenv_path)
+
 
 class AuthController:
     def __init__(self, user=None):
@@ -68,7 +70,13 @@ class AuthController:
             print("Le jeton est invalide. Veuillez vous reconnecter.")
             return None
 
-    def decode_payload_role_token(self,token):
-        payload=self.decode_token(token)
+    def decode_payload_role_token(self, token):
+        payload = self.decode_token(token)
         role = payload.get("roles")
         return role
+
+    def decode_payload_id_role_token(self, token):
+        payload = self.decode_token(token)
+        role = payload.get("roles")
+        id_user = payload.get("user_id")
+        return role, id_user
