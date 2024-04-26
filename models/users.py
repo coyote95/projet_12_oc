@@ -5,6 +5,14 @@ from models.role import Role
 from . import Base
 from config import session
 
+from enum import Enum as EnumPython
+
+
+class UserField(EnumPython):
+    NOM = 1
+    DEPARTEMENT = 2
+    CLIENTS = 3
+
 
 class User(Base):
     __tablename__ = 'user'

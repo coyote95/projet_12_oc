@@ -73,8 +73,8 @@ class RunCreateUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "create_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
-                user_controller.add_user()  # Appeler la méthode inscr
+                user_controller = UserController(User)
+                user_controller.add_user()
             else:
                 print("Vous n'avez pas la permission de créer un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
@@ -89,10 +89,10 @@ class RunDeleteUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "delete_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
-                user_controller.delete_user_by_id()  # Appeler la méthode inscr
+                user_controller = UserController(User)
+                user_controller.delete_user_by_id()
             else:
-                print("Vous n'avez pas la permission de créer un utilisateur.")
+                print("Vous n'avez pas la permission de supprimer un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
 
 
@@ -105,8 +105,24 @@ class RunReadUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "read_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)  # Créer une instance de UserController avec User comme modèle
-                user_controller.read_all_users()  # Appeler la méthode inscr
+                user_controller = UserController(User)
+                user_controller.read_all_users()
             else:
-                print("Vous n'avez pas la permission de créer un utilisateur.")
+                print("Vous n'avez pas la permission de lire un utilisateur.")
+        return controllers.menu_controllers.UserMenuController()
+
+
+class RunUpdateUser:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "update_user" in Role(role_decode).has_user_permissions():
+                user_controller = UserController(User)
+                user_controller.update_user()
+            else:
+                print("Vous n'avez pas la permission de modifier un utilisateur.")
         return controllers.menu_controllers.UserMenuController()

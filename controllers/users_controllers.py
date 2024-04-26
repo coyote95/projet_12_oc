@@ -1,5 +1,6 @@
 from views.users_view import UserView
 from config import session
+from models.users import UserField
 
 
 class UserController:
@@ -16,8 +17,8 @@ class UserController:
         return new_user
 
     def delete_user_by_id(self):
-        ask_user_id=self.view.input_id_user_delete()
-        user=session.query(self.model).filter_by(id=ask_user_id).first()
+        ask_user_id = self.view.input_id_user()
+        user = session.query(self.model).filter_by(id=ask_user_id).first()
         if user:
             session.delete(user)
             session.commit()
@@ -40,3 +41,42 @@ class UserController:
         except Exception as e:
             print(f"Une erreur s'est produite lors de la récupération des utilisateurs : {e}")
 
+    # def update_user(self):
+    #     ask_user_id = self.view.input_id_user()
+    #     user = session.query(self.model).filter_by(id=ask_user_id).first()
+    #     if user:
+    #         self.view.display_user(user)
+    #         number_field=self.view.ask_user_update_field()
+    #
+    #         if number_field == 1:
+    #             #modifier le nom du user
+    #         elif number_field == 2 :
+    #             #modifier le departement de user
+
+    def update_user(self):
+        ask_user_id = self.view.input_id_user()
+        user = session.query(self.model).filter_by(id=ask_user_id).first()
+        if user:
+            self.view.display_user(user)
+            field = self.view.ask_user_update_field()
+
+            if field == UserField.NOM:
+                # Modifier le nom de l'utilisateur
+                new_name = self.view.input_name()
+                user.name = new_name
+                session.commit()
+                print("Nom de l'utilisateur modifié avec succès.")
+
+            elif field == UserField.DEPARTEMENT:
+                # Modifier le département de l'utilisateur
+                new_departement = self.view.input_departement()
+                user.departement = new_departement
+                session.commit()
+                print("Département de l'utilisateur modifié avec succès.")
+
+            elif field == UserField.CLIENTS:
+                # Modifier les clients de l'utilisateur
+                pass
+
+            else:
+                print("Option invalide.")
