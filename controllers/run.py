@@ -1,5 +1,6 @@
 import controllers.menu_controllers
 from controllers.users_controllers import UserController
+from  controllers.clients_controllers import ClientController
 from controllers.auth_controllers import AuthController
 from sqlalchemy import inspect
 from models.users import User
@@ -126,3 +127,19 @@ class RunUpdateUser:
             else:
                 print("Vous n'avez pas la permission de modifier un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
+
+
+class RunCreateClient:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "create_client" in Role(role_decode).has_client_permissions():
+                client_controller = ClientController(Client)
+                client_controller.add_client()
+            else:
+                print("Vous n'avez pas la permission de créer un client.")
+        return controllers.menu_controllers.ClientMenuController()

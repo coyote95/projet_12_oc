@@ -27,10 +27,10 @@ class ClientView:
         while True:
             try:
                 phone = input("Entrez votre numéro de téléphone:")
-                if len(phone) == 6 and phone.isdigit():
+                if len(phone) == 10 and phone.isdigit():
                     return int(phone)
                 else:
-                    print("Votre numéro ne comporte pas 6 chiffres")
+                    print("Votre numéro ne comporte pas 10 chiffres")
             except ValueError:
                 print("Vous n'avez pas saisi un entier")
 
@@ -47,8 +47,8 @@ class ClientView:
     @staticmethod
     def input_info_client():
         name = ClientView.input_name()
-        surname=ClientView.input_surname()
+        surname = ClientView.input_surname()
         email = ClientView.input_email()
         phone = ClientView.input_phone()
         company = ClientView.input_company()
-        return name, surname, email,phone,company
+        return name, surname, email, phone, company

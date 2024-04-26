@@ -28,3 +28,13 @@ class Role(Base):
             return ["read_user"]
         else:
             return []
+
+    def has_client_permissions(self):
+        if self.role == "commercial":
+            return ["read_client","create_client", "delete_client", "update_client"]
+        elif self.role == "gestion":
+            return ["read_client"]
+        elif self.role == "support":
+            return ["read_client"]
+        else:
+            return []

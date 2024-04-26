@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from . import Base
@@ -26,8 +26,8 @@ class Client(Base):
         self.email = email
         self.phone = phone
         self.company = company
-        self.creation_date = self.set_date_now()
-        self.last_update_date= self.set_date_now()
+        self.creation_date = func.now()
+        self.last_update_date= func.now()
 
     def __repr__(self):
         return (f"<Client(nom_complet='{self.name}', email='{self.email}', téléphone='{self.phone}', entreprise="
@@ -57,5 +57,4 @@ class Client(Base):
     def get_last_update_date(self):
         return self.last_update_date
 
-    def set_date_now(self):
-        return datetime.now()
+
