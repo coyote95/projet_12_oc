@@ -71,27 +71,7 @@ class UserView:
             f"id:{user.get_id()}    "
             f"Nom:{user.get_name()}    "
             f"Departement:{user.get_departement()}    "
-        )#add clients
-
-
-
-    # @staticmethod
-    # def ask_user_update_field(user):
-    #     while True:
-    #         number_field = input(
-    #             f"Quelle information voulez-vous modifier?\n"
-    #             f"1-Nom\n"
-    #             f"2-Departement\n"
-    #             f"3-clients\n"
-    #         )
-    #         try:
-    #             number_field = int(number_field)
-    #             if number_field in [1, 2, 3]:
-    #                 return number_field
-    #             else:
-    #                 print("Vous n'avez pas écrit un entier correcte.")
-    #         except ValueError:
-    #             print("Vous devez entrer un numéro valide.")
+        )  # add clients
 
     @staticmethod
     def ask_user_update_field():
@@ -107,6 +87,6 @@ class UserView:
                 if field in UserField:
                     return field
                 else:
-                    print("Vous n'avez pas écrit un entier correct.")
+                    print("Vous n'avez pas écrit un numéro valide.")
             except ValueError:
-                print("Vous devez entrer un numéro valide.")
+                print("Vous devez entrer un entier.")
