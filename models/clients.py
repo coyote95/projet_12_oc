@@ -57,4 +57,7 @@ class Client(Base):
     def get_last_update_date(self):
         return self.last_update_date
 
+    def get_user_name(self):
+        return self.user.name if self.user else None
+
 

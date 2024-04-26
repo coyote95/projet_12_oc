@@ -63,5 +63,16 @@ class ClientView:
         company = ClientView.input_company()
         return name, surname, email, phone, company
 
-
-
+    @staticmethod
+    def display_client(client):
+        print(
+            f"id:{client.get_id()}    "
+            f"Nom:{client.get_name()}    "
+            f"Prénom:{client.get_surname()}    "
+            f"Email:{client.get_email()}    "
+            f"Telephone:{client.get_phone()}    "
+            f"Entreprise:{client.get_company()}    "
+            f"Date creation:{client.get_creation_date()}    "
+            f"Date mise à jour:{client.get_last_update_date()}    "
+            f"Commercial:{client.get_user_name()}    "
+        )

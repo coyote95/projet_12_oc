@@ -2,7 +2,7 @@ import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
 from controllers.run import (RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
-                             RunUpdateUser,RunCreateClient, RunDeleteClient)
+                             RunUpdateUser,RunCreateClient, RunDeleteClient, RunReadClient)
 
 
 class ApplicationController:
@@ -70,7 +70,7 @@ class ClientMenuController:
 
     def __call__(self, *args, **kwargs):
         print("***  Menu Client   ***")
-        self.menu.add("auto", "Lire", None)
+        self.menu.add("auto", "Lire", RunReadClient())
         self.menu.add("auto", "Creer", RunCreateClient())
         self.menu.add("auto", "Modifier", None)
         self.menu.add("auto", "Supprimer", RunDeleteClient())

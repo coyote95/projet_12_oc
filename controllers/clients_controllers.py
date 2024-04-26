@@ -29,3 +29,15 @@ class ClientController:
                 print("Ce client ne fait pas partie de votre équipe")
         else:
             print("Utilisateur non trouvé.")
+
+    def read_all_client(self):
+        try:
+            clients = session.query(self.model).all()
+            if clients:
+                for client in clients:
+                    self.view.display_client(client)
+            else:
+                print("Aucun client trouvé.")
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de la récupération des clients : {e}")
+

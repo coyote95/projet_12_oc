@@ -159,3 +159,19 @@ class RunDeleteClient:
             else:
                 print("Vous n'avez pas la permission de supprimer un client.")
         return controllers.menu_controllers.ClientMenuController()
+
+
+class RunReadClient:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "read_client" in Role(role_decode).has_client_permissions():
+                client_controller = ClientController(Client)
+                client_controller.read_all_client()
+            else:
+                print("Vous n'avez pas la permission de lire un client.")
+        return controllers.menu_controllers.ClientMenuController()
