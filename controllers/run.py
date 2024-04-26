@@ -1,6 +1,6 @@
 import controllers.menu_controllers
 from controllers.users_controllers import UserController
-from  controllers.clients_controllers import ClientController
+from controllers.clients_controllers import ClientController
 from controllers.auth_controllers import AuthController
 from sqlalchemy import inspect
 from models.users import User
@@ -142,4 +142,20 @@ class RunCreateClient:
                 client_controller.add_client(id_decode)
             else:
                 print("Vous n'avez pas la permission de créer un client.")
+        return controllers.menu_controllers.ClientMenuController()
+
+
+class RunDeleteClient:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "delete_client" in Role(role_decode).has_client_permissions():
+                client_controller = ClientController(Client)
+                client_controller.delete_client_by_id(id_decode)
+            else:
+                print("Vous n'avez pas la permission de supprimer un client.")
         return controllers.menu_controllers.ClientMenuController()

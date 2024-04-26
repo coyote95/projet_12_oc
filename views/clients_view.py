@@ -45,6 +45,16 @@ class ClientView:
                 print("Adresse email invalide. Veuillez réessayer.")
 
     @staticmethod
+    def input_id_client():
+        while True:
+            client_id = input("Entrez l'id du client: ")
+            try:
+                client_id = int(client_id)
+                return client_id
+            except ValueError:
+                print("Vous n'avez pas écrit un entier.")
+
+    @staticmethod
     def input_info_client():
         name = ClientView.input_name()
         surname = ClientView.input_surname()
@@ -52,5 +62,6 @@ class ClientView:
         phone = ClientView.input_phone()
         company = ClientView.input_company()
         return name, surname, email, phone, company
+
 
 

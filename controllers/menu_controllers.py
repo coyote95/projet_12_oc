@@ -2,7 +2,7 @@ import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
 from controllers.run import (RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
-                             RunUpdateUser,RunCreateClient)
+                             RunUpdateUser,RunCreateClient, RunDeleteClient)
 
 
 class ApplicationController:
@@ -73,7 +73,7 @@ class ClientMenuController:
         self.menu.add("auto", "Lire", None)
         self.menu.add("auto", "Creer", RunCreateClient())
         self.menu.add("auto", "Modifier", None)
-        self.menu.add("auto", "Supprimer", None)
+        self.menu.add("auto", "Supprimer", RunDeleteClient())
         self.menu.add("r", "Retour", EpicEventMenuController())
         self.menu.add("q", "Quitter", QuitController())
         user_choice = self.view.get_user_choice()
