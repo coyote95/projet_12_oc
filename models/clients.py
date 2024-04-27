@@ -26,8 +26,8 @@ class Client(Base):
     last_update_date = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     user = relationship('User', back_populates='clients')
-    contracts = relationship("Contract", backref="clients")
-    events = relationship("Event", backref="clients")
+    contracts = relationship("Contract", back_populates="client",passive_deletes='all')
+    events = relationship("Event", back_populates="client",passive_deletes='all')
 
     def __init__(self, name, surname, email, phone, company):
         self.name = name

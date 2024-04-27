@@ -22,7 +22,9 @@ class User(Base):
     email = Column(String(255), unique=True)
     departement = Column(Enum('commercial', 'support', 'gestion'))
     password = Column(String(255))
+    # one to many(1 utilisateur pour plusieurs clients)
     clients = relationship('Client', back_populates="user", passive_deletes='all')
+    #one to many (1 role pour plusieurs utilisateur)
     role_id = Column(Integer, ForeignKey('role.id', ondelete='SET NULL'))
     role = relationship('Role', back_populates="users")
 

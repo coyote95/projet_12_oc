@@ -6,11 +6,11 @@ from . import Base
 class Event(Base):
     __tablename__ = 'event'
 
-    event_id = Column(Integer, primary_key=True)
-    contract_id = Column(Integer, ForeignKey('contract.id'))
-    contract = relationship("Contract")
-    client_id = Column(Integer, ForeignKey('client.id'))
-    client = relationship("Client")
+    id = Column(Integer, primary_key=True)
+    contract_id = Column(Integer, ForeignKey('contract.id', ondelete='SET NULL'))
+    contract = relationship("Contract", back_populates='event')
+    client_id = Column(Integer, ForeignKey('client.id', ondelete='SET NULL'))
+    client = relationship("Client", back_populates='events')
     client_contact = Column(String(255))  # voir relation clien
     start_date = Column(DateTime)
     end_date = Column(DateTime)
