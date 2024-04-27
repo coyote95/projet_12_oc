@@ -24,8 +24,10 @@ class Client(Base):
     company = Column(String(255))
     creation_date = Column(DateTime)
     last_update_date = Column(DateTime)
+    #one to many (1 utilisateur peut avoir plusieur client) client=child
     user_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     user = relationship('User', back_populates='clients')
+    #one to many (1client peut avoir plusieur contract ou event) client = parents
     contracts = relationship("Contract", back_populates="client",passive_deletes='all')
     events = relationship("Event", back_populates="client",passive_deletes='all')
 
