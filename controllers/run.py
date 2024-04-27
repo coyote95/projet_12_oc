@@ -38,7 +38,7 @@ class RunConnexion:
                 return controllers.menu_controllers.EpicEventMenuController()
             else:
                 print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
-                return None
+                return controllers.menu_controllers.HomeMenuController()
         except Exception as e:
             print(f"Connexion impossible en raison d'une erreur. : {e}")
             return None
@@ -175,3 +175,19 @@ class RunReadClient:
             else:
                 print("Vous n'avez pas la permission de lire un client.")
         return controllers.menu_controllers.ClientMenuController()
+
+
+class RunUpdateClient:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "update_client" in Role(role_decode).has_client_permissions():
+                client_controller = ClientController(Client)
+                client_controller.update_client(id_decode)
+            else:
+                print("Vous n'avez pas la permission de modifier un client.")
+        return controllers.menu_controllers.ClientMenuController

@@ -1,4 +1,5 @@
 import re
+from models.clients import ClientField
 
 
 class ClientView:
@@ -76,3 +77,23 @@ class ClientView:
             f"Date mise à jour:{client.get_last_update_date()}    "
             f"Commercial:{client.get_user_name()}    "
         )
+
+    @staticmethod
+    def ask_client_update_field():
+        while True:
+            try:
+                choice = int(input(
+                    f"Quelle information voulez-vous modifier?\n"
+                    f"1: {ClientField.NOM.name}\n"
+                    f"2: {ClientField.SURNAME.name}\n"
+                    f"3: {ClientField.EMAIL.name}\n"
+                    f"4: {ClientField.PHONE.name}\n"
+                    f"5: {ClientField.COMPANY.name}\n"
+                ))
+                field = ClientField(choice)
+                if field in ClientField:
+                    return field
+                else:
+                    print("Vous n'avez pas écrit un numéro valide.")
+            except ValueError:
+                print("Vous devez entrer un entier.")

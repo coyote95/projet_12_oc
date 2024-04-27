@@ -1,5 +1,6 @@
 from models.clients import Client
 from views.clients_view import ClientView
+from models.clients import ClientField
 from config import session
 
 
@@ -41,3 +42,45 @@ class ClientController:
         except Exception as e:
             print(f"Une erreur s'est produite lors de la récupération des clients : {e}")
 
+    def update_client(self, user_id):
+        ask_client_id = self.view.input_id_client()
+        client = session.query(self.model).filter_by(id=ask_client_id).first()
+        if client:
+            self.view.display_client(client)
+            if client.user_id == user_id:
+                field = self.view.ask_client_update_field()
+
+                if field == ClientField.NOM:
+                    new_name = self.view.input_name()
+                    client.name = new_name
+                    session.commit()
+                    print("Nom du client modifié avec succès.")
+
+                elif field == ClientField.SURNAME:
+                    new_surname = self.view.input_surname()
+                    client.surname = new_surname
+                    session.commit()
+                    print("Prénom du client modifié avec succès.")
+
+                elif field == ClientField.EMAIL:
+                    new_email = self.view.input_email()
+                    client.email = new_email
+                    session.commit()
+                    print("Email du client modifié avec succès.")
+
+                elif field == ClientField.PHONE:
+                    new_phone = self.view.input_phone()
+                    client.phone = new_phone
+                    session.commit()
+                    print("Téléphone du client modifié avec succès.")
+
+                elif field == ClientField.COMPANY:
+                    new_company = self.view.input_company()
+                    client.comapgny = new_company
+                    session.commit()
+                    print("Entreprise du client modifié avec succès.")
+
+                else:
+                    print("Option invalide.")
+            else:
+                print("Ce client ne fait pas partie de votre équipe")

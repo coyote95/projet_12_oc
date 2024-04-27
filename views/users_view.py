@@ -71,6 +71,7 @@ class UserView:
             f"id:{user.get_id()}    "
             f"Nom:{user.get_name()}    "
             f"Departement:{user.get_departement()}    "
+            f"clients:{user.get_clients_name()}    "
         )  # add clients
 
     @staticmethod

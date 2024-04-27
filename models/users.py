@@ -70,3 +70,6 @@ class User(Base):
             return session.query(Role).filter_by(role='support').first()
         else:
             raise ValueError("Invalid department value")
+
+    def get_clients_name(self):
+        return [client.name for client in self.clients] if self.clients else []

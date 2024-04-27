@@ -41,18 +41,6 @@ class UserController:
         except Exception as e:
             print(f"Une erreur s'est produite lors de la récupération des utilisateurs : {e}")
 
-    # def update_user(self):
-    #     ask_user_id = self.view.input_id_user()
-    #     user = session.query(self.model).filter_by(id=ask_user_id).first()
-    #     if user:
-    #         self.view.display_user(user)
-    #         number_field=self.view.ask_user_update_field()
-    #
-    #         if number_field == 1:
-    #             #modifier le nom du user
-    #         elif number_field == 2 :
-    #             #modifier le departement de user
-
     def update_user(self):
         ask_user_id = self.view.input_id_user()
         user = session.query(self.model).filter_by(id=ask_user_id).first()

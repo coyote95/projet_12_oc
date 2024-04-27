@@ -1,7 +1,16 @@
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 from datetime import datetime
+from enum import Enum as EnumPython
 from . import Base
+
+
+class ClientField(EnumPython):
+    NOM = 1
+    SURNAME = 2
+    EMAIL = 3
+    PHONE = 4
+    COMPANY = 5
 
 
 class Client(Base):
@@ -27,7 +36,7 @@ class Client(Base):
         self.phone = phone
         self.company = company
         self.creation_date = func.now()
-        self.last_update_date= func.now()
+        self.last_update_date = func.now()
 
     def __repr__(self):
         return (f"<Client(nom_complet='{self.name}', email='{self.email}', téléphone='{self.phone}', entreprise="
@@ -59,5 +68,3 @@ class Client(Base):
 
     def get_user_name(self):
         return self.user.name if self.user else None
-
-
