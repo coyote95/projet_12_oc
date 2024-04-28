@@ -70,3 +70,6 @@ class Client(Base):
 
     def get_user_name(self):
         return self.user.name if self.user else None
+
+    def set_last_update_date(self):
+        self.last_update_date = func.now()

@@ -207,5 +207,21 @@ class RunCreateContract:
                 contract_controller = ContractController(Contract)
                 contract_controller.add_contract(role_decode, id_decode)
             else:
-                print("Vous n'avez pas la permission de créer un client.")
-        return controllers.menu_controllers.ClientMenuController()
+                print("Vous n'avez pas la permission de créer un contrat.")
+        return controllers.menu_controllers.ContratsMenuController()
+
+
+class RunDeleteContract:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "delete_contract" in Role(role_decode).has_contract_permissions():
+                contract_controller = ContractController(Contract)
+                contract_controller.delete_contract_by_id(role_decode, id_decode)
+            else:
+                print("Vous n'avez pas la permission de supprimer un contrat.")
+        return controllers.menu_controllers.ContratsMenuController

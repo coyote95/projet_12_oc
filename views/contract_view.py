@@ -45,6 +45,16 @@ class ContractView:
                 print("Vous n'avez pas écrit un entier.")
 
     @staticmethod
+    def input_id_contract():
+        while True:
+            contract_id = input("Entrez l'id du contrat: ")
+            try:
+                contract_id = int(contract_id)
+                return contract_id
+            except ValueError:
+                print("Vous n'avez pas écrit un entier.")
+
+    @staticmethod
     def input_info_contract():
         total_price = ContractView.input_total_price()
         remaining_price = ContractView.input_remaining_price()

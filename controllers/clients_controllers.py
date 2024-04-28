@@ -4,6 +4,7 @@ from models.clients import ClientField
 from config import session
 
 
+
 class ClientController:
     def __init__(self, client):
         self.model = client
@@ -53,30 +54,35 @@ class ClientController:
                 if field == ClientField.NOM:
                     new_name = self.view.input_name()
                     client.name = new_name
+                    client.set_last_update_date()
                     session.commit()
                     print("Nom du client modifié avec succès.")
 
                 elif field == ClientField.SURNAME:
                     new_surname = self.view.input_surname()
                     client.surname = new_surname
+                    client.set_last_update_date()
                     session.commit()
                     print("Prénom du client modifié avec succès.")
 
                 elif field == ClientField.EMAIL:
                     new_email = self.view.input_email()
                     client.email = new_email
+                    client.set_last_update_date()
                     session.commit()
                     print("Email du client modifié avec succès.")
 
                 elif field == ClientField.PHONE:
                     new_phone = self.view.input_phone()
                     client.phone = new_phone
+                    client.set_last_update_date()
                     session.commit()
                     print("Téléphone du client modifié avec succès.")
 
                 elif field == ClientField.COMPANY:
                     new_company = self.view.input_company()
                     client.comapgny = new_company
+                    client.set_last_update_date()
                     session.commit()
                     print("Entreprise du client modifié avec succès.")
 
