@@ -29,7 +29,7 @@ class Client(Base):
     user = relationship('User', back_populates='clients')
     #one to many (1client peut avoir plusieur contract ou event) client = parents
     contracts = relationship("Contract", back_populates="client",passive_deletes='all')
-    events = relationship("Event", back_populates="client",passive_deletes='all')
+    # events = relationship("Event", back_populates="client",passive_deletes='all')
 
     def __init__(self, name, surname, email, phone, company):
         self.name = name

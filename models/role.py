@@ -48,3 +48,13 @@ class Role(Base):
             return ["read_contract"]
         else:
             return []
+
+    def has_event_permissions(self):
+        if self.role == "commercial":
+            return ["read_event", "create_event", "delete_event", "update_event"]
+        elif self.role == "gestion":
+            return ["read_event", "update_event"]
+        elif self.role == "support":
+            return ["update_event"]
+        else:
+            return []

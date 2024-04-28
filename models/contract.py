@@ -38,11 +38,11 @@ class Contract(Base):
         self.creation_date = func.now()
 
     def __str__(self):
-        return (f"<Contract(id='{id}', client='{self.client_id}', prix: {self.total_price}, reste à payer: "
+        return (f"<Contrat:(id='{id}', client='{self.client_id}', prix= {self.total_price}, reste à payer= "
                 f"{self.remaining_price})>")
 
     def __repr__(self):
-        return (f"<Contract(id='{id}', client='{self.client_id}', prix: {self.total_price}, reste à payer: "
+        return (f"<Contrat:(id='{id}', client='{self.client_id}', prix= {self.total_price}, reste à payer= "
                 f"{self.remaining_price})>")
 
     def get_id(self):

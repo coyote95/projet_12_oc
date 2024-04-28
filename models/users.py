@@ -24,9 +24,11 @@ class User(Base):
     password = Column(String(255))
     # one to many(1 utilisateur pour plusieurs clients)
     clients = relationship('Client', back_populates="user", passive_deletes='all')
-    #one to many (1 role pour plusieurs utilisateur)
+    # one to many (1 role pour plusieurs utilisateur)
     role_id = Column(Integer, ForeignKey('role.id', ondelete='SET NULL'))
     role = relationship('Role', back_populates="users")
+    # one to many(1 support pour plusieurs evenement)
+    events = relationship('Event', back_populates="support", passive_deletes='all')
 
     def __init__(self, name, email, departement, password):
         self.name = name
