@@ -1,3 +1,6 @@
+from models.contract import ContractField
+
+
 class ContractView:
 
     @staticmethod
@@ -77,3 +80,23 @@ class ContractView:
             f"Prix restant à payer:{contract.get_remaining_price()}    "
             f"Contrat signé:{ContractView.display_signed_contract(contract.get_signed_contract())}    "
         )
+
+    @staticmethod
+    def ask_contract_update_field():
+        while True:
+            try:
+                choice = int(input(
+                    f"Quelle information voulez-vous modifier?\n"
+                    f"1: {ContractField.TOTAL_PRICE.name}\n"
+                    f"2: {ContractField.REMAINING_PRICE.name}\n"
+                    f"3: {ContractField.SIGNED.name}\n"
+                    f"4: {ContractField.CLIENT_ID.name}\n"
+                    f"5: {ContractField.EVENT.name}\n"
+                ))
+                field = ContractField(choice)
+                if field in ContractField:
+                    return field
+                else:
+                    print("Vous n'avez pas écrit un numéro valide.")
+            except ValueError:
+                print("Vous devez entrer un entier.")

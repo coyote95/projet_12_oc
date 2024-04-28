@@ -241,3 +241,19 @@ class RunReadContract:
             else:
                 print("Vous n'avez pas la permission de lire un contrat.")
         return controllers.menu_controllers.ContratsMenuController()
+
+
+class RunUpdateContract:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "update_contract" in Role(role_decode).has_contract_permissions():
+                contract_controller = ContractController(Contract)
+                contract_controller.update_contract(role_decode, id_decode)
+            else:
+                print("Vous n'avez pas la permission de modifier un contrat.")
+        return controllers.menu_controllers.ContratsMenuController

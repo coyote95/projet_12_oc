@@ -3,7 +3,7 @@ from models.menu import Menu
 from views.menu_view import HomeMenuView
 from controllers.run import (RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
                              RunUpdateUser,RunCreateClient, RunDeleteClient, RunReadClient, RunUpdateClient,
-                             RunCreateContract,RunDeleteContract,RunReadContract)
+                             RunCreateContract,RunDeleteContract,RunReadContract,RunUpdateContract)
 
 
 class ApplicationController:
@@ -90,7 +90,7 @@ class ContratsMenuController:
         print("***  Menu Contrats   ***")
         self.menu.add("auto", "Lire", RunReadContract)
         self.menu.add("auto", "Creer", RunCreateContract())
-        self.menu.add("auto", "Modifier", None)
+        self.menu.add("auto", "Modifier", RunUpdateContract())
         self.menu.add("auto", "Supprimer", RunDeleteContract())
         self.menu.add("r", "Retour", EpicEventMenuController())
         self.menu.add("q", "Quitter", QuitController())

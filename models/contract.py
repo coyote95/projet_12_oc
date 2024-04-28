@@ -1,6 +1,15 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Float, DateTime, Boolean, func
 from sqlalchemy.orm import relationship
 from . import Base
+from enum import Enum as EnumPython
+
+
+class ContractField(EnumPython):
+    TOTAL_PRICE = 1
+    REMAINING_PRICE = 2
+    SIGNED = 3
+    CLIENT_ID = 4
+    EVENT = 5
 
 
 class Contract(Base):

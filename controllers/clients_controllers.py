@@ -4,7 +4,6 @@ from models.clients import ClientField
 from config import session
 
 
-
 class ClientController:
     def __init__(self, client):
         self.model = client

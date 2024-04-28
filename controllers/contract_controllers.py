@@ -1,5 +1,5 @@
 from models.clients import Client
-from models.contract import Contract
+from models.contract import Contract, ContractField
 from views.contract_view import ContractView
 from config import session
 
@@ -52,3 +52,47 @@ class ContractController:
                 print("Aucun contrat trouvé.")
         except Exception as e:
             print(f"Une erreur s'est produite lors de la récupération des contrats : {e}")
+
+    def update_contract(self, user_role, user_id):
+        contract_id = self.view.input_id_contract()
+        contract = session.query(self.model).filter_by(id=contract_id).first()
+        if contract:
+            self.view.display_contract(contract)
+            if contract.client.user_id == user_id or user_role == 'gestion':
+                field = self.view.ask_contract_update_field()
+
+                if field == ContractField.TOTAL_PRICE:
+                    new_total_price = self.view.input_total_price()
+                    contract.total_price = new_total_price
+                    session.commit()
+                    print("Prix total modifié avec succès.")
+
+                elif field == ContractField.REMAINING_PRICE:
+                    new_remaining = self.view.input_remaining_price()
+                    contract.remaining_price = new_remaining
+                    session.commit()
+                    print("Prix restant modifié avec succès.")
+
+                elif field == ContractField.SIGNED:
+                    new_signed_contract = self.view.input_signed_contract()
+                    contract.signed_contract = new_signed_contract
+                    session.commit()
+                    print("Statut signature modifié avec succès.")
+
+                elif field == ContractField.CLIENT_ID:
+                    new_client_id = self.view.input_id_client()
+                    contract.client_id = new_client_id
+                    session.commit()
+                    print("Client du contrat modifié avec succès.")
+
+                # elif field == ContractField.EVENT:
+                #     new_event = self.view.inpu
+                #     client.comapgny = new_company
+                #     client.set_last_update_date()
+                #     session.commit()
+                #     print("Entreprise du client modifié avec succès.")
+
+                else:
+                    print("Option invalide.")
+            else:
+                print("Ce client ne fait pas partie de votre équipe")
