@@ -15,18 +15,18 @@ class Contract(Base):
     client_id = Column(Integer, ForeignKey('client.id', ondelete='SET NULL'))  # one to many
     client = relationship("Client", back_populates='contracts')
     # one to one(1 evenement pour 1 contract)
-    event = relationship("Event", back_populates="contract")
+    event = relationship("Event", back_populates="contract", uselist=False)
 
     # one to many(1 utilisateur pour plusieurs contracts)
     # user_id =  Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     # user = relationship('User', back_populates="contracts")
 
-    def __init__(self, total_price, remaining_price, client_id):
+    def __init__(self, total_price, remaining_price, signed_contract, client_id):
         self.total_price = total_price
         self.remaining_price = remaining_price
+        self.signed_contract = signed_contract
         self.client_id = client_id
         self.creation_date = func.now()
-        self.event = None
 
     def __str__(self):
         return (f"<Contract(id='{id}', client='{self.client_id}', prix: {self.total_price}, reste à payer: "

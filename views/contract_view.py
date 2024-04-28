@@ -1,4 +1,3 @@
-
 class ContractView:
 
     @staticmethod
@@ -18,10 +17,22 @@ class ContractView:
     def input_remaining_price():
         while True:
             try:
-                remaining_price = float(input("Entrez le montant total du contrat: "))
+                remaining_price = float(input("Entrez la somme restante à payer: "))
                 return remaining_price
             except ValueError:
                 print("Vous n'avez pas saisi un nombre valide")
+
+    @staticmethod
+    def input_signed_contract():
+        while True:
+            try:
+                signed_contract = input("Le client a-t-il signé le contrat (oui/non): ")
+                if signed_contract.lower() == "oui":
+                    return True
+                elif signed_contract.lower() == "non":
+                    return False
+            except ValueError:
+                print("Vous n'avez pas saisi 'oui' ou 'non'")
 
     @staticmethod
     def input_id_client():
@@ -37,4 +48,5 @@ class ContractView:
     def input_info_contract():
         total_price = ContractView.input_total_price()
         remaining_price = ContractView.input_remaining_price()
-        return total_price,remaining_price
+        signed_contract = ContractView.input_signed_contract()
+        return total_price, remaining_price, signed_contract

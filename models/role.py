@@ -8,7 +8,7 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True)
     role = Column(Enum('commercial', 'support', 'gestion'), unique=True)
-    users = relationship('User',passive_deletes='all')
+    users = relationship('User', passive_deletes='all')
 
     def __init__(self, role):
         self.role = role
@@ -23,7 +23,7 @@ class Role(Base):
         if self.role == "commercial":
             return ["read_user"]
         elif self.role == "gestion":
-            return ["read_user","create_user", "delete_user", "update_user"]
+            return ["read_user", "create_user", "delete_user", "update_user"]
         elif self.role == "support":
             return ["read_user"]
         else:
@@ -31,10 +31,20 @@ class Role(Base):
 
     def has_client_permissions(self):
         if self.role == "commercial":
-            return ["read_client","create_client", "delete_client", "update_client"]
+            return ["read_client", "create_client", "delete_client", "update_client"]
         elif self.role == "gestion":
             return ["read_client"]
         elif self.role == "support":
             return ["read_client"]
+        else:
+            return []
+
+    def has_contract_permissions(self):
+        if self.role == "commercial":
+            return ["read_contract", "create_contract", "delete_contract", "update_contract"]
+        elif self.role == "gestion":
+            return ["read_contract", "create_contract", "delete_contract", "update_contract"]
+        elif self.role == "support":
+            return ["read_contract"]
         else:
             return []

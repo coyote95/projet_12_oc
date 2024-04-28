@@ -1,11 +1,13 @@
 import controllers.menu_controllers
 from controllers.users_controllers import UserController
 from controllers.clients_controllers import ClientController
+from controllers.contract_controllers import ContractController
 from controllers.auth_controllers import AuthController
 from sqlalchemy import inspect
 from models.users import User
 from models.clients import Client
 from models.role import Role
+from models.contract import Contract
 from config import session, engine
 
 
@@ -191,3 +193,19 @@ class RunUpdateClient:
             else:
                 print("Vous n'avez pas la permission de modifier un client.")
         return controllers.menu_controllers.ClientMenuController
+
+
+class RunCreateContract:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "create_contract" in Role(role_decode).has_contract_permissions():
+                contract_controller = ContractController(Contract)
+                contract_controller.add_contract(role_decode, id_decode)
+            else:
+                print("Vous n'avez pas la permission de créer un client.")
+        return controllers.menu_controllers.ClientMenuController()
