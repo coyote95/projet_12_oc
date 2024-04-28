@@ -41,3 +41,14 @@ class ContractController:
                 print("Ce contrat de client ne fait pas partie de votre équipe")
         else:
             print("contrat non trouvé.")
+
+    def read_all_contracts(self):
+        try:
+            contracts = session.query(self.model).all()
+            if contracts:
+                for contract in contracts:
+                    self.view.display_contract(contract)
+            else:
+                print("Aucun contrat trouvé.")
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de la récupération des contrats : {e}")

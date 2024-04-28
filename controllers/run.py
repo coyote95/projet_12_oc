@@ -225,3 +225,19 @@ class RunDeleteContract:
             else:
                 print("Vous n'avez pas la permission de supprimer un contrat.")
         return controllers.menu_controllers.ContratsMenuController
+
+
+class RunReadContract:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "read_contract" in Role(role_decode).has_contract_permissions():
+                contract_controller = ContractController(Contract)
+                contract_controller.read_all_contracts()
+            else:
+                print("Vous n'avez pas la permission de lire un contrat.")
+        return controllers.menu_controllers.ContratsMenuController()

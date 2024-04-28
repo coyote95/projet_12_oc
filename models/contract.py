@@ -36,14 +36,23 @@ class Contract(Base):
         return (f"<Contract(id='{id}', client='{self.client_id}', prix: {self.total_price}, reste à payer: "
                 f"{self.remaining_price})>")
 
+    def get_id(self):
+        return self.id
+
     def get_total_price(self):
         return self.total_price
 
     def get_remaining_price(self):
         return self.remaining_price
 
-    def get_client(self):
+    def get_client_id(self):
         return self.client_id
 
     def get_event(self):
         return self.event
+
+    def get_client(self):
+        return self.client
+
+    def get_signed_contract(self):
+        return self.signed_contract

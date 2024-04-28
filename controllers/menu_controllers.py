@@ -3,7 +3,7 @@ from models.menu import Menu
 from views.menu_view import HomeMenuView
 from controllers.run import (RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
                              RunUpdateUser,RunCreateClient, RunDeleteClient, RunReadClient, RunUpdateClient,
-                             RunCreateContract,RunDeleteContract)
+                             RunCreateContract,RunDeleteContract,RunReadContract)
 
 
 class ApplicationController:
@@ -88,7 +88,7 @@ class ContratsMenuController:
 
     def __call__(self, *args, **kwargs):
         print("***  Menu Contrats   ***")
-        self.menu.add("auto", "Lire", None)
+        self.menu.add("auto", "Lire", RunReadContract)
         self.menu.add("auto", "Creer", RunCreateContract())
         self.menu.add("auto", "Modifier", None)
         self.menu.add("auto", "Supprimer", RunDeleteContract())

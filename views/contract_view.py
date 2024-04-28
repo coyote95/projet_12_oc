@@ -35,6 +35,13 @@ class ContractView:
                 print("Vous n'avez pas saisi 'oui' ou 'non'")
 
     @staticmethod
+    def display_signed_contract(signed_contract):
+        if signed_contract == 1:
+            return "oui"
+        elif signed_contract == 0:
+            return "non"
+
+    @staticmethod
     def input_id_client():
         while True:
             client_id = input("Entrez l'id du client: ")
@@ -60,3 +67,13 @@ class ContractView:
         remaining_price = ContractView.input_remaining_price()
         signed_contract = ContractView.input_signed_contract()
         return total_price, remaining_price, signed_contract
+
+    @staticmethod
+    def display_contract(contract):
+        print(
+            f"id:{contract.get_id()}    "
+            f"Client:{contract.get_client()}    "
+            f"Prix total:{contract.get_total_price()}    "
+            f"Prix restant à payer:{contract.get_remaining_price()}    "
+            f"Contrat signé:{ContractView.display_signed_contract(contract.get_signed_contract())}    "
+        )
