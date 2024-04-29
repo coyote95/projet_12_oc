@@ -55,6 +55,6 @@ class Role(Base):
         elif self.role == "gestion":
             return ["read_event", "update_event"]
         elif self.role == "support":
-            return ["update_event"]
+            return ["read_event","update_event"]
         else:
             return []

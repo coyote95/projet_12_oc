@@ -31,8 +31,8 @@ class ContractController:
     def delete_contract_by_id(self, user_role, user_id):
         contract_id = self.view.input_id_contract()
         contract = session.query(Contract).filter_by(id=contract_id).first()
-
         if contract:
+            self.view.display_contract(contract)
             if contract.client.user_id == user_id or user_role == 'gestion':
                 session.delete(contract)
                 session.commit()

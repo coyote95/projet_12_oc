@@ -64,11 +64,41 @@ class EventView:
                 print("Vous n'avez pas écrit un entier.")
 
     @staticmethod
+    def input_id_event():
+        while True:
+            event_id = input("Entrez l'id de l'événement: ")
+            try:
+                event_id = int(event_id)
+                return event_id
+            except ValueError:
+                print("Vous n'avez pas écrit un entier.")
+
+    @staticmethod
+    def input_id_support():
+        while True:
+            support_id = input("Entrez l'id support: ")
+            try:
+                support_id = int(support_id)
+                return support_id
+            except ValueError:
+                print("Vous n'avez pas écrit un entier.")
+
+    @staticmethod
     def input_infos_event():
-        # contract_id = EventView.input_id_contract()
         start_date = EventView.input_start_date()
         end_date = EventView.input_end_date()
         location = EventView.input_location()
         participants = EventView.input_participants()
         note = EventView.input_notes()
         return start_date, end_date, location, participants, note
+
+    @staticmethod
+    def display_event(event):
+        print(
+            f"id:{event.get_id()}    "
+            f"Date de début:{event.get_start_date()}    "
+            f"Date de fin:{event.get_end_date()}    "
+            f"Localisation:{event.get_location()}    "
+            f"Nombre de participants:{event.get_participants()}    "
+            f"Note:{event.get_notes()}    "
+        )

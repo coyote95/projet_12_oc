@@ -26,6 +26,7 @@ class Event(Base):
         self.participants = participants
         self.notes = notes
 
+
     def __str__(self):
         return (f"<Evennement: (id='{id}', date de début='{self.start_date}', date de fin: {self.end_date}, "
                 f"localisation= {self.location}, participants={self.participants}, note={self.notes})>")

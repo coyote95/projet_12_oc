@@ -22,6 +22,7 @@ class ClientController:
         client_id = self.view.input_id_client()
         client = session.query(self.model).filter_by(id=client_id).first()
         if client:
+            self.view.display_client(client)
             if client.user_id == user_id:
                 session.delete(client)
                 session.commit()
