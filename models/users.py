@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Integer, Enum, ForeignKey
 from sqlalchemy.orm import relationship
 from models.role import Role
 from . import Base
-from config import session
+from settings.database import session
 
 from enum import Enum as EnumPython
 

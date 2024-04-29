@@ -1,7 +1,6 @@
-from models.clients import Client
 from views.clients_view import ClientView
 from models.clients import ClientField
-from config import session
+from settings.database import session
 
 
 class ClientController:

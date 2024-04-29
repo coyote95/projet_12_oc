@@ -1,7 +1,7 @@
 from models.clients import Client
 from models.contract import Contract, ContractField
 from views.contract_view import ContractView
-from config import session
+from settings.database import session
 
 
 class ContractController:

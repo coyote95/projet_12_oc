@@ -3,7 +3,7 @@ from models.events import Event, EventField
 from models.contract import Contract
 from models.users import User
 from views.event_view import EventView
-from config import session
+from settings.database import session
 
 
 class EventController:

@@ -87,7 +87,7 @@ class ContractView:
             try:
                 choice = int(input(
                     f"Quelle information voulez-vous modifier?\n"
-                    f"1: {ContractField.TOTAL_PRICE.name}\n"
+                    f"1:total prix {ContractField.TOTAL_PRICE}\n"
                     f"2: {ContractField.REMAINING_PRICE.name}\n"
                     f"3: {ContractField.SIGNED.name}\n"
                     f"4: {ContractField.CLIENT_ID.name}\n"

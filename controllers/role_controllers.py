@@ -1,7 +1,6 @@
 from views.users_view import UserView
 from models.role import Role
-from config import session
-
+from settings.database import session
 
 
 class RoleController:

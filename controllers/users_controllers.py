@@ -1,5 +1,5 @@
 from views.users_view import UserView
-from config import session
+from settings.database import session
 from models.users import UserField
 
 

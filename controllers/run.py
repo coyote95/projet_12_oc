@@ -9,7 +9,7 @@ from models.users import User
 from models.clients import Client
 from models.role import Role
 from models.contract import Contract
-from config import session, engine
+from settings.database import session, engine
 
 
 class RunInscription:
@@ -25,9 +25,6 @@ class RunConnexion:
     def __call__(self, *args, **kwargs):
         user_controller = UserController(User)
         name, password = user_controller.connecter_user()
-        print(name)
-        print("******")
-        print(password)
         try:
             user = session.query(User).filter_by(name=name).first()
             print(user)
@@ -35,10 +32,14 @@ class RunConnexion:
                 print("Connexion réussie !")
                 user_authcontroller = AuthController(user)
                 try:
-                    token = user_authcontroller.generate_token()
+                    user_authcontroller.generate_token()
+                    return controllers.menu_controllers.EpicEventMenuController()
                 except Exception as token_error:
                     print(f"Une erreur s'est produite lors de la génération du token : {token_error}")
-                return controllers.menu_controllers.EpicEventMenuController()
+
+
+
+
             else:
                 print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
                 return controllers.menu_controllers.HomeMenuController()

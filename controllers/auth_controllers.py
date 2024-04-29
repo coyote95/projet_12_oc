@@ -1,11 +1,10 @@
 import jwt
 from datetime import datetime, timedelta, timezone
 import os
-from dotenv import load_dotenv
+from settings.setting import secret_key
 
-dotenv_path = os.path.join('settings', '.env')
-load_dotenv(dotenv_path)
-
+current_dir = os.path.dirname(__file__)  # Chemin absolu du répertoire courant
+parent_dir = os.path.dirname(current_dir)  # Chemin absolu du répertoire parent
 
 class AuthController:
     def __init__(self, user=None):
@@ -13,25 +12,21 @@ class AuthController:
 
     def store_token(self, token):
         try:
-            with open(os.path.join('settings', '.token'), 'w') as token_file:
+            with open(os.path.join(parent_dir, '.token'), 'w') as token_file:
                 token_file.write(token)
         except IOError:
             print("Erreur lors de l'écriture du fichier .token")
 
     def read_token(self):
         try:
-            with open(os.path.join('settings', '.token'), 'r') as token_file:
+            with open(os.path.join(parent_dir, '.token'), 'r') as token_file:
                 return token_file.read().strip()
         except IOError:
             print("Erreur lors de la lecture du fichier .token")
             return None
 
     def generate_token(self):
-        # Lecture de la clé secrète à partir du fichier de configuration
-        try:
-            secret_key = os.getenv('SECRET_KEY')
-        except Exception as e:
-            print(f"Une erreur s'est produite lors de la récupération de la clé secrète : {e}")
+
 
         # Date et heure actuelles avec un fuseau horaire UTC
         now_utc = datetime.now(timezone.utc)
@@ -49,13 +44,12 @@ class AuthController:
 
         # Génération du JWT avec la clé secrète et les données payload
         token = jwt.encode(payload, secret_key, algorithm='HS256')
-
+        print(token)
         self.store_token(token)
 
         return token
 
     def decode_token(self, token):
-        secret_key = os.getenv('SECRET_KEY')
 
         try:
             # Décodage du JWT avec la clé secrète
