@@ -24,11 +24,12 @@ class Client(Base):
     company = Column(String(255))
     creation_date = Column(DateTime)
     last_update_date = Column(DateTime)
-    #one to many (1 utilisateur peut avoir plusieur client) client=child
+    # one to many (1 utilisateur peut avoir plusieur client) client=child
     user_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     user = relationship('User', back_populates='clients')
-    #one to many (1client peut avoir plusieur contract ou event) client = parents
-    contracts = relationship("Contract", back_populates="client",passive_deletes='all')
+    # one to many (1client peut avoir plusieur contract ou event) client = parents
+    contracts = relationship("Contract", back_populates="client", passive_deletes='all')
+
     # events = relationship("Event", back_populates="client",passive_deletes='all')
 
     def __init__(self, name, surname, email, phone, company):
@@ -68,8 +69,32 @@ class Client(Base):
     def get_last_update_date(self):
         return self.last_update_date
 
+    def get_user_id(self):
+        return self.user_id
+
     def get_user_name(self):
         return self.user.name if self.user else None
 
     def set_last_update_date(self):
         self.last_update_date = func.now()
+
+    def set_id(self, client_id):
+        self.id = client_id
+
+    def set_name(self, name):
+        self.name = name
+
+    def set_surname(self, surname):
+        self.surname = surname
+
+    def set_email(self, email):
+        self.email = email
+
+    def set_phone(self, phone):
+        self.phone = phone
+
+    def set_company(self, company):
+        self.company = company
+
+    def set_user_id(self, user_id):
+        self.user_id = user_id
