@@ -105,3 +105,34 @@ class EventView:
             f"Contrat:{event.get_contract()}"
 
         )
+
+    @staticmethod
+    def ask_event_update_field_support_id():
+        while True:
+            answer = input("Voulez-vous modifier le support id de l'evenement (oui/non)?")
+            if answer == 'oui':
+                return True
+            elif answer == 'non':
+                return False
+
+
+
+    @staticmethod
+    def ask_event_update_field():
+        while True:
+            try:
+                choice = int(input(
+                    f"Quelle information voulez-vous modifier?\n"
+                    f"1: {ContractField.TOTAL_PRICE.name}\n"
+                    f"2: {ContractField.REMAINING_PRICE.name}\n"
+                    f"3: {ContractField.SIGNED.name}\n"
+                    f"4: {ContractField.CLIENT_ID.name}\n"
+                    f"5: {ContractField.EVENT.name}\n"
+                ))
+                field = ContractField(choice)
+                if field in ContractField:
+                    return field
+                else:
+                    print("Vous n'avez pas écrit un numéro valide.")
+            except ValueError:
+                print("Vous devez entrer un entier.")

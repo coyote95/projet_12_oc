@@ -1,6 +1,17 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Float, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from . import Base
+from enum import Enum as EnumPython
+
+
+class EventField(EnumPython):
+    START_DATE = 1
+    END_DATE = 2
+    LOCATION = 3
+    PARTICIPANTS = 4
+    NOTE = 5
+    CONTRACT_ID = 6
+    SUPPORT_ID = 7
 
 
 class Event(Base):
@@ -25,7 +36,6 @@ class Event(Base):
         self.location = location
         self.participants = participants
         self.notes = notes
-
 
     def __str__(self):
         return (f"<Evennement: (id='{id}', date de début='{self.start_date}', date de fin: {self.end_date}, "
