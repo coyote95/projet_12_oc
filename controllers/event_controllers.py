@@ -46,21 +46,30 @@ class EventController:
     def delete_event_by_id(self, user_role, user_id):
         event_id = self.view.input_id_event()
         event = session.query(Event).filter_by(id=event_id).first()
+        if event:
+            specific_user_id = (
+                session.query(Client.user_id)
+                .join(Contract, Contract.client_id == Client.id)
+                .join(Event, Event.contract_id == Contract.id)
+                .filter(Event.id == event_id)
+                .first()
+            )
+            print(specific_user_id[0])
 
-        if event:  # fonction qui retourne le client.user_id
-            self.view.display_event(event)
-            contract = session.query(Contract).filter_by(id=event.contract_id).first()
-            if contract:
-                client = session.query(Client).filter_by(id=contract.client_id).first()
-                if client:
-                    if client.user_id == user_id:
-                        session.delete(event)
-                        session.commit()
-                        print("Event supprimé avec succès.")
-                    else:
-                        print("Error suppression événement: Ce client ne fait pas partie de votre équipe")
-        else:
-            print("Evenement non trouvé.")
+        # if event:  # fonction qui retourne le client.user_id
+        #     self.view.display_event(event)
+        #     contract = session.query(Contract).filter_by(id=event.contract_id).first()
+        #     if contract:
+        #         client = session.query(Client).filter_by(id=contract.client_id).first()
+        #         if client:
+        #             if client.user_id == user_id:
+        #                 session.delete(event)
+        #                 session.commit()
+        #                 print("Event supprimé avec succès.")
+        #             else:
+        #                 print("Error suppression événement: Ce client ne fait pas partie de votre équipe")
+        # else:
+        #     print("Evenement non trouvé.")
 
     def read_all_events(self):
         try:
