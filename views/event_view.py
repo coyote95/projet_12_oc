@@ -101,4 +101,7 @@ class EventView:
             f"Localisation:{event.get_location()}    "
             f"Nombre de participants:{event.get_participants()}    "
             f"Note:{event.get_notes()}    "
+            f"Contact support: {event.get_support()}    "
+            f"Contrat:{event.get_contract()}"
+
         )

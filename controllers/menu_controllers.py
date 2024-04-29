@@ -3,7 +3,8 @@ from models.menu import Menu
 from views.menu_view import HomeMenuView
 from controllers.run import (RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
                              RunUpdateUser,RunCreateClient, RunDeleteClient, RunReadClient, RunUpdateClient,
-                             RunCreateContract,RunDeleteContract,RunReadContract,RunUpdateContract,RunCreateEvent, RunDeleteEvent)
+                             RunCreateContract,RunDeleteContract,RunReadContract,RunUpdateContract,RunCreateEvent,
+                             RunDeleteEvent, RunReadEvent)
 
 
 class ApplicationController:
@@ -105,7 +106,7 @@ class EvenementMenuController:
 
     def __call__(self, *args, **kwargs):
         print("***  Menu Evenements   ***")
-        self.menu.add("auto", "Lire", None)
+        self.menu.add("auto", "Lire", RunReadEvent())
         self.menu.add("auto", "Creer", RunCreateEvent())
         self.menu.add("auto", "Modifier", None)
         self.menu.add("auto", "Supprimer", RunDeleteEvent())

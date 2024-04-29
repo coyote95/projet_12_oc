@@ -61,3 +61,15 @@ class EventController:
                         print("Error suppression événement: Ce client ne fait pas partie de votre équipe")
         else:
             print("Evenement non trouvé.")
+
+    def read_all_events(self):
+        try:
+            events = session.query(self.model).all()
+            if events:
+                for event in events:
+                    self.view.display_event(event)
+            else:
+                print("Aucun event trouvé.")
+        except Exception as e:
+            print(f"Une erreur s'est produite lors de la récupération des contrats : {e}")
+

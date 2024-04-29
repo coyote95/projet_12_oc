@@ -48,3 +48,9 @@ class Event(Base):
 
     def get_notes(self):
         return self.notes
+
+    def get_support(self):
+        return self.support
+
+    def get_contract(self):
+        return self.contract

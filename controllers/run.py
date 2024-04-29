@@ -290,3 +290,18 @@ class RunDeleteEvent:
             else:
                 print("Vous n'avez pas la permission de supprimer un evenement.")
         return controllers.menu_controllers.EvenementMenuController
+
+class RunReadEvent:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "read_event" in Role(role_decode).has_event_permissions():
+                event_controller = EventController()
+                event_controller.read_all_events()
+            else:
+                print("Vous n'avez pas la permission de lire un événement.")
+        return controllers.menu_controllers.EvenementMenuController()
