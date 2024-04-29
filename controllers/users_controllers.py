@@ -1,11 +1,11 @@
 from views.users_view import UserView
 from settings.database import session
-from models.users import UserField
+from models.users import User, UserField
 
 
 class UserController:
-    def __init__(self, user):
-        self.model = user
+    def __init__(self):
+        self.model = User
         self.view = UserView()
 
     def add_user(self):
@@ -49,16 +49,14 @@ class UserController:
             field = self.view.ask_user_update_field()
 
             if field == UserField.NOM:
-                # Modifier le nom de l'utilisateur
                 new_name = self.view.input_name()
-                user.name = new_name
+                user.set_name(new_name)
                 session.commit()
                 print("Nom de l'utilisateur modifié avec succès.")
 
             elif field == UserField.DEPARTEMENT:
-                # Modifier le département de l'utilisateur
                 new_departement = self.view.input_departement()
-                user.departement = new_departement
+                user.set_departement(new_departement)
                 session.commit()
                 print("Département de l'utilisateur modifié avec succès.")
 

@@ -15,7 +15,7 @@ from settings.database import session, engine
 class RunInscription:
 
     def __call__(self, *args, **kwargs):
-        user_controller = UserController(User)
+        user_controller = UserController()
         user_controller.add_user()
         return controllers.menu_controllers.HomeMenuController()
 
@@ -23,7 +23,7 @@ class RunInscription:
 class RunConnexion:
 
     def __call__(self, *args, **kwargs):
-        user_controller = UserController(User)
+        user_controller = UserController()
         name, password = user_controller.connecter_user()
         try:
             user = session.query(User).filter_by(name=name).first()
@@ -36,9 +36,6 @@ class RunConnexion:
                     return controllers.menu_controllers.EpicEventMenuController()
                 except Exception as token_error:
                     print(f"Une erreur s'est produite lors de la génération du token : {token_error}")
-
-
-
 
             else:
                 print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
@@ -78,7 +75,7 @@ class RunCreateUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "create_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)
+                user_controller = UserController()
                 user_controller.add_user()
             else:
                 print("Vous n'avez pas la permission de créer un utilisateur.")
@@ -94,7 +91,7 @@ class RunDeleteUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "delete_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)
+                user_controller = UserController()
                 user_controller.delete_user_by_id()
             else:
                 print("Vous n'avez pas la permission de supprimer un utilisateur.")
@@ -110,7 +107,7 @@ class RunReadUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "read_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)
+                user_controller = UserController()
                 user_controller.read_all_users()
             else:
                 print("Vous n'avez pas la permission de lire un utilisateur.")
@@ -126,7 +123,7 @@ class RunUpdateUser:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "update_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController(User)
+                user_controller = UserController()
                 user_controller.update_user()
             else:
                 print("Vous n'avez pas la permission de modifier un utilisateur.")
@@ -291,6 +288,7 @@ class RunDeleteEvent:
             else:
                 print("Vous n'avez pas la permission de supprimer un evenement.")
         return controllers.menu_controllers.EvenementMenuController
+
 
 class RunReadEvent:
 

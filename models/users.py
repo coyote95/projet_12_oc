@@ -35,7 +35,7 @@ class User(Base):
         self.email = email
         self.departement = departement
         self.password = self.set_password(password)
-        self.role = self.set_role_from_departement(departement)
+        self.role = self.set_role_from_departement()
 
     def __str__(self):
         return f"<User(nom='{self.name}', password='{self.password}')>"
@@ -55,6 +55,15 @@ class User(Base):
     def get_password(self):
         return self.password
 
+    def set_id(self, user_id):
+        self.id = user_id
+
+    def set_name(self, name):
+        self.name = name
+
+    def set_departement(self, departement):
+        self.departement = departement
+
     def set_password(self, password):
         # Hasher et saler le mot de passe
         if password is not None:
@@ -65,12 +74,12 @@ class User(Base):
         # Vérifier si le mot de passe fourni correspond au mot de passe stocké
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
-    def set_role_from_departement(self, departement):
-        if departement == 'commercial':
+    def set_role_from_departement(self):
+        if self.departement == 'commercial':
             return session.query(Role).filter_by(role='commercial').first()
-        elif departement == 'gestion':
+        elif self.departement == 'gestion':
             return session.query(Role).filter_by(role='gestion').first()
-        elif departement == 'support':
+        elif self.departement == 'support':
             return session.query(Role).filter_by(role='support').first()
         else:
             raise ValueError("Invalid department value")
