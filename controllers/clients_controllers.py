@@ -8,7 +8,7 @@ class ClientController:
         self.model = Client
         self.view = ClientView()
 
-    def add_client(self, user_id):
+    def create_client(self, user_id):
         name, surname, email, phone, company = self.view.input_info_client()
         new_client = self.model(name=name, surname=surname, email=email, phone=phone, company=company)
         new_client.set_commercial_id(user_id)

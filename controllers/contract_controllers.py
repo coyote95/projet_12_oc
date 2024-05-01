@@ -9,7 +9,7 @@ class ContractController:
         self.model = Contract
         self.view = ContractView()
 
-    def add_contract(self, user_role, user_id):
+    def create_contract(self, user_role, user_id):
         client_id = self.view.input_id_client()
         client = session.query(Client).filter_by(id=client_id).first()
         if client:

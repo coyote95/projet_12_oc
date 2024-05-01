@@ -8,7 +8,7 @@ class UserController:
         self.model = User
         self.view = UserView()
 
-    def add_user(self):
+    def create_user(self):
         name, email, departement, password = self.view.input_infos_user()
         new_user = self.model(name=name, email=email, password=password, departement=departement)
         session.add(new_user)

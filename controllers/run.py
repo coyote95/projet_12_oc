@@ -15,7 +15,7 @@ class RunInscription:
 
     def __call__(self, *args, **kwargs):
         user_controller = UserController()
-        user_controller.add_user()
+        user_controller.create_user()
         return controllers.menu_controllers.HomeMenuController()
 
 
@@ -75,7 +75,7 @@ class RunCreateUser:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "create_user" in Role(role_decode).has_user_permissions():
                 user_controller = UserController()
-                user_controller.add_user()
+                user_controller.create_user()
             else:
                 print("Vous n'avez pas la permission de créer un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
@@ -139,7 +139,7 @@ class RunCreateClient:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "create_client" in Role(role_decode).has_client_permissions():
                 client_controller = ClientController()
-                client_controller.add_client(id_decode)
+                client_controller.create_client(id_decode)
             else:
                 print("Vous n'avez pas la permission de créer un client.")
         return controllers.menu_controllers.ClientMenuController()
@@ -203,7 +203,7 @@ class RunCreateContract:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "create_contract" in Role(role_decode).has_contract_permissions():
                 contract_controller = ContractController()
-                contract_controller.add_contract(role_decode, id_decode)
+                contract_controller.create_contract(role_decode, id_decode)
             else:
                 print("Vous n'avez pas la permission de créer un contrat.")
         return controllers.menu_controllers.ContratsMenuController()
