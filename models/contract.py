@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, ForeignKey, Float, DateTime, Boolean, fu
 from sqlalchemy.orm import relationship
 from . import Base
 from enum import Enum as EnumPython
+from settings.database import session
 
 
 class ContractField(EnumPython):
@@ -19,7 +20,7 @@ class Contract(Base):
     total_price = Column(Float)
     remaining_price = Column(Float)
     creation_date = Column(DateTime)
-    signed_contract = Column(Boolean)
+    signed = Column(Boolean)
     # one to many(1 client pour plusieurs contract) contract=child
     client_id = Column(Integer, ForeignKey('client.id', ondelete='SET NULL'))  # one to many
     client = relationship("Client", back_populates='contracts')
@@ -30,10 +31,10 @@ class Contract(Base):
     # user_id =  Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     # user = relationship('User', back_populates="contracts")
 
-    def __init__(self, total_price, remaining_price, signed_contract, client_id):
+    def __init__(self, total_price, remaining_price, signed, client_id):
         self.total_price = total_price
         self.remaining_price = remaining_price
-        self.signed_contract = signed_contract
+        self.signed = signed
         self.client_id = client_id
         self.creation_date = func.now()
 
@@ -63,8 +64,8 @@ class Contract(Base):
     def get_client(self):
         return self.client
 
-    def get_signed_contract(self):
-        return self.signed_contract
+    def get_signed(self):
+        return self.signed
 
     def set_id(self, contract_id):
         self.id = contract_id
@@ -75,8 +76,8 @@ class Contract(Base):
     def set_remaining_price(self, remaining_price):
         self.remaining_price = remaining_price
 
-    def set_signed_contract(self, signed_contract):
-        self.signed_contract = signed_contract
+    def set_signed(self, signed):
+        self.signed = signed
 
     def set_client_id(self, client_id):
         self.client_id = client_id
@@ -86,3 +87,7 @@ class Contract(Base):
 
     def set_event(self, event):
         self.event = event
+
+    @staticmethod
+    def filter_by_id(contract_id):
+        return session.query(Contract).filter_by(id=contract_id).first()

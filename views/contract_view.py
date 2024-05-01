@@ -78,7 +78,7 @@ class ContractView:
             f"Client:{contract.get_client()}    "
             f"Prix total:{contract.get_total_price()}    "
             f"Prix restant à payer:{contract.get_remaining_price()}    "
-            f"Contrat signé:{ContractView.display_signed_contract(contract.get_signed_contract())}    "
+            f"Contrat signé:{ContractView.display_signed_contract(contract.get_signed())}    "
         )
 
     @staticmethod

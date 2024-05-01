@@ -1,6 +1,7 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, Float, DateTime, Boolean
+from sqlalchemy import Column, String, Integer, ForeignKey,  DateTime
 from sqlalchemy.orm import relationship
 from . import Base
+from settings.database import session
 from enum import Enum as EnumPython
 
 
@@ -62,5 +63,46 @@ class Event(Base):
     def get_support(self):
         return self.support
 
+    def get_support_id(self):
+        return self.support_id
+
     def get_contract(self):
         return self.contract
+
+    def get_contract_id(self):
+        return self.contract_id
+
+    def set_id(self, event_id):
+        self.id = event_id
+
+    def set_start_date(self, start_date):
+        self.start_date = start_date
+
+    def set_end_date(self, end_date):
+        self.end_date = end_date
+
+    def set_location(self, location):
+        self.location = location
+
+    def set_participants(self, participants):
+        self.participants = participants
+
+    def set_notes(self, notes):
+        self.notes = notes
+
+    def set_support(self, support):
+        self.support = support
+
+    def set_support_id(self, support_id):
+        self.support = support_id
+
+    def set_contract(self, contract):
+        self.contract = contract
+
+    def set_contract_id(self, contract_id):
+        self.contract_id = contract_id
+
+    @staticmethod
+    def filter_by_contract_id(contract_id):
+        return session.query(Event).filter_by(id=contract_id).first()
+

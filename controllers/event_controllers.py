@@ -11,31 +11,34 @@ class EventController:
         self.model = Event
         self.view = EventView
 
-    def add_event(self, user_role, user_id):
+    def create_event(self, user_role, user_id):
         contract_id = self.view.input_id_contract()
-        contrat = session.query(Contract).filter_by(id=contract_id).first()
-        if contrat:
-            event = session.query(Event).filter_by(contract_id=contract_id).first()
+        contract = Contract.filter_by_id(contract_id)
+        if contract:
+            event = Event.filter_by_contract_id(contract_id)
             if not event:
-                if contrat.client.commercial_id == user_id:
-                    start_date, end_date, location, participants, note = self.view.input_infos_event()
-                    new_event = self.model(start_date=start_date, end_date=end_date, location=location,
-                                           participants=participants, notes=note)
-                    new_event.contract_id = contract_id
-                    support_id = self.view.input_id_support()
-                    user = session.query(User).filter_by(id=support_id).first()
-                    if user:
-                        if user.get_departement() == 'support':
-                            new_event.support_id = support_id
+                if contract.client.get_commercial_id() == user_id:
+                    if contract.signed:
+                        start_date, end_date, location, participants, note = self.view.input_infos_event()
+                        new_event = self.model(start_date=start_date, end_date=end_date, location=location,
+                                               participants=participants, notes=note)
+                        new_event.set_contract_id(contract_id)
+                        support_id = self.view.input_id_support()
+                        user = User.filter_by_id(support_id)
+                        if user:
+                            if user.get_departement() == 'support':
+                                new_event.set_support_id(support_id)
+                            else:
+                                print("Cet utilitateur ne fait pas parti de l'équipe support")
                         else:
-                            print("Cet utilitateur ne fait pas parti de l'équipe support")
-                    else:
-                        print("cette utilisateur n'existe pas")
+                            print("cette utilisateur n'existe pas")
 
-                    session.add(new_event)
-                    session.commit()
-                    print("Evenement enregisté !")
-                    return new_event
+                        session.add(new_event)
+                        session.commit()
+                        print("Evenement enregisté !")
+                        return new_event
+                    else:
+                        print("Ce client n'a pas encore signé le contrat")
                 else:
                     print("Ce client ne fait pas partie de votre équipe")
             else:

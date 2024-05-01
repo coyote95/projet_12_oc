@@ -86,3 +86,7 @@ class User(Base):
 
     def get_clients_name(self):
         return [client.name for client in self.clients] if self.clients else []
+
+    @staticmethod
+    def filter_by_id(user_id):
+        return session.query(User).filter_by(id=user_id).first()

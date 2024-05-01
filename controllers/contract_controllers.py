@@ -14,9 +14,9 @@ class ContractController:
         client = session.query(Client).filter_by(id=client_id).first()
         if client:
             if client.get_commercial_id() == user_id or user_role == 'gestion':
-                total_price, remaining_price, contract_signed = self.view.input_info_contract()
+                total_price, remaining_price, signed = self.view.input_info_contract()
                 new_contract = self.model(total_price=total_price, remaining_price=remaining_price,
-                                          client_id=client_id, signed_contract=contract_signed)
+                                          client_id=client_id, signed=signed)
 
                 session.add(new_contract)
                 session.commit()
@@ -75,7 +75,7 @@ class ContractController:
 
                 elif field == ContractField.SIGNED:
                     new_signed_contract = self.view.input_signed_contract()
-                    contract.get_signed_contract(new_signed_contract)
+                    contract.set_signed(new_signed_contract)
                     session.commit()
                     print("Statut signature modifié avec succès.")
 
