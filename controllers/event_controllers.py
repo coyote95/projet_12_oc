@@ -17,7 +17,7 @@ class EventController:
         if contrat:
             event = session.query(Event).filter_by(contract_id=contract_id).first()
             if not event:
-                if contrat.client.user_id == user_id:
+                if contrat.client.commercial_id == user_id:
                     start_date, end_date, location, participants, note = self.view.input_infos_event()
                     new_event = self.model(start_date=start_date, end_date=end_date, location=location,
                                            participants=participants, notes=note)
@@ -48,7 +48,7 @@ class EventController:
         event = session.query(Event).filter_by(id=event_id).first()
         if event:
             specific_user_id = (
-                session.query(Client.user_id)
+                session.query(Client.commercial_id)
                 .join(Contract, Contract.client_id == Client.id)
                 .join(Event, Event.contract_id == Contract.id)
                 .filter(Event.id == event_id)
@@ -56,20 +56,20 @@ class EventController:
             )
             print(specific_user_id[0])
 
-        # if event:  # fonction qui retourne le client.user_id
-        #     self.view.display_event(event)
-        #     contract = session.query(Contract).filter_by(id=event.contract_id).first()
-        #     if contract:
-        #         client = session.query(Client).filter_by(id=contract.client_id).first()
-        #         if client:
-        #             if client.user_id == user_id:
-        #                 session.delete(event)
-        #                 session.commit()
-        #                 print("Event supprimé avec succès.")
-        #             else:
-        #                 print("Error suppression événement: Ce client ne fait pas partie de votre équipe")
-        # else:
-        #     print("Evenement non trouvé.")
+        if event:  # fonction qui retourne le client.user_id
+            self.view.display_event(event)
+            contract = session.query(Contract).filter_by(id=event.contract_id).first()
+            if contract:
+                client = session.query(Client).filter_by(id=contract.client_id).first()
+                if client:
+                    if client.commercial_id == user_id:
+                        session.delete(event)
+                        session.commit()
+                        print("Event supprimé avec succès.")
+                    else:
+                        print("Error suppression événement: Ce client ne fait pas partie de votre équipe")
+        else:
+            print("Evenement non trouvé.")
 
     def read_all_events(self):
         try:

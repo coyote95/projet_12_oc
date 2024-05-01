@@ -139,7 +139,7 @@ class RunCreateClient:
         if token:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "create_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController(Client)
+                client_controller = ClientController()
                 client_controller.add_client(id_decode)
             else:
                 print("Vous n'avez pas la permission de créer un client.")
@@ -155,7 +155,7 @@ class RunDeleteClient:
         if token:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "delete_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController(Client)
+                client_controller = ClientController()
                 client_controller.delete_client_by_id(id_decode)
             else:
                 print("Vous n'avez pas la permission de supprimer un client.")
@@ -171,7 +171,7 @@ class RunReadClient:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "read_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController(Client)
+                client_controller = ClientController()
                 client_controller.read_all_client()
             else:
                 print("Vous n'avez pas la permission de lire un client.")
@@ -187,7 +187,7 @@ class RunUpdateClient:
         if token:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "update_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController(Client)
+                client_controller = ClientController()
                 client_controller.update_client(id_decode)
             else:
                 print("Vous n'avez pas la permission de modifier un client.")

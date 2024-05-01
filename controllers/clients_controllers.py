@@ -22,7 +22,7 @@ class ClientController:
         client = session.query(self.model).filter_by(id=client_id).first()
         if client:
             self.view.display_client(client)
-            if client.user_id == user_id:
+            if client.commercial_id == user_id:
                 session.delete(client)
                 session.commit()
                 print("Utilisateur supprimé avec succès.")

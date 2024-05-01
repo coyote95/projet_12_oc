@@ -25,8 +25,8 @@ class Client(Base):
     creation_date = Column(DateTime)
     last_update_date = Column(DateTime)
     # one to many (1 utilisateur peut avoir plusieur client) client=child
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
-    user = relationship('User', back_populates='clients')
+    commercial_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
+    commercial = relationship('User', back_populates='clients')
     # one to many (1client peut avoir plusieur contract ou event) client = parents
     contracts = relationship("Contract", back_populates="client", passive_deletes='all')
 
@@ -70,10 +70,10 @@ class Client(Base):
         return self.last_update_date
 
     def get_user_id(self):
-        return self.user_id
+        return self.commercial_id
 
     def get_user_name(self):
-        return self.user.name if self.user else None
+        return self.commercial.name if self.commercial else None
 
     def set_last_update_date(self):
         self.last_update_date = func.now()
@@ -97,4 +97,4 @@ class Client(Base):
         self.company = company
 
     def set_user_id(self, user_id):
-        self.user_id = user_id
+        self.commercial_id = user_id

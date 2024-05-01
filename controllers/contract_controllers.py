@@ -13,7 +13,7 @@ class ContractController:
         client_id = self.view.input_id_client()
         find_client = session.query(Client).filter_by(id=client_id).first()
         if find_client:
-            if find_client.user_id == user_id or user_role == 'gestion':
+            if find_client.commercial_id == user_id or user_role == 'gestion':
                 total_price, remaining_price, contract_signed = self.view.input_info_contract()
                 new_contract = self.model(total_price=total_price, remaining_price=remaining_price,
                                           client_id=client_id, signed_contract=contract_signed)
@@ -33,7 +33,7 @@ class ContractController:
         contract = session.query(Contract).filter_by(id=contract_id).first()
         if contract:
             self.view.display_contract(contract)
-            if contract.client.user_id == user_id or user_role == 'gestion':
+            if contract.client.commercial_id == user_id or user_role == 'gestion':
                 session.delete(contract)
                 session.commit()
                 print("Contrat supprimé avec succès.")
@@ -58,7 +58,7 @@ class ContractController:
         contract = session.query(self.model).filter_by(id=contract_id).first()
         if contract:
             self.view.display_contract(contract)
-            if contract.client.user_id == user_id or user_role == 'gestion':
+            if contract.client.commercial_id == user_id or user_role == 'gestion':
                 field = self.view.ask_contract_update_field()
 
                 if field == ContractField.TOTAL_PRICE:

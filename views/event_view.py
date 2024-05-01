@@ -19,25 +19,28 @@ class EventView:
 
     @staticmethod
     def input_start_date():
-        start_date = input("Entrez la date de début de l'événement (YYYY-MM-DD HH:MM:SS): ")
+        while True:
+            start_date = input("Entrez la date de début de l'événement (YYYY-MM-DD HH:MM): ")
+            start_date += ":00"
+            try:
+                start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
+                return start_date
+            except ValueError:
+                print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
 
-        try:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
-            return start_date
-        except ValueError:
-            print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM:SS.")
-            return
+
 
     @staticmethod
     def input_end_date():
-        start_date = input("Entrez la date de fin de l'événement (YYYY-MM-DD HH:MM:SS): ")
+        while True:
+            end_date = input("Entrez la date de fin de l'événement (YYYY-MM-DD HH:MM): ")
+            end_date += ":00"
+            try:
+                end_date = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
+                return end_date
+            except ValueError:
+                print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
 
-        try:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
-            return start_date
-        except ValueError:
-            print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM:SS.")
-            return
 
     @staticmethod
     def input_location():
