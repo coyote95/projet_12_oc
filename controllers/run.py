@@ -267,7 +267,7 @@ class RunCreateEvent:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "create_event" in Role(role_decode).has_event_permissions():
                 event_controller = EventController()
-                event_controller.create_event(role_decode, id_decode)
+                event_controller.create_event(id_decode)
             else:
                 print("Vous n'avez pas la permission de créer un contrat.")
         return controllers.menu_controllers.EvenementMenuController()
@@ -283,7 +283,7 @@ class RunDeleteEvent:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "delete_event" in Role(role_decode).has_event_permissions():
                 event_controller = EventController()
-                event_controller.delete_event_by_id(role_decode, id_decode)
+                event_controller.delete_event_by_id(id_decode)
             else:
                 print("Vous n'avez pas la permission de supprimer un evenement.")
         return controllers.menu_controllers.EvenementMenuController

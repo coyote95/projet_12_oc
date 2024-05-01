@@ -27,10 +27,6 @@ class Contract(Base):
     # one to one(1 evenement pour 1 contract)
     event = relationship("Event", back_populates="contract", uselist=False)
 
-    # one to many(1 utilisateur pour plusieurs contracts)
-    # user_id =  Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
-    # user = relationship('User', back_populates="contracts")
-
     def __init__(self, total_price, remaining_price, signed, client_id):
         self.total_price = total_price
         self.remaining_price = remaining_price

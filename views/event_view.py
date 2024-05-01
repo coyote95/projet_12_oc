@@ -1,4 +1,5 @@
 from datetime import datetime
+from models.events import EventField
 
 
 class EventView:
@@ -88,12 +89,10 @@ class EventView:
 
     @staticmethod
     def input_infos_event():
-        start_date = EventView.input_start_date()
-        end_date = EventView.input_end_date()
         location = EventView.input_location()
         participants = EventView.input_participants()
         note = EventView.input_notes()
-        return start_date, end_date, location, participants, note
+        return  location, participants, note
 
     @staticmethod
     def display_event(event):
@@ -126,14 +125,16 @@ class EventView:
             try:
                 choice = int(input(
                     f"Quelle information voulez-vous modifier?\n"
-                    f"1: {ContractField.TOTAL_PRICE.name}\n"
-                    f"2: {ContractField.REMAINING_PRICE.name}\n"
-                    f"3: {ContractField.SIGNED.name}\n"
-                    f"4: {ContractField.CLIENT_ID.name}\n"
-                    f"5: {ContractField.EVENT.name}\n"
+                    f"1: {EventField.START_DATE.name}\n"
+                    f"2: {EventField.END_DATE.name}\n"
+                    f"3: {EventField.LOCATION.name}\n"
+                    f"4: {EventField.PARTICIPANTS.name}\n"
+                    f"5: {EventField.NOTE.name}\n"
+                    f"6: {EventField.CONTRACT_ID.name}\n"
+                    f"7: {EventField.SUPPORT_ID.name}\n"
                 ))
-                field = ContractField(choice)
-                if field in ContractField:
+                field = EventField(choice)
+                if field in EventField:
                     return field
                 else:
                     print("Vous n'avez pas écrit un numéro valide.")

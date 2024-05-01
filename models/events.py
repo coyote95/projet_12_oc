@@ -1,5 +1,7 @@
-from sqlalchemy import Column, String, Integer, ForeignKey,  DateTime
+from sqlalchemy import Column, String, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
+from models.clients import Client
+from models.contract import Contract
 from . import Base
 from settings.database import session
 from enum import Enum as EnumPython
@@ -102,7 +104,28 @@ class Event(Base):
     def set_contract_id(self, contract_id):
         self.contract_id = contract_id
 
+    def verify_date_end(self):
+        return self.end_date < self.start_date
+
     @staticmethod
     def filter_by_contract_id(contract_id):
-        return session.query(Event).filter_by(id=contract_id).first()
+        return session.query(Event).filter_by(contract_id=contract_id).first()
 
+    @staticmethod
+    def filter_by_event_id(event_id):
+        return session.query(Event).filter_by(id=event_id).first()
+
+    @staticmethod
+    def find_commercial_id(event_id):
+        specific_user_id = (
+            session.query(Client.commercial_id)
+            .join(Contract, Contract.client_id == Client.id)
+            .join(Event, Event.contract_id == Contract.id)
+            .filter(Event.id == event_id)
+            .first()
+        )
+        return specific_user_id[0]
+
+    @staticmethod
+    def filter_all_events():
+        return session.query(Event).all()
