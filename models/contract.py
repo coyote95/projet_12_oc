@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, Float, DateTime, Boolean, func
+from sqlalchemy import Column, Integer, ForeignKey, Float, DateTime, Boolean, func
 from sqlalchemy.orm import relationship
 from . import Base
 from enum import Enum as EnumPython
@@ -65,3 +65,24 @@ class Contract(Base):
 
     def get_signed_contract(self):
         return self.signed_contract
+
+    def set_id(self, contract_id):
+        self.id = contract_id
+
+    def set_total_price(self, total_price):
+        self.total_price = total_price
+
+    def set_remaining_price(self, remaining_price):
+        self.remaining_price = remaining_price
+
+    def set_signed_contract(self, signed_contract):
+        self.signed_contract = signed_contract
+
+    def set_client_id(self, client_id):
+        self.client_id = client_id
+
+    def set_client(self, client):
+        self.client = client
+
+    def set_event(self, event):
+        self.event = event

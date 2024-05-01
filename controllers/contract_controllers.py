@@ -5,15 +5,15 @@ from settings.database import session
 
 
 class ContractController:
-    def __init__(self, contract):
-        self.model = contract
-        self.view = ContractView
+    def __init__(self):
+        self.model = Contract
+        self.view = ContractView()
 
     def add_contract(self, user_role, user_id):
         client_id = self.view.input_id_client()
-        find_client = session.query(Client).filter_by(id=client_id).first()
-        if find_client:
-            if find_client.commercial_id == user_id or user_role == 'gestion':
+        client = session.query(Client).filter_by(id=client_id).first()
+        if client:
+            if client.get_commercial_id() == user_id or user_role == 'gestion':
                 total_price, remaining_price, contract_signed = self.view.input_info_contract()
                 new_contract = self.model(total_price=total_price, remaining_price=remaining_price,
                                           client_id=client_id, signed_contract=contract_signed)
@@ -33,7 +33,7 @@ class ContractController:
         contract = session.query(Contract).filter_by(id=contract_id).first()
         if contract:
             self.view.display_contract(contract)
-            if contract.client.commercial_id == user_id or user_role == 'gestion':
+            if contract.client.get_commercial_id() == user_id or user_role == 'gestion':
                 session.delete(contract)
                 session.commit()
                 print("Contrat supprimé avec succès.")
@@ -58,30 +58,30 @@ class ContractController:
         contract = session.query(self.model).filter_by(id=contract_id).first()
         if contract:
             self.view.display_contract(contract)
-            if contract.client.commercial_id == user_id or user_role == 'gestion':
+            if contract.client.get_commercial_id()== user_id or user_role == 'gestion':
                 field = self.view.ask_contract_update_field()
 
                 if field == ContractField.TOTAL_PRICE:
                     new_total_price = self.view.input_total_price()
-                    contract.total_price = new_total_price
+                    contract.set_total_price(new_total_price)
                     session.commit()
                     print("Prix total modifié avec succès.")
 
                 elif field == ContractField.REMAINING_PRICE:
-                    new_remaining = self.view.input_remaining_price()
-                    contract.remaining_price = new_remaining
+                    new_remaining_price = self.view.input_remaining_price()
+                    contract.set_remaining_price(new_remaining_price)
                     session.commit()
                     print("Prix restant modifié avec succès.")
 
                 elif field == ContractField.SIGNED:
                     new_signed_contract = self.view.input_signed_contract()
-                    contract.signed_contract = new_signed_contract
+                    contract.get_signed_contract(new_signed_contract)
                     session.commit()
                     print("Statut signature modifié avec succès.")
 
                 elif field == ContractField.CLIENT_ID:
                     new_client_id = self.view.input_id_client()
-                    contract.client_id = new_client_id
+                    contract.set_client_id(new_client_id)
                     session.commit()
                     print("Client du contrat modifié avec succès.")
 

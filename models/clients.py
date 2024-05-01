@@ -69,7 +69,7 @@ class Client(Base):
     def get_last_update_date(self):
         return self.last_update_date
 
-    def get_user_id(self):
+    def get_commercial_id(self):
         return self.commercial_id
 
     def get_user_name(self):
@@ -96,5 +96,5 @@ class Client(Base):
     def set_company(self, company):
         self.company = company
 
-    def set_user_id(self, user_id):
+    def set_commercial_id(self, user_id):
         self.commercial_id = user_id

@@ -8,7 +8,6 @@ from sqlalchemy import inspect
 from models.users import User
 from models.clients import Client
 from models.role import Role
-from models.contract import Contract
 from settings.database import session, engine
 
 
@@ -203,7 +202,7 @@ class RunCreateContract:
         if token:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "create_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController(Contract)
+                contract_controller = ContractController()
                 contract_controller.add_contract(role_decode, id_decode)
             else:
                 print("Vous n'avez pas la permission de créer un contrat.")
@@ -219,7 +218,7 @@ class RunDeleteContract:
         if token:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "delete_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController(Contract)
+                contract_controller = ContractController()
                 contract_controller.delete_contract_by_id(role_decode, id_decode)
             else:
                 print("Vous n'avez pas la permission de supprimer un contrat.")
@@ -235,7 +234,7 @@ class RunReadContract:
         if token:
             role_decode = user_authcontroller.decode_payload_role_token(token)
             if "read_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController(Contract)
+                contract_controller = ContractController()
                 contract_controller.read_all_contracts()
             else:
                 print("Vous n'avez pas la permission de lire un contrat.")
@@ -251,7 +250,7 @@ class RunUpdateContract:
         if token:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "update_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController(Contract)
+                contract_controller = ContractController()
                 contract_controller.update_contract(role_decode, id_decode)
             else:
                 print("Vous n'avez pas la permission de modifier un contrat.")
