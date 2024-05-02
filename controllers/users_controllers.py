@@ -13,7 +13,7 @@ class UserController:
         new_user = self.model(name=name, email=email, password=password, departement=departement)
         session.add(new_user)
         session.commit()
-        print("Inscription réussie !")
+        self.view.display_info_message("Inscription réussie !")
         return new_user
 
     def delete_user_by_id(self):
@@ -22,9 +22,9 @@ class UserController:
         if user:
             session.delete(user)
             session.commit()
-            print("Utilisateur supprimé avec succès.")
+            self.view.display_info_message("Utilisateur supprimé avec succès.")
         else:
-            print("Utilisateur non trouvé.")
+            self.view.display_warning_message("Utilisateur non trouvé.")
 
     def connecter_user(self):
         name, password = self.view.ask_infos_user_login()
@@ -37,9 +37,10 @@ class UserController:
                 for user in users:
                     self.view.display_user(user)
             else:
-                print("Aucun utilisateur trouvé.")
+                self.view.display_warning_message("Aucun utilisateur trouvé.")
         except Exception as e:
-            print(f"Une erreur s'est produite lors de la récupération des utilisateurs : {e}")
+            self.view.display_error_message(f"Une erreur s'est produite lors de la récupération "
+                                            f"des utilisateurs : {e}")
 
     def update_user(self):
         user_id = self.view.input_id_user()
@@ -52,19 +53,17 @@ class UserController:
                 new_name = self.view.input_name()
                 user.set_name(new_name)
                 session.commit()
-                print("Nom de l'utilisateur modifié avec succès.")
+                self.view.display_info_message("Nom de l'utilisateur modifié avec succès.")
 
             elif field == UserField.DEPARTEMENT:
                 new_departement = self.view.input_departement()
                 user.set_departement(new_departement)
                 session.commit()
-                print("Département de l'utilisateur modifié avec succès.")
+                self.view.display_info_message("Département de l'utilisateur modifié avec succès.")
 
             elif field == UserField.CLIENTS:
                 # Modifier les clients de l'utilisateur
                 pass
 
             else:
-                print("Option invalide.")
-
-
+                self.view.display_error_message("Option invalide.")

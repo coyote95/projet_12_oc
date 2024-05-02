@@ -1,12 +1,9 @@
 import re
 from models.users import UserField
+from views.base_view import BaseView
 
 
-class UserView:
-
-    @staticmethod
-    def afficher_message(message):
-        print(message)
+class UserView(BaseView):
 
     @staticmethod
     def input_name():
@@ -21,7 +18,7 @@ class UserView:
             if re.match(r'^[\w\.-]+@[\w\.-]+$', email):
                 return email
             else:
-                print("Adresse email invalide. Veuillez réessayer.")
+                BaseView.display_error_message("Adresse email invalide. Veuillez réessayer.")
 
     @staticmethod
     def input_departement():
@@ -30,7 +27,8 @@ class UserView:
             if departement.lower() in ["gestion", "commercial", "support"]:
                 return departement.lower()
             else:
-                print("Nom de département invalide. Veuillez indiquer : 'gestion', 'support' ou 'commercial'")
+                UserView.display_error_message("Nom de département invalide. Veuillez indiquer :"
+                                               " 'gestion', 'support' ou 'commercial'")
 
     @staticmethod
     def input_password():
@@ -39,7 +37,7 @@ class UserView:
             if len(password) >= 8:
                 return password
             else:
-                print("Votre mot de passe est trop court!")
+                UserView.display_error_message("Votre mot de passe est trop court!")
 
     @staticmethod
     def input_id_user():
@@ -49,7 +47,8 @@ class UserView:
                 user_id = int(user_id)
                 return user_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                UserView.display_error_message("Vous n'avez pas écrit un entier.")
+
 
     @staticmethod
     def ask_infos_user_login():
@@ -88,6 +87,7 @@ class UserView:
                 if field in UserField:
                     return field
                 else:
-                    print("Vous n'avez pas écrit un numéro valide.")
+                    UserView.display_error_message("Vous n'avez pas écrit un numéro valide.")
             except ValueError:
-                print("Vous devez entrer un entier.")
+                UserView.display_error_message("Vous devez entrer un entier.")
+

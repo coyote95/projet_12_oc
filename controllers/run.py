@@ -4,6 +4,7 @@ from controllers.clients_controllers import ClientController
 from controllers.contract_controllers import ContractController
 from controllers.event_controllers import EventController
 from controllers.auth_controllers import AuthController
+from views.base_view import BaseView
 from sqlalchemy import inspect
 from models.users import User
 from models.clients import Client
@@ -28,7 +29,7 @@ class RunConnexion:
             user = session.query(User).filter_by(name=name).first()
             print(user)
             if user and user.check_password(password):
-                print("Connexion réussie !")
+                BaseView.display_info_message("Connexion réussie !")
                 user_authcontroller = AuthController(user)
                 try:
                     user_authcontroller.generate_token()
