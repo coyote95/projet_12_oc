@@ -19,10 +19,10 @@ class ClientController:
 
     def delete_client_by_id(self, user_id):
         client_id = self.view.input_id_client()
-        client = session.query(self.model).filter_by(id=client_id).first()
+        client = self.model.filter_by_id(client_id)
         if client:
             self.view.display_client(client)
-            if client.commercial_id == user_id:
+            if client.get_commercial_id() == user_id:
                 session.delete(client)
                 session.commit()
                 print("Utilisateur supprimé avec succès.")
@@ -33,7 +33,7 @@ class ClientController:
 
     def read_all_client(self):
         try:
-            clients = session.query(self.model).all()
+            clients = self.model.filter_all_clients()
             if clients:
                 for client in clients:
                     self.view.display_client(client)
@@ -43,8 +43,8 @@ class ClientController:
             print(f"Une erreur s'est produite lors de la récupération des clients : {e}")
 
     def update_client(self, user_id):
-        ask_client_id = self.view.input_id_client()
-        client = session.query(self.model).filter_by(id=ask_client_id).first()
+        client_id = self.view.input_id_client()
+        client = self.model.filter_by_id(client_id)
         if client:
             self.view.display_client(client)
             if client.get_user_id() == user_id:

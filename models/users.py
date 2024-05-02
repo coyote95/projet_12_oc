@@ -90,3 +90,7 @@ class User(Base):
     @staticmethod
     def filter_by_id(user_id):
         return session.query(User).filter_by(id=user_id).first()
+
+    @staticmethod
+    def filter_all_users():
+        return session.query(User).all()

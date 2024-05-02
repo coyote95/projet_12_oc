@@ -87,3 +87,7 @@ class Contract(Base):
     @staticmethod
     def filter_by_id(contract_id):
         return session.query(Contract).filter_by(id=contract_id).first()
+
+    @staticmethod
+    def filter_all_contracts():
+        return session.query(Contract).all()

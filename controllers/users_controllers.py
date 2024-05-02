@@ -17,8 +17,8 @@ class UserController:
         return new_user
 
     def delete_user_by_id(self):
-        ask_user_id = self.view.input_id_user()
-        user = session.query(self.model).filter_by(id=ask_user_id).first()
+        user_id = self.view.input_id_user()
+        user = self.model.filter_by_id(user_id)
         if user:
             session.delete(user)
             session.commit()
@@ -32,7 +32,7 @@ class UserController:
 
     def read_all_users(self):
         try:
-            users = session.query(self.model).all()
+            users = self.model.filter_all_users()
             if users:
                 for user in users:
                     self.view.display_user(user)
@@ -42,8 +42,8 @@ class UserController:
             print(f"Une erreur s'est produite lors de la récupération des utilisateurs : {e}")
 
     def update_user(self):
-        ask_user_id = self.view.input_id_user()
-        user = session.query(self.model).filter_by(id=ask_user_id).first()
+        user_id = self.view.input_id_user()
+        user = self.model.filter_by_id(user_id)
         if user:
             self.view.display_user(user)
             field = self.view.ask_user_update_field()
@@ -66,3 +66,5 @@ class UserController:
 
             else:
                 print("Option invalide.")
+
+

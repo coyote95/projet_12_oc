@@ -11,10 +11,18 @@ class ContractController:
 
     def create_contract(self, user_role, user_id):
         client_id = self.view.input_id_client()
-        client = session.query(Client).filter_by(id=client_id).first()
+        client = Client.filter_by_id(client_id)
         if client:
             if client.get_commercial_id() == user_id or user_role == 'gestion':
-                total_price, remaining_price, signed = self.view.input_info_contract()
+                total_price = self.view.input_total_price()
+                while True:
+                    remaining_price = self.view.input_remaining_price()
+                    if remaining_price < total_price:
+                        break
+                    else:
+                        print("le prix restant à payer doit être inférieur au prix total")
+
+                signed = self.view.input_signed_contract()
                 new_contract = self.model(total_price=total_price, remaining_price=remaining_price,
                                           client_id=client_id, signed=signed)
 
@@ -30,7 +38,7 @@ class ContractController:
 
     def delete_contract_by_id(self, user_role, user_id):
         contract_id = self.view.input_id_contract()
-        contract = session.query(Contract).filter_by(id=contract_id).first()
+        contract = Contract.filter_by_id(contract_id)
         if contract:
             self.view.display_contract(contract)
             if contract.client.get_commercial_id() == user_id or user_role == 'gestion':
@@ -44,7 +52,7 @@ class ContractController:
 
     def read_all_contracts(self):
         try:
-            contracts = session.query(self.model).all()
+            contracts = Contract.filter_all_contracts()
             if contracts:
                 for contract in contracts:
                     self.view.display_contract(contract)
@@ -55,10 +63,10 @@ class ContractController:
 
     def update_contract(self, user_role, user_id):
         contract_id = self.view.input_id_contract()
-        contract = session.query(self.model).filter_by(id=contract_id).first()
+        contract = Contract.filter_by_id(contract_id)
         if contract:
             self.view.display_contract(contract)
-            if contract.client.get_commercial_id()== user_id or user_role == 'gestion':
+            if contract.client.get_commercial_id() == user_id or user_role == 'gestion':
                 field = self.view.ask_contract_update_field()
 
                 if field == ContractField.TOTAL_PRICE:

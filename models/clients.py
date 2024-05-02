@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from enum import Enum as EnumPython
 from . import Base
+from settings.database import session
 
 
 class ClientField(EnumPython):
@@ -98,3 +99,11 @@ class Client(Base):
 
     def set_commercial_id(self, user_id):
         self.commercial_id = user_id
+
+    @staticmethod
+    def filter_by_id(client_id):
+        return session.query(Client).filter_by(id=client_id).first()
+
+    @staticmethod
+    def filter_all_clients():
+        return session.query(Client).all()

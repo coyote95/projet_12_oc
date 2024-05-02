@@ -65,11 +65,10 @@ class ContractView:
                 print("Vous n'avez pas écrit un entier.")
 
     @staticmethod
-    def input_info_contract():
+    def input_prices():
         total_price = ContractView.input_total_price()
         remaining_price = ContractView.input_remaining_price()
-        signed_contract = ContractView.input_signed_contract()
-        return total_price, remaining_price, signed_contract
+        return total_price, remaining_price
 
     @staticmethod
     def display_contract(contract):
