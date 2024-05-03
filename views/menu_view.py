@@ -1,3 +1,6 @@
+from rich.console import Console
+
+
 class HomeMenuView:
     def __init__(self, menu):
         self.menu = menu
@@ -12,11 +15,6 @@ class HomeMenuView:
         """
         for key, entry in self.menu.items():
             print(f"{key}: {entry.option}")
-
-    @staticmethod
-    def display_message_accueil():
-        print()
-        print("*******   ACCUEIL     *******")
 
     def get_user_choice(self):
         """
@@ -34,5 +32,6 @@ class HomeMenuView:
                 return self.menu[choice]
 
     @staticmethod
-    def display_message_end_programme():
-        print("*****  Fin du programme  ******")
+    def display_title(title):
+        console = Console()
+        console.print(f'[bold magenta]*****   {title}   *****[/bold magenta]')

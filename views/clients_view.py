@@ -1,8 +1,9 @@
 import re
 from models.clients import ClientField
+from views.base_view import BaseView
 
 
-class ClientView:
+class ClientView(BaseView):
 
     @staticmethod
     def afficher_message(message):
@@ -31,9 +32,9 @@ class ClientView:
                 if len(phone) == 10 and phone.isdigit():
                     return int(phone)
                 else:
-                    print("Votre numéro ne comporte pas 10 chiffres")
+                    ClientView.display_error_message("Votre numéro ne comporte pas 10 chiffres")
             except ValueError:
-                print("Vous n'avez pas saisi un entier")
+                ClientView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_email():
@@ -43,7 +44,8 @@ class ClientView:
             if re.match(r'^[\w\.-]+@[\w\.-]+$', email):
                 return email
             else:
-                print("Adresse email invalide. Veuillez réessayer.")
+                ClientView.display_error_message("Adresse email invalide. Veuillez réessayer.")
+
 
     @staticmethod
     def input_id_client():
@@ -53,7 +55,7 @@ class ClientView:
                 client_id = int(client_id)
                 return client_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                ClientView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_info_client():
@@ -94,6 +96,6 @@ class ClientView:
                 if field in ClientField:
                     return field
                 else:
-                    print("Vous n'avez pas écrit un numéro valide.")
+                    ClientView.display_error_message("Vous n'avez pas saisi un numéro valide")
             except ValueError:
-                print("Vous devez entrer un entier.")
+                ClientView.display_error_message("Vous n'avez pas saisi un numéro")

@@ -47,7 +47,7 @@ class UserView(BaseView):
                 user_id = int(user_id)
                 return user_id
             except ValueError:
-                UserView.display_error_message("Vous n'avez pas écrit un entier.")
+                UserView.display_error_message("Vous n'avez pas saisi un numéro")
 
 
     @staticmethod
@@ -87,7 +87,7 @@ class UserView(BaseView):
                 if field in UserField:
                     return field
                 else:
-                    UserView.display_error_message("Vous n'avez pas écrit un numéro valide.")
+                    UserView.display_error_message("Vous n'avez pas saisi un numéro valide.")
             except ValueError:
-                UserView.display_error_message("Vous devez entrer un entier.")
+                UserView.display_error_message("Vous n'avez pas saisi un numéro")
 

@@ -1,7 +1,8 @@
 from models.contract import ContractField
+from views.base_view import BaseView
 
 
-class ContractView:
+class ContractView(BaseView):
 
     @staticmethod
     def afficher_message(message):
@@ -14,7 +15,7 @@ class ContractView:
                 total_price = float(input("Entrez le montant total du contrat: "))
                 return total_price
             except ValueError:
-                print("Vous n'avez pas saisi un nombre valide")
+                ContractView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_remaining_price():
@@ -23,7 +24,7 @@ class ContractView:
                 remaining_price = float(input("Entrez la somme restante à payer: "))
                 return remaining_price
             except ValueError:
-                print("Vous n'avez pas saisi un nombre valide")
+                ContractView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_signed_contract():
@@ -35,7 +36,8 @@ class ContractView:
                 elif signed_contract.lower() == "non":
                     return False
             except ValueError:
-                print("Vous n'avez pas saisi 'oui' ou 'non'")
+                ContractView.display_error_message("Vous n'avez pas saisi 'oui' ou 'non'")
+
 
     @staticmethod
     def display_signed_contract(signed_contract):
@@ -52,7 +54,7 @@ class ContractView:
                 client_id = int(client_id)
                 return client_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                ContractView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_id_contract():
@@ -62,7 +64,7 @@ class ContractView:
                 contract_id = int(contract_id)
                 return contract_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                ContractView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_prices():
@@ -96,6 +98,6 @@ class ContractView:
                 if field in ContractField:
                     return field
                 else:
-                    print("Vous n'avez pas écrit un numéro valide.")
+                    ContractView.display_error_message("Vous n'avez pas saisi un numéro valide")
             except ValueError:
-                print("Vous devez entrer un entier.")
+                ContractView.display_error_message("Vous n'avez pas saisi un numéro")

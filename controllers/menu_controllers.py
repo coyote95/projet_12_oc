@@ -1,7 +1,7 @@
 import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
-from controllers.run import (RunInscription, RunBaseDeDonnee, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
+from controllers.run import (RunInscription, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
                              RunUpdateUser,RunCreateClient, RunDeleteClient, RunReadClient, RunUpdateClient,
                              RunCreateContract,RunDeleteContract,RunReadContract,RunUpdateContract,RunCreateEvent,
                              RunDeleteEvent, RunReadEvent)
@@ -23,10 +23,9 @@ class HomeMenuController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        self.view.display_message_accueil()
+        self.view.display_title("EPIC EVENTS")
         self.menu.add("auto", "Connexion", RunConnexion())
         self.menu.add("auto", "Inscription", RunInscription())
-        self.menu.add("auto", "Base de donnée", RunBaseDeDonnee())
         self.menu.add("q", "Quitter", QuitController())
         user_choice = self.view.get_user_choice()
         return user_choice.handler
@@ -38,11 +37,11 @@ class EpicEventMenuController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        print("*** menu principal ***")
-        self.menu.add("auto", "User", UserMenuController())
-        self.menu.add("auto", "Client", ClientMenuController())
-        self.menu.add("auto", "Contrat", ContratsMenuController())
-        self.menu.add("auto", "Evenement", EvenementMenuController())
+        self.view.display_title("Menu Principal")
+        self.menu.add("auto", "Utilisateurs", UserMenuController())
+        self.menu.add("auto", "Clients", ClientMenuController())
+        self.menu.add("auto", "Contrats", ContratsMenuController())
+        self.menu.add("auto", "Evenements", EvenementMenuController())
         self.menu.add("q", "Quitter", QuitController())
         user_choice = self.view.get_user_choice()
         return user_choice.handler
@@ -54,7 +53,7 @@ class UserMenuController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        print("***  Menu User   ***")
+        self.view.display_title("Menu Utilisateurs")
         self.menu.add("auto", "Lire", RunReadUser())
         self.menu.add("auto", "Creer", RunCreateUser())
         self.menu.add("auto", "Modifier", RunUpdateUser())
@@ -71,7 +70,7 @@ class ClientMenuController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        print("***  Menu Client   ***")
+        self.view.display_title("Menu Clients")
         self.menu.add("auto", "Lire", RunReadClient())
         self.menu.add("auto", "Creer", RunCreateClient())
         self.menu.add("auto", "Modifier", RunUpdateClient())
@@ -88,7 +87,7 @@ class ContratsMenuController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        print("***  Menu Contrats   ***")
+        self.view.display_title("Menu Contrats")
         self.menu.add("auto", "Lire", RunReadContract)
         self.menu.add("auto", "Creer", RunCreateContract())
         self.menu.add("auto", "Modifier", RunUpdateContract())
@@ -105,7 +104,7 @@ class EvenementMenuController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        print("***  Menu Evenements   ***")
+        self.view.display_title("Menu Evenements")
         self.menu.add("auto", "Lire", RunReadEvent())
         self.menu.add("auto", "Creer", RunCreateEvent())
         self.menu.add("auto", "Modifier", None)
@@ -122,5 +121,5 @@ class QuitController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
-        self.view.display_message_end_programme()
+        self.view.display_title("Fin du programme")
         sys.exit()

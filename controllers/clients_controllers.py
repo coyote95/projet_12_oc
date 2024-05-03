@@ -14,7 +14,7 @@ class ClientController:
         new_client.set_commercial_id(user_id)
         session.add(new_client)
         session.commit()
-        print("Inscription réussie !")
+        self.view.display_info_message("Inscription réussie !")
         return new_client
 
     def delete_client_by_id(self, user_id):
@@ -25,11 +25,11 @@ class ClientController:
             if client.get_commercial_id() == user_id:
                 session.delete(client)
                 session.commit()
-                print("Utilisateur supprimé avec succès.")
+                self.view.display_info_message("Utilisateur supprimé avec succès.")
             else:
-                print("Ce client ne fait pas partie de votre équipe")
+                self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
         else:
-            print("Utilisateur non trouvé.")
+            self.view.display_warning_message("Client non trouvé.")
 
     def read_all_client(self):
         try:
@@ -38,9 +38,9 @@ class ClientController:
                 for client in clients:
                     self.view.display_client(client)
             else:
-                print("Aucun client trouvé.")
+                self.view.display_warning_message("Aucun client trouvé.")
         except Exception as e:
-            print(f"Une erreur s'est produite lors de la récupération des clients : {e}")
+            self.view.display_error_message(f"Une erreur s'est produite lors de la récupération des clients : {e}")
 
     def update_client(self, user_id):
         client_id = self.view.input_id_client()
@@ -55,37 +55,37 @@ class ClientController:
                     client.set_name(new_name)
                     client.set_last_update_date()
                     session.commit()
-                    print("Nom du client modifié avec succès.")
+                    self.view.display_info_message("Nom du client modifié avec succès.")
 
                 elif field == ClientField.SURNAME:
                     new_surname = self.view.input_surname()
                     client.set_surname(new_surname)
                     client.set_last_update_date()
                     session.commit()
-                    print("Prénom du client modifié avec succès.")
+                    self.view.display_info_message("Prénom du client modifié avec succès.")
 
                 elif field == ClientField.EMAIL:
                     new_email = self.view.input_email()
                     client.set_email(new_email)
                     client.set_last_update_date()
                     session.commit()
-                    print("Email du client modifié avec succès.")
+                    self.view.display_info_message("Email du client modifié avec succès.")
 
                 elif field == ClientField.PHONE:
                     new_phone = self.view.input_phone()
                     client.set_phone(new_phone)
                     client.set_last_update_date()
                     session.commit()
-                    print("Téléphone du client modifié avec succès.")
+                    self.view.display_info_message("Téléphone du client modifié avec succès.")
 
                 elif field == ClientField.COMPANY:
                     new_company = self.view.input_company()
                     client.set_company(new_company)
                     client.set_last_update_date()
                     session.commit()
-                    print("Entreprise du client modifié avec succès.")
+                    self.view.display_info_message("Entreprise du client modifié avec succès.")
 
                 else:
-                    print("Option invalide.")
+                    self.view.display_warning_message("Option invalide.")
             else:
-                print("Ce client ne fait pas partie de votre équipe")
+                self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")

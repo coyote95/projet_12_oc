@@ -6,6 +6,7 @@ from settings.setting import secret_key
 current_dir = os.path.dirname(__file__)  # Chemin absolu du répertoire courant
 parent_dir = os.path.dirname(current_dir)  # Chemin absolu du répertoire parent
 
+
 class AuthController:
     def __init__(self, user=None):
         self.user = user
@@ -26,8 +27,6 @@ class AuthController:
             return None
 
     def generate_token(self):
-
-
         # Date et heure actuelles avec un fuseau horaire UTC
         now_utc = datetime.now(timezone.utc)
 
@@ -44,13 +43,11 @@ class AuthController:
 
         # Génération du JWT avec la clé secrète et les données payload
         token = jwt.encode(payload, secret_key, algorithm='HS256')
-        print(token)
         self.store_token(token)
 
         return token
 
     def decode_token(self, token):
-
         try:
             # Décodage du JWT avec la clé secrète
             payload = jwt.decode(token, secret_key, algorithms=['HS256'])

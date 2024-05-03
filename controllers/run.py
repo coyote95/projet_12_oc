@@ -5,11 +5,9 @@ from controllers.contract_controllers import ContractController
 from controllers.event_controllers import EventController
 from controllers.auth_controllers import AuthController
 from views.base_view import BaseView
-from sqlalchemy import inspect
 from models.users import User
-from models.clients import Client
 from models.role import Role
-from settings.database import session, engine
+from settings.database import session
 
 
 class RunInscription:
@@ -35,35 +33,15 @@ class RunConnexion:
                     user_authcontroller.generate_token()
                     return controllers.menu_controllers.EpicEventMenuController()
                 except Exception as token_error:
-                    print(f"Une erreur s'est produite lors de la génération du token : {token_error}")
+                    BaseView.display_error_message(
+                        f"Une erreur s'est produite lors de la génération du token : {token_error}")
 
             else:
-                print("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
+                BaseView.display_warning_message("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
                 return controllers.menu_controllers.HomeMenuController()
         except Exception as e:
-            print(f"Connexion impossible en raison d'une erreur. : {e}")
+            BaseView.display_error_message(f"Connexion impossible en raison d'une erreur. : {e}")
             return None
-
-
-class RunBaseDeDonnee:
-
-    def __call__(self, *args, **kwargs):
-        if engine is not None:
-            # Inspecter le schéma de la base de données pour voir les tables créées
-            inspector = inspect(engine)
-            tables = inspector.get_table_names()
-            print("Tables créées :", tables)
-            clients = session.query(Client).all()
-            users = session.query(User).all()
-            # Afficher les données
-            for client in clients:
-                print(client)
-            for user in users:
-                print(user)
-        else:
-            print("Erreur: Aucun moteur de base de données n'a été fourni.")
-
-        return controllers.menu_controllers.HomeMenuController()
 
 
 class RunCreateUser:
@@ -78,7 +56,7 @@ class RunCreateUser:
                 user_controller = UserController()
                 user_controller.create_user()
             else:
-                print("Vous n'avez pas la permission de créer un utilisateur.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de créer un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
 
 
@@ -94,7 +72,7 @@ class RunDeleteUser:
                 user_controller = UserController()
                 user_controller.delete_user_by_id()
             else:
-                print("Vous n'avez pas la permission de supprimer un utilisateur.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
 
 
@@ -110,7 +88,7 @@ class RunReadUser:
                 user_controller = UserController()
                 user_controller.read_all_users()
             else:
-                print("Vous n'avez pas la permission de lire un utilisateur.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de lire un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
 
 
@@ -126,7 +104,7 @@ class RunUpdateUser:
                 user_controller = UserController()
                 user_controller.update_user()
             else:
-                print("Vous n'avez pas la permission de modifier un utilisateur.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un utilisateur.")
         return controllers.menu_controllers.UserMenuController()
 
 
@@ -142,7 +120,7 @@ class RunCreateClient:
                 client_controller = ClientController()
                 client_controller.create_client(id_decode)
             else:
-                print("Vous n'avez pas la permission de créer un client.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de créer un client.")
         return controllers.menu_controllers.ClientMenuController()
 
 
@@ -158,7 +136,7 @@ class RunDeleteClient:
                 client_controller = ClientController()
                 client_controller.delete_client_by_id(id_decode)
             else:
-                print("Vous n'avez pas la permission de supprimer un client.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un client.")
         return controllers.menu_controllers.ClientMenuController()
 
 
@@ -174,7 +152,7 @@ class RunReadClient:
                 client_controller = ClientController()
                 client_controller.read_all_client()
             else:
-                print("Vous n'avez pas la permission de lire un client.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de lire un client.")
         return controllers.menu_controllers.ClientMenuController()
 
 
@@ -190,7 +168,7 @@ class RunUpdateClient:
                 client_controller = ClientController()
                 client_controller.update_client(id_decode)
             else:
-                print("Vous n'avez pas la permission de modifier un client.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un client.")
         return controllers.menu_controllers.ClientMenuController
 
 
@@ -206,7 +184,7 @@ class RunCreateContract:
                 contract_controller = ContractController()
                 contract_controller.create_contract(role_decode, id_decode)
             else:
-                print("Vous n'avez pas la permission de créer un contrat.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de créer un contrat.")
         return controllers.menu_controllers.ContratsMenuController()
 
 
@@ -222,7 +200,7 @@ class RunDeleteContract:
                 contract_controller = ContractController()
                 contract_controller.delete_contract_by_id(role_decode, id_decode)
             else:
-                print("Vous n'avez pas la permission de supprimer un contrat.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un contrat.")
         return controllers.menu_controllers.ContratsMenuController
 
 
@@ -238,7 +216,7 @@ class RunReadContract:
                 contract_controller = ContractController()
                 contract_controller.read_all_contracts()
             else:
-                print("Vous n'avez pas la permission de lire un contrat.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de lire un contrat.")
         return controllers.menu_controllers.ContratsMenuController()
 
 
@@ -254,7 +232,7 @@ class RunUpdateContract:
                 contract_controller = ContractController()
                 contract_controller.update_contract(role_decode, id_decode)
             else:
-                print("Vous n'avez pas la permission de modifier un contrat.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un contrat.")
         return controllers.menu_controllers.ContratsMenuController
 
 
@@ -270,7 +248,7 @@ class RunCreateEvent:
                 event_controller = EventController()
                 event_controller.create_event(id_decode)
             else:
-                print("Vous n'avez pas la permission de créer un contrat.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de créer un contrat.")
         return controllers.menu_controllers.EvenementMenuController()
 
 
@@ -286,7 +264,7 @@ class RunDeleteEvent:
                 event_controller = EventController()
                 event_controller.delete_event_by_id(id_decode)
             else:
-                print("Vous n'avez pas la permission de supprimer un evenement.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un evenement.")
         return controllers.menu_controllers.EvenementMenuController
 
 
@@ -302,5 +280,5 @@ class RunReadEvent:
                 event_controller = EventController()
                 event_controller.read_all_events()
             else:
-                print("Vous n'avez pas la permission de lire un événement.")
+                BaseView.display_warning_message("Vous n'avez pas la permission de lire un événement.")
         return controllers.menu_controllers.EvenementMenuController()
