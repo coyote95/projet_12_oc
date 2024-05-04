@@ -92,6 +92,22 @@ class RunReadUser:
         return controllers.menu_controllers.UserMenuController()
 
 
+class RunFilterUser:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "filter_user" in Role(role_decode).has_user_permissions():
+                user_controller = UserController()
+                user_controller.filter_users()
+            else:
+                BaseView.display_warning_message("Vous n'avez pas la permission de filter les utilisateurs.")
+        return controllers.menu_controllers.UserMenuController()
+
+
 class RunUpdateUser:
 
     def __call__(self, *args, **kwargs):
@@ -153,6 +169,22 @@ class RunReadClient:
                 client_controller.read_all_client()
             else:
                 BaseView.display_warning_message("Vous n'avez pas la permission de lire un client.")
+        return controllers.menu_controllers.ClientMenuController()
+
+
+class RunFilterClient:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "filter_client" in Role(role_decode).has_client_permissions():
+                client_controller = ClientController()
+                client_controller.filter_client(role_decode,id_decode)
+            else:
+                BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les clients.")
         return controllers.menu_controllers.ClientMenuController()
 
 
@@ -220,6 +252,22 @@ class RunReadContract:
         return controllers.menu_controllers.ContratsMenuController()
 
 
+class RunFilterContract:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "filter_contract" in Role(role_decode).has_contract_permissions():
+                contract_controller = ContractController()
+                contract_controller.filter_contracts(role_decode)
+            else:
+                BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les contacts.")
+        return controllers.menu_controllers.ContratsMenuController()
+
+
 class RunUpdateContract:
 
     def __call__(self, *args, **kwargs):
@@ -282,3 +330,35 @@ class RunReadEvent:
             else:
                 BaseView.display_warning_message("Vous n'avez pas la permission de lire un événement.")
         return controllers.menu_controllers.EvenementMenuController()
+
+
+class RunFilterEvent:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode = user_authcontroller.decode_payload_role_token(token)
+            if "filter_event" in Role(role_decode).has_event_permissions():
+                event_controller = EventController()
+                event_controller.filter_events()
+            else:
+                BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les événements.")
+        return controllers.menu_controllers.EvenementMenuController()
+
+
+class RunUpdateEvent:
+
+    def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            if "update_event" in Role(role_decode).has_event_permissions():
+                event_controller = EventController()
+                event_controller.update_event(role_decode, id_decode)
+            else:
+                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un événement.")
+        return controllers.menu_controllers.ContratsMenuController

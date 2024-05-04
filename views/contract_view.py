@@ -5,10 +5,6 @@ from views.base_view import BaseView
 class ContractView(BaseView):
 
     @staticmethod
-    def afficher_message(message):
-        print(message)
-
-    @staticmethod
     def input_total_price():
         while True:
             try:
@@ -37,7 +33,6 @@ class ContractView(BaseView):
                     return False
             except ValueError:
                 ContractView.display_error_message("Vous n'avez pas saisi 'oui' ou 'non'")
-
 
     @staticmethod
     def display_signed_contract(signed_contract):
@@ -101,3 +96,24 @@ class ContractView(BaseView):
                     ContractView.display_error_message("Vous n'avez pas saisi un numéro valide")
             except ValueError:
                 ContractView.display_error_message("Vous n'avez pas saisi un numéro")
+
+    @staticmethod
+    def menu_filter():
+        while True:
+            try:
+                choice = int(input(
+                    f"Quelle filtrage voulez-vous réaliser?\n"
+                    f"1: Liste des contrats non signés\n"
+                    f"2: Liste des contrats restants à payer\n"
+                    f"Votre choix: "
+                ))
+                if choice == 1:
+                    print("Voici la liste des contrats non signés")
+                    return 1
+                elif choice == 2:
+                    print("Voici la liste des contrats non payés")
+                    return 2
+                else:
+                    print("Vous n'avez pas saisi un numéro valide")
+            except ValueError:
+                print("Vous devez saisir un numéro.")

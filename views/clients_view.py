@@ -6,10 +6,6 @@ from views.base_view import BaseView
 class ClientView(BaseView):
 
     @staticmethod
-    def afficher_message(message):
-        print(message)
-
-    @staticmethod
     def input_name():
         name = input("Entrez votre nom: ")
         return name.upper()
@@ -99,3 +95,7 @@ class ClientView(BaseView):
                     ClientView.display_error_message("Vous n'avez pas saisi un numéro valide")
             except ValueError:
                 ClientView.display_error_message("Vous n'avez pas saisi un numéro")
+
+    @staticmethod
+    def filter_message(message):
+        print(message)

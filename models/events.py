@@ -129,3 +129,11 @@ class Event(Base):
     @staticmethod
     def filter_all_events():
         return session.query(Event).all()
+
+    @staticmethod
+    def filter_by_support(support_id):
+        return session.query(Event).filter_by(support_id=support_id).all()
+
+    @staticmethod
+    def filter_by_none_support():
+        return session.query(Event).filter(Event.support_id.is_(None)).all()

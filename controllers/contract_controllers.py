@@ -62,6 +62,35 @@ class ContractController:
         except Exception as e:
             self.view.display_warning_message(f"Une erreur s'est produite lors de la récupération des contrats : {e}")
 
+    def filter_contracts(self, user_role):
+        if user_role == 'commercial':
+            choice= self.view.menu_filter()
+            if choice == 1:
+                try:
+                    contracts = self.model.filter_unsigned()
+                    if contracts:
+                        for contract in contracts:
+                            self.view.display_contract(contract)
+                    else:
+                        self.view.display_info_message("Aucun contrat non signé.")
+                except Exception as e:
+                    self.view.display_error_message(
+                        f"Une erreur s'est produite lors de la récupération des contrats: {e}")
+            elif choice == 2:
+                try:
+                    contracts = self.model.filter_unpayed()
+                    if contracts:
+                        for contract in contracts:
+                            self.view.display_contract(contract)
+                    else:
+                        self.view.display_info_message("Aucun contrat non payé.")
+                except Exception as e:
+                    self.view.display_error_message(
+                        f"Une erreur s'est produite lors de la récupération des contrats: {e}")
+
+        else:
+            self.view.display_info_message("Aucun filtre contrat disponible")
+
     def update_contract(self, user_role, user_id):
         contract_id = self.view.input_id_contract()
         contract = Contract.filter_by_id(contract_id)

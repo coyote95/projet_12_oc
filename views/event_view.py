@@ -1,8 +1,9 @@
 from datetime import datetime
 from models.events import EventField
+from views.base_view import BaseView
 
 
-class EventView:
+class EventView(BaseView):
 
     @staticmethod
     def afficher_message(message):
@@ -140,3 +141,7 @@ class EventView:
                     print("Vous n'avez pas écrit un numéro valide.")
             except ValueError:
                 print("Vous devez entrer un entier.")
+
+    @staticmethod
+    def filter_message(message):
+        print(message)

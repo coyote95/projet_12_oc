@@ -106,3 +106,7 @@ class Client(Base):
     @staticmethod
     def filter_all_clients():
         return session.query(Client).all()
+
+    @staticmethod
+    def filter_by_commercial_id(commercial_id):
+        return session.query(Client).filter_by(commercial_id=commercial_id).all()

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Enum
+from sqlalchemy import Column, Integer, Enum
 from sqlalchemy.orm import relationship
 from . import Base
 
@@ -21,40 +21,40 @@ class Role(Base):
 
     def has_user_permissions(self):
         if self.role == "commercial":
-            return ["read_user"]
+            return ["read_user", "filter_user"]
         elif self.role == "gestion":
-            return ["read_user", "create_user", "delete_user", "update_user"]
+            return ["read_user", "filter_user", "create_user", "delete_user", "update_user"]
         elif self.role == "support":
-            return ["read_user"]
+            return ["read_user", "filter_user"]
         else:
             return []
 
     def has_client_permissions(self):
         if self.role == "commercial":
-            return ["read_client", "create_client", "delete_client", "update_client"]
+            return ["read_client", "filter_client", "create_client", "delete_client", "update_client"]
         elif self.role == "gestion":
-            return ["read_client"]
+            return ["read_client", "filter_client"]
         elif self.role == "support":
-            return ["read_client"]
+            return ["read_client", "filter_client"]
         else:
             return []
 
     def has_contract_permissions(self):
         if self.role == "commercial":
-            return ["read_contract", "create_contract", "delete_contract", "update_contract"]
+            return ["read_contract", "filter_contract", "create_contract", "delete_contract", "update_contract"]
         elif self.role == "gestion":
-            return ["read_contract", "create_contract", "delete_contract", "update_contract"]
+            return ["read_contract", "filter_contract", "create_contract", "delete_contract", "update_contract"]
         elif self.role == "support":
-            return ["read_contract"]
+            return ["read_contract", "filter_contract"]
         else:
             return []
 
     def has_event_permissions(self):
         if self.role == "commercial":
-            return ["read_event", "create_event", "delete_event", "update_event"]
+            return ["read_event", "filter_event", "create_event", "delete_event", "update_event"]
         elif self.role == "gestion":
-            return ["read_event", "update_event"]
+            return ["read_event", "filter_event", "update_event"]
         elif self.role == "support":
-            return ["read_event","update_event"]
+            return ["read_event", "filter_event", "update_event"]
         else:
             return []

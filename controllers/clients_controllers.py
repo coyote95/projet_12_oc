@@ -38,9 +38,24 @@ class ClientController:
                 for client in clients:
                     self.view.display_client(client)
             else:
-                self.view.display_warning_message("Aucun client trouvé.")
+                self.view.display_info_message("Aucun client trouvé.")
         except Exception as e:
             self.view.display_error_message(f"Une erreur s'est produite lors de la récupération des clients : {e}")
+
+    def filter_client(self, user_role, user_id):
+        if user_role == 'commercial':
+            self.view.filter_message("Voici la liste de vos clients:")
+            try:
+                clients = self.model.filter_by_commercial_id(user_id)
+                if clients:
+                    for client in clients:
+                        self.view.display_client(client)
+                else:
+                    self.view.display_info_message("Aucun client trouvé.")
+            except Exception as e:
+                self.view.display_error_message(f"Une erreur s'est produite lors de la récupération des clients : {e}")
+        else:
+            self.view.display_info_message("Aucun filtre client disponible")
 
     def update_client(self, user_id):
         client_id = self.view.input_id_client()

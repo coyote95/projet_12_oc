@@ -1,10 +1,11 @@
 import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
-from controllers.run import (RunInscription, RunConnexion, RunCreateUser,RunDeleteUser,RunReadUser,
-                             RunUpdateUser,RunCreateClient, RunDeleteClient, RunReadClient, RunUpdateClient,
-                             RunCreateContract,RunDeleteContract,RunReadContract,RunUpdateContract,RunCreateEvent,
-                             RunDeleteEvent, RunReadEvent)
+from controllers.run import (RunInscription, RunConnexion,
+                             RunCreateUser, RunDeleteUser, RunReadUser, RunFilterUser, RunUpdateUser,
+                             RunCreateClient, RunDeleteClient, RunReadClient, RunFilterClient, RunUpdateClient,
+                             RunCreateContract, RunDeleteContract, RunReadContract, RunFilterContract,RunUpdateContract,
+                             RunCreateEvent, RunDeleteEvent, RunReadEvent, RunFilterEvent, RunUpdateEvent)
 
 
 class ApplicationController:
@@ -55,6 +56,7 @@ class UserMenuController:
     def __call__(self, *args, **kwargs):
         self.view.display_title("Menu Utilisateurs")
         self.menu.add("auto", "Lire", RunReadUser())
+        self.menu.add("auto", "Filtrer", RunFilterUser())
         self.menu.add("auto", "Creer", RunCreateUser())
         self.menu.add("auto", "Modifier", RunUpdateUser())
         self.menu.add("auto", "Supprimer", RunDeleteUser())
@@ -72,6 +74,7 @@ class ClientMenuController:
     def __call__(self, *args, **kwargs):
         self.view.display_title("Menu Clients")
         self.menu.add("auto", "Lire", RunReadClient())
+        self.menu.add("auto", "Filtrer", RunFilterClient())
         self.menu.add("auto", "Creer", RunCreateClient())
         self.menu.add("auto", "Modifier", RunUpdateClient())
         self.menu.add("auto", "Supprimer", RunDeleteClient())
@@ -88,7 +91,8 @@ class ContratsMenuController:
 
     def __call__(self, *args, **kwargs):
         self.view.display_title("Menu Contrats")
-        self.menu.add("auto", "Lire", RunReadContract)
+        self.menu.add("auto", "Lire", RunReadContract())
+        self.menu.add("auto", "Filter", RunFilterContract())
         self.menu.add("auto", "Creer", RunCreateContract())
         self.menu.add("auto", "Modifier", RunUpdateContract())
         self.menu.add("auto", "Supprimer", RunDeleteContract())
@@ -106,8 +110,9 @@ class EvenementMenuController:
     def __call__(self, *args, **kwargs):
         self.view.display_title("Menu Evenements")
         self.menu.add("auto", "Lire", RunReadEvent())
+        self.menu.add("auto", "Filtrer", RunFilterEvent())
         self.menu.add("auto", "Creer", RunCreateEvent())
-        self.menu.add("auto", "Modifier", None)
+        self.menu.add("auto", "Modifier", RunUpdateEvent())
         self.menu.add("auto", "Supprimer", RunDeleteEvent())
         self.menu.add("r", "Retour", EpicEventMenuController())
         self.menu.add("q", "Quitter", QuitController())

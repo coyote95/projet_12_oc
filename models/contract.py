@@ -91,3 +91,11 @@ class Contract(Base):
     @staticmethod
     def filter_all_contracts():
         return session.query(Contract).all()
+
+    @staticmethod
+    def filter_unsigned():
+        return session.query(Contract).filter_by(signed=False).all()
+
+    @staticmethod
+    def filter_unpayed():
+        return session.query(Contract).filter(Contract.remaining_price != 0).all()

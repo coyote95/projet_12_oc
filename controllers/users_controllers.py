@@ -42,6 +42,9 @@ class UserController:
             self.view.display_error_message(f"Une erreur s'est produite lors de la récupération "
                                             f"des utilisateurs : {e}")
 
+    def filter_users(self):
+        self.view.display_info_message("Aucun filtre utilisateur disponible")
+
     def update_user(self):
         user_id = self.view.input_id_user()
         user = self.model.filter_by_id(user_id)
