@@ -1,4 +1,3 @@
-from models.contract import ContractField
 from views.base_view import BaseView
 
 
@@ -83,17 +82,22 @@ class ContractView(BaseView):
             try:
                 choice = int(input(
                     f"Quelle information voulez-vous modifier?\n"
-                    f"1:total prix {ContractField.TOTAL_PRICE}\n"
-                    f"2: {ContractField.REMAINING_PRICE.name}\n"
-                    f"3: {ContractField.SIGNED.name}\n"
-                    f"4: {ContractField.CLIENT_ID.name}\n"
-                    f"5: {ContractField.EVENT.name}\n"
+                    f"1:Prix total \n"
+                    f"2:Prix restant\n"
+                    f"3:Statut signature\n"
+                    f"4:Numéro de Client\n"
                 ))
-                field = ContractField(choice)
-                if field in ContractField:
-                    return field
+                if choice == 1:
+                    return "prix_total"
+                elif choice == 2:
+                    return "prix_restant"
+                elif choice == 3:
+                    return "signature"
+                elif choice == 4:
+                    return "client"
                 else:
-                    ContractView.display_error_message("Vous n'avez pas saisi un numéro valide")
+                    ContractView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+
             except ValueError:
                 ContractView.display_error_message("Vous n'avez pas saisi un numéro")
 

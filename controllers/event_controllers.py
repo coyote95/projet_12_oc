@@ -96,49 +96,44 @@ class EventController:
 
             else:
                 if event.get_support_id() == user_id:
-                    field = self.view.ask_event_update_field()
-                    if field == EventField.START_DATE.name:
+                    choice = self.view.ask_event_update_field()
+                    if choice == "date_debut":
                         new_start_date = self.view.input_start_date()
                         event.set_start_date(new_start_date)
                         session.commit()
                         self.view.display_info_message("Date de début modifié avec succès.")
 
-
-                    elif field == EventField.END_DATE:
+                    elif choice == "date_fin":
                         new_end_date = self.view.input_end_date()
                         event.set_end_date(new_end_date)
                         session.commit()
                         self.view.display_info_message("Date de fin modifié avec succès.")
 
-
-                    elif field == EventField.LOCATION:
+                    elif choice == "localisation":
                         new_location = self.view.input_location()
                         event.set_location(new_location)
                         session.commit()
                         self.view.display_info_message("Statut signature modifié avec succès.")
 
-
-                    elif field == EventField.PARTICIPANTS:
+                    elif choice == "participant":
                         new_participant = self.view.input_participants()
                         event.set_participants(new_participant)
                         session.commit()
                         self.view.display_info_message("Nombre de participants modifié avec succès.")
 
-
-                    elif field == EventField.NOTE:
+                    elif choice == "note":
                         new_note = self.view.input_notes()
                         event.set_notes(new_note)
                         session.commit()
                         self.view.display_info_message("Note modifié avec succès.")
 
-
-                    elif field == EventField.CONTRACT_ID:
+                    elif choice == "contrat":
                         new_contrat_id = self.view.input_id_contract()
                         event.set_contract_id(new_contrat_id)
                         session.commit()
                         self.view.display_info_message("ID contrat modifié avec succès.")
 
-                    elif field == EventField.SUPPORT_ID:
+                    elif choice == "support":
                         new_support_id = self.view.input_id_support()
                         event.set_support_id(new_support_id)
                         session.commit()

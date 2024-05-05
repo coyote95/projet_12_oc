@@ -1,5 +1,5 @@
 from models.clients import Client
-from models.contract import Contract, ContractField
+from models.contract import Contract
 from views.contract_view import ContractView
 from settings.database import session
 
@@ -64,7 +64,7 @@ class ContractController:
 
     def filter_contracts(self, user_role):
         if user_role == 'commercial':
-            choice= self.view.menu_filter()
+            choice = self.view.menu_filter()
             if choice == 1:
                 try:
                     contracts = self.model.filter_unsigned()
@@ -97,41 +97,33 @@ class ContractController:
         if contract:
             self.view.display_contract(contract)
             if contract.client.get_commercial_id() == user_id or user_role == 'gestion':
-                field = self.view.ask_contract_update_field()
+                choice = self.view.ask_contract_update_field()
 
-                if field == ContractField.TOTAL_PRICE:
+                if choice == "prix_total":
                     new_total_price = self.view.input_total_price()
                     contract.set_total_price(new_total_price)
                     session.commit()
                     self.view.display_info_message("Prix total modifié avec succès.")
 
-                elif field == ContractField.REMAINING_PRICE:
+                elif choice == "prix_restant":
                     new_remaining_price = self.view.input_remaining_price()
                     contract.set_remaining_price(new_remaining_price)
                     session.commit()
                     self.view.display_info_message("Prix restant modifié avec succès.")
 
-                elif field == ContractField.SIGNED:
+                elif choice == "signature":
                     new_signed_contract = self.view.input_signed_contract()
                     contract.set_signed(new_signed_contract)
                     session.commit()
                     self.view.display_info_message("Statut signature modifié avec succès.")
 
-                elif field == ContractField.CLIENT_ID:
+                elif choice == "client":
                     new_client_id = self.view.input_id_client()
                     contract.set_client_id(new_client_id)
                     session.commit()
                     self.view.display_info_message("Client du contrat modifié avec succès.")
 
-                # elif field == ContractField.EVENT:
-                #     new_event = self.view.inpu
-                #     client.comapgny = new_company
-                #     client.set_last_update_date()
-                #     session.commit()
-                #     print("Entreprise du client modifié avec succès.")
-
                 else:
                     self.view.display_warning_message("Option invalide.")
             else:
                 self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
-

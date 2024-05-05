@@ -103,7 +103,7 @@ class ClientController:
 
                 elif choice == "commercial":
                     new_commercial_id = self.view.input_id_commercial()
-                    new_commercial=User.filter_by_id(new_commercial_id)
+                    new_commercial = User.filter_by_id(new_commercial_id)
                     if new_commercial and new_commercial.get_departement() == 'commercial':
                         client.set_commercial_id(new_commercial_id)
                         client.set_last_update_date()

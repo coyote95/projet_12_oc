@@ -30,8 +30,6 @@ class EventView(BaseView):
             except ValueError:
                 print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
 
-
-
     @staticmethod
     def input_end_date():
         while True:
@@ -42,7 +40,6 @@ class EventView(BaseView):
                 return end_date
             except ValueError:
                 print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
-
 
     @staticmethod
     def input_location():
@@ -93,7 +90,7 @@ class EventView(BaseView):
         location = EventView.input_location()
         participants = EventView.input_participants()
         note = EventView.input_notes()
-        return  location, participants, note
+        return location, participants, note
 
     @staticmethod
     def display_event(event):
@@ -118,29 +115,39 @@ class EventView(BaseView):
             elif answer == 'non':
                 return False
 
-
-
     @staticmethod
     def ask_event_update_field():
         while True:
             try:
                 choice = int(input(
                     f"Quelle information voulez-vous modifier?\n"
-                    f"1: {EventField.START_DATE.name}\n"
-                    f"2: {EventField.END_DATE.name}\n"
-                    f"3: {EventField.LOCATION.name}\n"
-                    f"4: {EventField.PARTICIPANTS.name}\n"
-                    f"5: {EventField.NOTE.name}\n"
-                    f"6: {EventField.CONTRACT_ID.name}\n"
-                    f"7: {EventField.SUPPORT_ID.name}\n"
+                    f"1: Date de début\n"
+                    f"2: Date de fin\n"
+                    f"3: Localisation\n"
+                    f"4: Nombre de participants\n"
+                    f"5: Note\n"
+                    f"6: Numéro de contrat\n"
+                    f"7: Contact suppot\n"
                 ))
-                field = EventField(choice)
-                if field in EventField:
-                    return field
+                if choice == 1:
+                    return "date_debut"
+                elif choice == 2:
+                    return "date_fin"
+                elif choice == 3:
+                    return "localisation"
+                elif choice == 4:
+                    return "participant"
+                elif choice == 5:
+                    return "note"
+                elif choice == 6:
+                    return "contrat"
+                elif choice == 7:
+                    return "support"
                 else:
-                    print("Vous n'avez pas écrit un numéro valide.")
+                    EventView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+
             except ValueError:
-                print("Vous devez entrer un entier.")
+                EventView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def filter_message(message):
