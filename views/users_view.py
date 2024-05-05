@@ -1,5 +1,4 @@
 import re
-from models.users import UserField
 from views.base_view import BaseView
 
 
@@ -42,7 +41,7 @@ class UserView(BaseView):
     @staticmethod
     def input_id_user():
         while True:
-            user_id = input("Entrez l'id de l'user: ")
+            user_id = input("Entrez l'id de l'utilisateur: ")
             try:
                 user_id = int(user_id)
                 return user_id
@@ -69,9 +68,10 @@ class UserView(BaseView):
         print(
             f"id:{user.get_id()}    "
             f"Nom:{user.get_name()}    "
+            f"Email:{user.get_email()}    "
             f"Departement:{user.get_departement()}    "
             f"clients:{user.get_clients_name()}    "
-        )  # add clients
+        )
 
     @staticmethod
     def ask_user_update_field():
@@ -79,15 +79,22 @@ class UserView(BaseView):
             try:
                 choice = int(input(
                     f"Quelle information voulez-vous modifier?\n"
-                    f"1: {UserField.NOM.name}\n"
-                    f"2: {UserField.DEPARTEMENT.name}\n"
-                    f"3: {UserField.CLIENTS.name}\n"
+                    f"1: Nom\n"
+                    f"2: Département\n"
+                    f"3: Email\n"
+                    f"4: Password\n"
                 ))
-                field = UserField(choice)
-                if field in UserField:
-                    return field
+                if choice == 1:
+                    return "nom"
+                elif choice == 2:
+                    return "departement"
+                elif choice == 3:
+                    return "email"
+                elif choice == 4:
+                    return "password"
                 else:
-                    UserView.display_error_message("Vous n'avez pas saisi un numéro valide.")
+                    UserView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+
             except ValueError:
                 UserView.display_error_message("Vous n'avez pas saisi un numéro")
 

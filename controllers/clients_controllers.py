@@ -1,5 +1,6 @@
 from views.clients_view import ClientView
-from models.clients import Client, ClientField
+from models.clients import Client
+from models.users import User
 from settings.database import session
 
 
@@ -62,45 +63,57 @@ class ClientController:
         client = self.model.filter_by_id(client_id)
         if client:
             self.view.display_client(client)
-            if client.get_user_id() == user_id:
-                field = self.view.ask_client_update_field()
+            if client.get_commercial_id() == user_id:
+                choice = self.view.ask_client_update_field()
 
-                if field == ClientField.NOM:
+                if choice == "nom":
                     new_name = self.view.input_name()
                     client.set_name(new_name)
                     client.set_last_update_date()
                     session.commit()
                     self.view.display_info_message("Nom du client modifié avec succès.")
 
-                elif field == ClientField.SURNAME:
+                elif choice == "prenom":
                     new_surname = self.view.input_surname()
                     client.set_surname(new_surname)
                     client.set_last_update_date()
                     session.commit()
                     self.view.display_info_message("Prénom du client modifié avec succès.")
 
-                elif field == ClientField.EMAIL:
+                elif choice == "email":
                     new_email = self.view.input_email()
                     client.set_email(new_email)
                     client.set_last_update_date()
                     session.commit()
                     self.view.display_info_message("Email du client modifié avec succès.")
 
-                elif field == ClientField.PHONE:
+                elif choice == "telephone":
                     new_phone = self.view.input_phone()
                     client.set_phone(new_phone)
                     client.set_last_update_date()
                     session.commit()
                     self.view.display_info_message("Téléphone du client modifié avec succès.")
 
-                elif field == ClientField.COMPANY:
+                elif choice == "entreprise":
                     new_company = self.view.input_company()
                     client.set_company(new_company)
                     client.set_last_update_date()
                     session.commit()
                     self.view.display_info_message("Entreprise du client modifié avec succès.")
 
+                elif choice == "commercial":
+                    new_commercial_id = self.view.input_id_commercial()
+                    new_commercial=User.filter_by_id(new_commercial_id)
+                    if new_commercial and new_commercial.get_departement() == 'commercial':
+                        client.set_commercial_id(new_commercial_id)
+                        client.set_last_update_date()
+                        session.commit()
+                        self.view.display_info_message("Entreprise du client modifié avec succès.")
+                    else:
+                        self.view.display_warning_message("L'ID spécifié n'appartient pas à un commercial.")
                 else:
                     self.view.display_warning_message("Option invalide.")
             else:
                 self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
+        else:
+            self.view.display_warning_message("Aucun client trouvé avec cet ID")

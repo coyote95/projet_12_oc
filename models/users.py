@@ -8,12 +8,6 @@ from settings.database import session
 from enum import Enum as EnumPython
 
 
-class UserField(EnumPython):
-    NOM = 1
-    DEPARTEMENT = 2
-    CLIENTS = 3
-
-
 class User(Base):
     __tablename__ = 'user'
 
@@ -35,7 +29,7 @@ class User(Base):
         self.email = email
         self.departement = departement
         self.password = self.set_password(password)
-        self.role = self.set_role_from_departement()
+        self.set_role_from_departement()
 
     def __str__(self):
         return f"<User(nom='{self.name}', password='{self.password}')>"
@@ -49,6 +43,9 @@ class User(Base):
     def get_name(self):
         return self.name
 
+    def get_email(self):
+        return self.email
+
     def get_departement(self):
         return self.departement
 
@@ -60,6 +57,9 @@ class User(Base):
 
     def set_name(self, name):
         self.name = name
+
+    def set_email(self, email):
+        self.email = email
 
     def set_departement(self, departement):
         self.departement = departement
@@ -76,11 +76,11 @@ class User(Base):
 
     def set_role_from_departement(self):
         if self.departement == 'commercial':
-            return session.query(Role).filter_by(role='commercial').first()
+            self.role = session.query(Role).filter_by(role='commercial').first()
         elif self.departement == 'gestion':
-            return session.query(Role).filter_by(role='gestion').first()
+            self.role = session.query(Role).filter_by(role='gestion').first()
         elif self.departement == 'support':
-            return session.query(Role).filter_by(role='support').first()
+            self.role = session.query(Role).filter_by(role='support').first()
         else:
             raise ValueError("Invalid department value")
 

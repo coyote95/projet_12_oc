@@ -24,7 +24,8 @@ class EventController:
                             if end_date > start_date:
                                 break
                             else:
-                                self.view.display_error_message("La date de fin doit être postérieure à la date de début.")
+                                self.view.display_error_message(
+                                    "La date de fin doit être postérieure à la date de début.")
 
                         location, participants, note = self.view.input_infos_event()
                         new_event = self.model(start_date=start_date, end_date=end_date, location=location,
@@ -36,7 +37,8 @@ class EventController:
                             if user.get_departement() == 'support':
                                 new_event.set_support_id(support_id)
                             else:
-                                self.view.display_warning_message("Cet utilitateur ne fait pas parti de l'équipe support")
+                                self.view.display_warning_message(
+                                    "Cet utilitateur ne fait pas parti de l'équipe support")
                         else:
                             self.view.display_warning_message("cette utilisateur n'existe pas")
 
@@ -148,7 +150,6 @@ class EventController:
 
                 else:
                     self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
-
 
     def filter_events(self, user_role, user_id):
         if user_role == 'support':

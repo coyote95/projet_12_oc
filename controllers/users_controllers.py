@@ -1,6 +1,6 @@
 from views.users_view import UserView
 from settings.database import session
-from models.users import User, UserField
+from models.users import User
 
 
 class UserController:
@@ -50,23 +50,31 @@ class UserController:
         user = self.model.filter_by_id(user_id)
         if user:
             self.view.display_user(user)
-            field = self.view.ask_user_update_field()
+            choice = self.view.ask_user_update_field()
 
-            if field == UserField.NOM:
+            if choice == "nom":
                 new_name = self.view.input_name()
                 user.set_name(new_name)
                 session.commit()
                 self.view.display_info_message("Nom de l'utilisateur modifié avec succès.")
 
-            elif field == UserField.DEPARTEMENT:
+            elif choice == "departement":
                 new_departement = self.view.input_departement()
                 user.set_departement(new_departement)
+                user.set_role_from_departement()
                 session.commit()
                 self.view.display_info_message("Département de l'utilisateur modifié avec succès.")
 
-            elif field == UserField.CLIENTS:
-                # Modifier les clients de l'utilisateur
-                pass
+            elif choice == "email":
+                new_email = self.view.input_email()
+                user.set_email(new_email)
+                session.commit()
+                self.view.display_info_message("Email de l'utilisateur modifié avec succès.")
 
+            elif choice == "password":
+                new_password = self.view.input_password()
+                user.set_password(new_password)
+                session.commit()
+                self.view.display_info_message("Password de l'utilisateur modifié avec succès.")
             else:
                 self.view.display_error_message("Option invalide.")

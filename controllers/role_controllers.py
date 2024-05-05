@@ -19,7 +19,5 @@ class RoleController:
                 print(new_role)
                 # Ajoutez le rôle à la session
                 session.add(new_role)
-            else:
-                print(f"Le rôle '{role}' existe déjà dans la base de données.")
 
             session.commit()

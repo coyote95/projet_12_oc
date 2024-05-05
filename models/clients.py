@@ -1,16 +1,7 @@
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
-from enum import Enum as EnumPython
 from . import Base
 from settings.database import session
-
-
-class ClientField(EnumPython):
-    NOM = 1
-    SURNAME = 2
-    EMAIL = 3
-    PHONE = 4
-    COMPANY = 5
 
 
 class Client(Base):

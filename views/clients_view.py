@@ -1,5 +1,4 @@
 import re
-from models.clients import ClientField
 from views.base_view import BaseView
 
 
@@ -42,7 +41,6 @@ class ClientView(BaseView):
             else:
                 ClientView.display_error_message("Adresse email invalide. Veuillez réessayer.")
 
-
     @staticmethod
     def input_id_client():
         while True:
@@ -50,6 +48,16 @@ class ClientView(BaseView):
             try:
                 client_id = int(client_id)
                 return client_id
+            except ValueError:
+                ClientView.display_error_message("Vous n'avez pas saisi un numéro")
+
+    @staticmethod
+    def input_id_commercial():
+        while True:
+            commercial_id = input("Entrez l'id du commercial: ")
+            try:
+                commercial_id = int(commercial_id)
+                return commercial_id
             except ValueError:
                 ClientView.display_error_message("Vous n'avez pas saisi un numéro")
 
@@ -82,17 +90,28 @@ class ClientView(BaseView):
             try:
                 choice = int(input(
                     f"Quelle information voulez-vous modifier?\n"
-                    f"1: {ClientField.NOM.name}\n"
-                    f"2: {ClientField.SURNAME.name}\n"
-                    f"3: {ClientField.EMAIL.name}\n"
-                    f"4: {ClientField.PHONE.name}\n"
-                    f"5: {ClientField.COMPANY.name}\n"
+                    f"1: Nom\n"
+                    f"2: Prénom\n"
+                    f"3: Email\n"
+                    f"4: Téléphone\n"
+                    f"5: Entreprise\n"
+                    f"6: Commercial\n"
                 ))
-                field = ClientField(choice)
-                if field in ClientField:
-                    return field
+                if choice == 1:
+                    return "nom"
+                elif choice == 2:
+                    return "prenom"
+                elif choice == 3:
+                    return "email"
+                elif choice == 4:
+                    return "telephone"
+                elif choice == 5:
+                    return "entreprise"
+                elif choice == 6:
+                    return "commercial"
                 else:
-                    ClientView.display_error_message("Vous n'avez pas saisi un numéro valide")
+                    ClientView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+
             except ValueError:
                 ClientView.display_error_message("Vous n'avez pas saisi un numéro")
 
