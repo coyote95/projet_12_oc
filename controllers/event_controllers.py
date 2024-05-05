@@ -1,8 +1,9 @@
-from models.events import Event, EventField
+from models.events import Event
 from models.contract import Contract
 from models.users import User
 from views.event_view import EventView
 from settings.database import session
+from sentry_sdk import capture_exception, capture_message
 
 
 class EventController:
@@ -44,6 +45,7 @@ class EventController:
 
                         session.add(new_event)
                         session.commit()
+                        capture_message(f"Création événement:{new_event.id}", level="info")
                         self.view.display_info_message("Evenement enregisté !")
                         return new_event
                     else:
@@ -63,6 +65,7 @@ class EventController:
             if commercial_id == user_id:
                 session.delete(event)
                 session.commit()
+                capture_message(f"Suppression événement:{event.id}", level="info")
                 self.view.display_info_message("Evénement supprimé avec succès.")
             else:
                 self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
@@ -92,6 +95,7 @@ class EventController:
                     self.view.input_id_support()
                     event.set_support_id(support_id)
                     session.commit()
+                    capture_message(f"Modification contact support événement:{event.id}", level="info")
                     self.view.display_info_message("Contact support modifié avec succès.")
 
             else:
@@ -101,44 +105,50 @@ class EventController:
                         new_start_date = self.view.input_start_date()
                         event.set_start_date(new_start_date)
                         session.commit()
+                        capture_message(f"Modification date début événement:{event.id}", level="info")
                         self.view.display_info_message("Date de début modifié avec succès.")
 
                     elif choice == "date_fin":
                         new_end_date = self.view.input_end_date()
                         event.set_end_date(new_end_date)
                         session.commit()
+                        capture_message(f"Modification date fin événement:{event.id}", level="info")
                         self.view.display_info_message("Date de fin modifié avec succès.")
 
                     elif choice == "localisation":
                         new_location = self.view.input_location()
                         event.set_location(new_location)
                         session.commit()
+                        capture_message(f"Modification signature événement:{event.id}", level="info")
                         self.view.display_info_message("Statut signature modifié avec succès.")
 
                     elif choice == "participant":
                         new_participant = self.view.input_participants()
                         event.set_participants(new_participant)
                         session.commit()
+                        capture_message(f"Modification participants événement:{event.id}", level="info")
                         self.view.display_info_message("Nombre de participants modifié avec succès.")
 
                     elif choice == "note":
                         new_note = self.view.input_notes()
                         event.set_notes(new_note)
                         session.commit()
+                        capture_message(f"Modification note événement:{event.id}", level="info")
                         self.view.display_info_message("Note modifié avec succès.")
 
                     elif choice == "contrat":
                         new_contrat_id = self.view.input_id_contract()
                         event.set_contract_id(new_contrat_id)
                         session.commit()
+                        capture_message(f"Modification contrat événement:{event.id}", level="info")
                         self.view.display_info_message("ID contrat modifié avec succès.")
 
                     elif choice == "support":
                         new_support_id = self.view.input_id_support()
                         event.set_support_id(new_support_id)
                         session.commit()
-                        self.view.display_info_message("Nombre de participants modifié avec succès.")
-                        print()
+                        capture_message(f"Modification contact support événement:{event.id}", level="info")
+                        self.view.display_info_message("Contact support modifié avec succès.")
 
                     else:
                         self.view.display_warning_message("Option invalide.")

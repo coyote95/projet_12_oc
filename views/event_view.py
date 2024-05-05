@@ -1,5 +1,4 @@
 from datetime import datetime
-from models.events import EventField
 from views.base_view import BaseView
 
 

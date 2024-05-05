@@ -1,12 +1,13 @@
 import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
+from controllers.auth_controllers import AuthController
 from controllers.run import (RunInscription, RunConnexion,
                              RunCreateUser, RunDeleteUser, RunReadUser, RunFilterUser, RunUpdateUser,
                              RunCreateClient, RunDeleteClient, RunReadClient, RunFilterClient, RunUpdateClient,
                              RunCreateContract, RunDeleteContract, RunReadContract, RunFilterContract,RunUpdateContract,
                              RunCreateEvent, RunDeleteEvent, RunReadEvent, RunFilterEvent, RunUpdateEvent)
-
+from sentry_sdk import capture_exception, capture_message
 
 class ApplicationController:
     def __init__(self):
@@ -126,5 +127,10 @@ class QuitController:
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
+        user_authcontroller = AuthController()
+        token = user_authcontroller.read_token()
+        if token:
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            capture_message(f"Utilisateur {id_decode} déconnecté", level="info")
         self.view.display_title("Fin du programme")
         sys.exit()

@@ -2,6 +2,7 @@ from models.clients import Client
 from models.contract import Contract
 from views.contract_view import ContractView
 from settings.database import session
+from sentry_sdk import capture_exception, capture_message
 
 
 class ContractController:
@@ -28,6 +29,7 @@ class ContractController:
 
                 session.add(new_contract)
                 session.commit()
+                capture_message(f"Création contrat:{new_contract.id}", level="info")
                 self.view.display_info_message("Contrat enregistée !")
                 return new_contract
             else:
@@ -44,6 +46,7 @@ class ContractController:
             if contract.client.get_commercial_id() == user_id or user_role == 'gestion':
                 session.delete(contract)
                 session.commit()
+                capture_message(f"Suppression contrat:{contract.id}", level="info")
                 self.view.display_info_message("Contrat supprimé avec succès.")
             else:
                 self.view.display_warning_message("Ce contrat de client ne fait pas partie de votre équipe")
@@ -103,24 +106,28 @@ class ContractController:
                     new_total_price = self.view.input_total_price()
                     contract.set_total_price(new_total_price)
                     session.commit()
+                    capture_message(f"Modification prix total contrat:{contract.id}", level="info")
                     self.view.display_info_message("Prix total modifié avec succès.")
 
                 elif choice == "prix_restant":
                     new_remaining_price = self.view.input_remaining_price()
                     contract.set_remaining_price(new_remaining_price)
                     session.commit()
+                    capture_message(f"Modification prix restant contrat:{contract.id}", level="info")
                     self.view.display_info_message("Prix restant modifié avec succès.")
 
                 elif choice == "signature":
                     new_signed_contract = self.view.input_signed_contract()
                     contract.set_signed(new_signed_contract)
                     session.commit()
+                    capture_message(f"Modification signature contrat:{contract.id}", level="info")
                     self.view.display_info_message("Statut signature modifié avec succès.")
 
                 elif choice == "client":
                     new_client_id = self.view.input_id_client()
                     contract.set_client_id(new_client_id)
                     session.commit()
+                    capture_message(f"Modification client contrat:{contract.id}", level="info")
                     self.view.display_info_message("Client du contrat modifié avec succès.")
 
                 else:

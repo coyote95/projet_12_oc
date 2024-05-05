@@ -2,6 +2,7 @@ from views.clients_view import ClientView
 from models.clients import Client
 from models.users import User
 from settings.database import session
+from sentry_sdk import capture_exception, capture_message
 
 
 class ClientController:
@@ -15,7 +16,8 @@ class ClientController:
         new_client.set_commercial_id(user_id)
         session.add(new_client)
         session.commit()
-        self.view.display_info_message("Inscription réussie !")
+        capture_message(f"Création client:{new_client.id}", level="info")
+        self.view.display_info_message("Création client réussite !")
         return new_client
 
     def delete_client_by_id(self, user_id):
@@ -26,7 +28,8 @@ class ClientController:
             if client.get_commercial_id() == user_id:
                 session.delete(client)
                 session.commit()
-                self.view.display_info_message("Utilisateur supprimé avec succès.")
+                capture_message(f"Suppression client:{client.id}", level="info")
+                self.view.display_info_message("Client supprimé avec succès.")
             else:
                 self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
         else:
@@ -71,6 +74,7 @@ class ClientController:
                     client.set_name(new_name)
                     client.set_last_update_date()
                     session.commit()
+                    capture_message(f"Modification nom client:{client.id}", level="info")
                     self.view.display_info_message("Nom du client modifié avec succès.")
 
                 elif choice == "prenom":
@@ -78,6 +82,7 @@ class ClientController:
                     client.set_surname(new_surname)
                     client.set_last_update_date()
                     session.commit()
+                    capture_message(f"Modification prenom client:{client.id}", level="info")
                     self.view.display_info_message("Prénom du client modifié avec succès.")
 
                 elif choice == "email":
@@ -85,6 +90,7 @@ class ClientController:
                     client.set_email(new_email)
                     client.set_last_update_date()
                     session.commit()
+                    capture_message(f"Modification email client:{client.id}", level="info")
                     self.view.display_info_message("Email du client modifié avec succès.")
 
                 elif choice == "telephone":
@@ -92,6 +98,7 @@ class ClientController:
                     client.set_phone(new_phone)
                     client.set_last_update_date()
                     session.commit()
+                    capture_message(f"Modification telephone client:{client.id}", level="info")
                     self.view.display_info_message("Téléphone du client modifié avec succès.")
 
                 elif choice == "entreprise":
@@ -99,6 +106,7 @@ class ClientController:
                     client.set_company(new_company)
                     client.set_last_update_date()
                     session.commit()
+                    capture_message(f"Modification entreprise client:{client.id}", level="info")
                     self.view.display_info_message("Entreprise du client modifié avec succès.")
 
                 elif choice == "commercial":
@@ -108,7 +116,8 @@ class ClientController:
                         client.set_commercial_id(new_commercial_id)
                         client.set_last_update_date()
                         session.commit()
-                        self.view.display_info_message("Entreprise du client modifié avec succès.")
+                        capture_message(f"Modification commercial client:{client.id}", level="info")
+                        self.view.display_info_message("Commercial du client modifié avec succès.")
                     else:
                         self.view.display_warning_message("L'ID spécifié n'appartient pas à un commercial.")
                 else:

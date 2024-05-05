@@ -4,17 +4,6 @@ from models.clients import Client
 from models.contract import Contract
 from . import Base
 from settings.database import session
-from enum import Enum as EnumPython
-
-
-class EventField(EnumPython):
-    START_DATE = 1
-    END_DATE = 2
-    LOCATION = 3
-    PARTICIPANTS = 4
-    NOTE = 5
-    CONTRACT_ID = 6
-    SUPPORT_ID = 7
 
 
 class Event(Base):

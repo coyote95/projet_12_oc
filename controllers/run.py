@@ -8,6 +8,7 @@ from views.base_view import BaseView
 from models.users import User
 from models.role import Role
 from settings.database import session
+from sentry_sdk import capture_exception, capture_message
 
 
 class RunInscription:
@@ -25,8 +26,8 @@ class RunConnexion:
         name, password = user_controller.connecter_user()
         try:
             user = session.query(User).filter_by(name=name).first()
-            print(user)
             if user and user.check_password(password):
+                capture_message(f"Utilisateur {user.id} connecté", level="info")
                 BaseView.display_info_message("Connexion réussie !")
                 user_authcontroller = AuthController(user)
                 try:
@@ -182,7 +183,7 @@ class RunFilterClient:
             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "filter_client" in Role(role_decode).has_client_permissions():
                 client_controller = ClientController()
-                client_controller.filter_client(role_decode,id_decode)
+                client_controller.filter_client(role_decode, id_decode)
             else:
                 BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les clients.")
         return controllers.menu_controllers.ClientMenuController()
@@ -339,10 +340,10 @@ class RunFilterEvent:
         token = user_authcontroller.read_token()
 
         if token:
-            role_decode = user_authcontroller.decode_payload_role_token(token)
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
             if "filter_event" in Role(role_decode).has_event_permissions():
                 event_controller = EventController()
-                event_controller.filter_events()
+                event_controller.filter_events(role_decode, id_decode)
             else:
                 BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les événements.")
         return controllers.menu_controllers.EvenementMenuController()
