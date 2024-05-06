@@ -58,3 +58,22 @@ class Role(Base):
             return ["read_event", "filter_event", "update_event"]
         else:
             return []
+
+    def has_permissions(self):
+        if self.role == "commercial":
+            return {"read_user", "filter_user",
+                    "read_client", "filter_client", "create_client", "delete_client", "update_client",
+                    "read_contract", "filter_contract", "create_contract", "delete_contract", "update_contract",
+                    "read_event", "filter_event", "create_event", "delete_event", "update_event"}
+        elif self.role == "gestion":
+            return {"read_user", "filter_user", "create_user", "delete_user", "update_user",
+                    "read_client", "filter_client",
+                    "read_contract", "filter_contract", "create_contract", "delete_contract", "update_contract",
+                    "read_event", "filter_event", "update_event"}
+        elif self.role == "support":
+            return {"read_user", "filter_user",
+                    "read_client", "filter_client",
+                    "read_contract", "filter_contract",
+                    "read_event", "filter_event", "update_event"}
+        else:
+            return set()

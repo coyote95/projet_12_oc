@@ -5,9 +5,28 @@ from controllers.auth_controllers import AuthController
 from controllers.run import (RunInscription, RunConnexion,
                              RunCreateUser, RunDeleteUser, RunReadUser, RunFilterUser, RunUpdateUser,
                              RunCreateClient, RunDeleteClient, RunReadClient, RunFilterClient, RunUpdateClient,
-                             RunCreateContract, RunDeleteContract, RunReadContract, RunFilterContract,RunUpdateContract,
+                             RunCreateContract, RunDeleteContract, RunReadContract, RunFilterContract,
+                             RunUpdateContract,
                              RunCreateEvent, RunDeleteEvent, RunReadEvent, RunFilterEvent, RunUpdateEvent)
 from sentry_sdk import capture_exception, capture_message
+from functools import wraps
+
+
+# def login(func):
+#     print("test")
+#
+#     @wraps(func)
+#     def wrapper():
+#         controller_auth = AuthController()
+#
+#         if controller_auth.valid_token():
+#             print('wrap')
+#             return func()
+#         else:
+#             return HomeMenuController()
+#
+#     return wrapper
+
 
 class ApplicationController:
     def __init__(self):
@@ -35,6 +54,8 @@ class HomeMenuController:
 
 class EpicEventMenuController:
     def __init__(self):
+        self.id_decode = None
+        self.role_decode = None
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
 
@@ -50,7 +71,9 @@ class EpicEventMenuController:
 
 
 class UserMenuController:
-    def __init__(self, ):
+    def __init__(self):
+        self.id_decode = None
+        self.role_decode = None
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
 
@@ -69,6 +92,8 @@ class UserMenuController:
 
 class ClientMenuController:
     def __init__(self, ):
+        self.id_decode = None
+        self.role_decode = None
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
 
@@ -130,7 +155,7 @@ class QuitController:
         user_authcontroller = AuthController()
         token = user_authcontroller.read_token()
         if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
+            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token()
             capture_message(f"Utilisateur {id_decode} déconnecté", level="info")
         self.view.display_title("Fin du programme")
         sys.exit()

@@ -47,7 +47,8 @@ class AuthController:
 
         return token
 
-    def decode_token(self, token):
+    def valid_token(self):
+        token = self.read_token()
         try:
             # Décodage du JWT avec la clé secrète
             payload = jwt.decode(token, secret_key, algorithms=['HS256'])
@@ -55,19 +56,20 @@ class AuthController:
         except jwt.ExpiredSignatureError:
             # Le JWT a expiré
             print("Le jeton a expiré. Vous devez vous réauthentifier.")
-            return None
+            # refreesh login
+            return False
         except jwt.InvalidTokenError:
             # Le JWT est invalide
             print("Le jeton est invalide. Veuillez vous reconnecter.")
-            return None
+            return False
 
-    def decode_payload_role_token(self, token):
-        payload = self.decode_token(token)
+    def decode_payload_role_token(self):
+        payload = self.valid_token()
         role = payload.get("roles")
         return role
 
-    def decode_payload_id_role_token(self, token):
-        payload = self.decode_token(token)
+    def decode_payload_id_role_token(self):
+        payload = self.valid_token()
         role = payload.get("roles")
         id_user = payload.get("user_id")
         return role, id_user
