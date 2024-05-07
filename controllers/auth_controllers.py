@@ -68,7 +68,7 @@ class AuthController:
         role = payload.get("roles")
         return role
 
-    def decode_payload_id_role_token(self):
+    def decode_payload_id_and_role_token(self):
         payload = self.valid_token()
         role = payload.get("roles")
         id_user = payload.get("user_id")

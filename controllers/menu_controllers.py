@@ -146,16 +146,15 @@ class EvenementMenuController:
         return user_choice.handler
 
 
-class QuitController:
+class QuitController:# quitter si user_id different de 0 ne pas faire de lecture de token
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
 
     def __call__(self, *args, **kwargs):
         user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_role_token()
+        if user_authcontroller.valid_token():
+            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token()
             capture_message(f"Utilisateur {id_decode} déconnecté", level="info")
         self.view.display_title("Fin du programme")
         sys.exit()
