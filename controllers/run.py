@@ -64,12 +64,6 @@ class RunAction:
     def get_menu_controller(self):
         raise NotImplementedError("La méthode get_menu_controller doit être implémentée dans la classe fille.")
 
-    # def get_token_id(self):
-    #     return self.id_user
-    #
-    # def get_token_role(self):
-    #     return self.role_user
-
 
 class RunInscription:
     def __call__(self, *args, **kwargs):
@@ -88,7 +82,6 @@ class RunConnexion:
                 capture_message(f"Utilisateur {user.id} connecté", level="info")
                 BaseView.display_info_message("Connexion réussie !")
                 user_authcontroller = AuthController(user)
-                print('toto')
                 try:
                     user_authcontroller.generate_token()
                     return controllers.menu_controllers.EpicEventMenuController()  # id_decode,role_decode
@@ -116,21 +109,6 @@ class RunCreateUser(RunAction):
         return controllers.menu_controllers.UserMenuController()
 
 
-# class RunCreateUser:
-#
-#     def __call__(self, *args, **kwargs):
-#         user_authcontroller = AuthController()
-#         token = user_authcontroller.read_token()
-#
-#         if token:
-#             role_decode = user_authcontroller.decode_payload_role_token(token)
-#             if "create_user" in Role(role_decode).has_user_permissions():
-#                 user_controller = UserController()
-#                 user_controller.create_user()
-#             else:
-#                 BaseView.display_warning_message("Vous n'avez pas la permission de créer un utilisateur.")
-#         return controllers.menu_controllers.UserMenuController()
-
 class RunDeleteUser(RunAction):
     @login
     @check_permissions(["delete_user"])
@@ -147,8 +125,6 @@ class RunReadUser(RunAction):
     @login
     @check_permissions(["read_user"])
     def __call__(self, *args, **kwargs):
-        print("ooooooooooooo")
-        print(self.role_user)
         user_controller = UserController()
         user_controller.read_all_users()
         return controllers.menu_controllers.UserMenuController()
@@ -157,67 +133,28 @@ class RunReadUser(RunAction):
         return controllers.menu_controllers.UserMenuController()
 
 
-# class RunReadUser:
-#     def __call__(self, *args, **kwargs):
-#         user_authcontroller = AuthController()
-#         token = user_authcontroller.read_token()
-#
-#         if token:
-#             role_decode = user_authcontroller.decode_payload_role_token()
-#             if "read_user" in Role(role_decode).has_user_permissions():
-#                 user_controller = UserController()
-#                 user_controller.read_all_users()
-#             else:
-#                 BaseView.display_warning_message("Vous n'avez pas la permission de lire un utilisateur.")
-#         return controllers.menu_controllers.UserMenuController()
-
-
-class RunFilterUser:
+class RunFilterUser(RunAction):
     @login
+    @check_permissions(["filter_user"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        user_controller = UserController()
+        user_controller.filter_users()
+        return controllers.menu_controllers.UserMenuController()
 
-        if token:
-            role_decode = user_authcontroller.decode_payload_role_token(token)
-            if "filter_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController()
-                user_controller.filter_users()
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de filter les utilisateurs.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.UserMenuController()
 
 
-class RunUpdateUser:
+class RunUpdateUser(RunAction):
     @login
+    @check_permissions(["update_user"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
-
-        if token:
-            role_decode = user_authcontroller.decode_payload_role_token()
-            if "update_user" in Role(role_decode).has_user_permissions():
-                user_controller = UserController()
-                user_controller.update_user()
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un utilisateur.")
+        user_controller = UserController()
+        user_controller.update_user()
         return controllers.menu_controllers.UserMenuController()
 
-
-# class RunCreateClient:
-#
-#     def __call__(self, *args, **kwargs):
-#         user_authcontroller = AuthController()
-#         token = user_authcontroller.read_token()
-#
-#         if token:
-#             role_decode, id_decode = user_authcontroller.decode_payload_id_role_token(token)
-#             if "create_client" in Role(role_decode).has_client_permissions():
-#                 client_controller = ClientController()
-#                 client_controller.create_client(id_decode)
-#             else:
-#                 BaseView.display_warning_message("Vous n'avez pas la permission de créer un client.")
-#         return controllers.menu_controllers.ClientMenuController()
+    def get_menu_controller(self):
+        return controllers.menu_controllers.UserMenuController()
 
 
 class RunCreateClient(RunAction):
@@ -226,231 +163,177 @@ class RunCreateClient(RunAction):
     def __call__(self, *args, **kwargs):
         client_controller = ClientController()
         client_controller.create_client(self.id_user)
-        return controllers.menu_controllers.UserMenuController()
+        return controllers.menu_controllers.ClientMenuController()
 
     def get_menu_controller(self):
         return controllers.menu_controllers.ClientMenuController()
 
 
-class RunDeleteClient:
-
+class RunDeleteClient(RunAction):
+    @login
+    @check_permissions(["delete_client"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        client_controller = ClientController()
+        client_controller.delete_client_by_id(self.id_user)
+        return controllers.menu_controllers.ClientMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "delete_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController()
-                client_controller.delete_client_by_id(id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un client.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.ClientMenuController()
 
 
-class RunReadClient:
-
+class RunReadClient(RunAction):
+    @login
+    @check_permissions(["read_client"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        client_controller = ClientController()
+        client_controller.read_all_client()
+        return controllers.menu_controllers.ClientMenuController()
 
-        if token:
-            role_decode = user_authcontroller.decode_payload_role_token(token)
-            if "read_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController()
-                client_controller.read_all_client()
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de lire un client.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.ClientMenuController()
 
 
-class RunFilterClient:
-
+class RunFilterClient(RunAction):
+    @login
+    @check_permissions(["filter_client"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        client_controller = ClientController()
+        client_controller.filter_client(self.role_user, self.id_user)
+        return controllers.menu_controllers.ClientMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "filter_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController()
-                client_controller.filter_client(role_decode, id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les clients.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.ClientMenuController()
 
 
-class RunUpdateClient:
-
+class RunUpdateClient(RunAction):
+    @login
+    @check_permissions(["update_client"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        client_controller = ClientController()
+        client_controller.update_client(self.id_user)
+        return controllers.menu_controllers.ClientMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "update_client" in Role(role_decode).has_client_permissions():
-                client_controller = ClientController()
-                client_controller.update_client(id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un client.")
-        return controllers.menu_controllers.ClientMenuController
+    def get_menu_controller(self):
+        return controllers.menu_controllers.ClientMenuController()
 
 
-class RunCreateContract:
-
+class RunCreateContract(RunAction):
+    @login
+    @check_permissions(["create_contract"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        contract_controller = ContractController()
+        contract_controller.create_contract(self.role_user, self.id_user)
+        return controllers.menu_controllers.ContratsMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "create_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController()
-                contract_controller.create_contract(role_decode, id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de créer un contrat.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.ContratsMenuController()
 
 
-class RunDeleteContract:
-
+class RunDeleteContract(RunAction):
+    @login
+    @check_permissions(["delete_contract"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        contract_controller = ContractController()
+        contract_controller.delete_contract_by_id(self.role_user, self.id_user)
+        return controllers.menu_controllers.ContratsMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "delete_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController()
-                contract_controller.delete_contract_by_id(role_decode, id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un contrat.")
-        return controllers.menu_controllers.ContratsMenuController
-
-
-class RunReadContract:
-
-    def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
-
-        if token:
-            role_decode = user_authcontroller.decode_payload_role_token(token)
-            if "read_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController()
-                contract_controller.read_all_contracts()
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de lire un contrat.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.ContratsMenuController()
 
 
-class RunFilterContract:
-
+class RunReadContract(RunAction):
+    @login
+    @check_permissions(["read_contract"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        contract_controller = ContractController()
+        contract_controller.read_all_contracts()
+        return controllers.menu_controllers.ContratsMenuController()
 
-        if token:
-            role_decode = user_authcontroller.decode_payload_role_token(token)
-            if "filter_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController()
-                contract_controller.filter_contracts(role_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les contacts.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.ContratsMenuController()
 
 
-class RunUpdateContract:
-
+class RunFilterContract(RunAction):
+    @login
+    @check_permissions(["filter_contract"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        contract_controller = ContractController()
+        contract_controller.filter_contracts(self.role_user)
+        return controllers.menu_controllers.ContratsMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "update_contract" in Role(role_decode).has_contract_permissions():
-                contract_controller = ContractController()
-                contract_controller.update_contract(role_decode, id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un contrat.")
-        return controllers.menu_controllers.ContratsMenuController
+    def get_menu_controller(self):
+        return controllers.menu_controllers.ContratsMenuController()
 
 
-class RunCreateEvent:
-
+class RunUpdateContract(RunAction):
+    @login
+    @check_permissions(["update_contract"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        contract_controller = ContractController()
+        contract_controller.update_contract(self.role_user, self.id_user)
+        return controllers.menu_controllers.ContratsMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "create_event" in Role(role_decode).has_event_permissions():
-                event_controller = EventController()
-                event_controller.create_event(id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de créer un contrat.")
+    def get_menu_controller(self):
+        return controllers.menu_controllers.ContratsMenuController()
+
+
+class RunCreateEvent(RunAction):
+    @login
+    @check_permissions(["create_event"])
+    def __call__(self, *args, **kwargs):
+        event_controller = EventController()
+        event_controller.create_event(self.id_user)
+        return controllers.menu_controllers.EvenementMenuController()
+
+    def get_menu_controller(self):
         return controllers.menu_controllers.EvenementMenuController()
 
 
-class RunDeleteEvent:
-
+class RunDeleteEvent(RunAction):
+    @login
+    @check_permissions(["delete_event"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        event_controller = EventController()
+        event_controller.create_event(self.id_user)
+        return controllers.menu_controllers.EvenementMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "delete_event" in Role(role_decode).has_event_permissions():
-                event_controller = EventController()
-                event_controller.delete_event_by_id(id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de supprimer un evenement.")
-        return controllers.menu_controllers.EvenementMenuController
-
-
-class RunReadEvent:
-
-    def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
-
-        if token:
-            role_decode = user_authcontroller.decode_payload_role_token(token)
-            if "read_event" in Role(role_decode).has_event_permissions():
-                event_controller = EventController()
-                event_controller.read_all_events()
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de lire un événement.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.EvenementMenuController()
 
 
-class RunFilterEvent:
-
+class RunReadEvent(RunAction):
+    @login
+    @check_permissions(["read_event"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        event_controller = EventController()
+        event_controller.read_all_events()
+        return controllers.menu_controllers.EvenementMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "filter_event" in Role(role_decode).has_event_permissions():
-                event_controller = EventController()
-                event_controller.filter_events(role_decode, id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de filtrer les événements.")
+    def get_menu_controller(self):
         return controllers.menu_controllers.EvenementMenuController()
 
 
-class RunUpdateEvent:
-
+class RunFilterEvent(RunAction):
+    @login
+    @check_permissions(["filter_event"])
     def __call__(self, *args, **kwargs):
-        user_authcontroller = AuthController()
-        token = user_authcontroller.read_token()
+        event_controller = EventController()
+        event_controller.filter_events(self.role_user, self.id_user)
+        return controllers.menu_controllers.EvenementMenuController()
 
-        if token:
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token(token)
-            if "update_event" in Role(role_decode).has_event_permissions():
-                event_controller = EventController()
-                event_controller.update_event(role_decode, id_decode)
-            else:
-                BaseView.display_warning_message("Vous n'avez pas la permission de modifier un événement.")
-        return controllers.menu_controllers.ContratsMenuController
+    def get_menu_controller(self):
+        return controllers.menu_controllers.EvenementMenuController()
+
+
+class RunUpdateEvent(RunAction):
+    @login
+    @check_permissions(["update_event"])
+    def __call__(self, *args, **kwargs):
+        event_controller = EventController()
+        event_controller.update_event(self.role_user, self.id_user)
+        return controllers.menu_controllers.EvenementMenuController()
+
+    def get_menu_controller(self):
+        return controllers.menu_controllers.EvenementMenuController()
+
+
