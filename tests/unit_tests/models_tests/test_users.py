@@ -1,50 +1,27 @@
-#
-# from models import Base, User
-# import pytest
-# from settings.database import engine, Session
-#
-#
-#
-# # Vos tests unitaires commencent ici
-#
-#
-#
-# @pytest.fixture
-# def test_session():
-#     # Créer une nouvelle session pour les tests
-#     test_session = Session()
-#     yield test_session
-#     # Fermer la session après le test
-#     test_session.close()
-#
-#
-# class TestUserCreation:
-#     def test_create_user(self, test_session):
-#         # Votre logique de test ici
-#         Base.metadata.create_all(engine)
-#
-#         user = User("jean", "lucazzkkkeeezzeeeeees@teeest2.com", "commercial", "password")
-#         test_session.add(user)
-#         test_session.commit()
-#
-#         # Assurez-vous que les modifications sont bien enregistrées
-#         assert test_session.query(User).filter_by(name="jean").first() is not None
-#
-#     def test_create2_user(self, test_session):
-#         # Votre logique de test ici
-#         Base.metadata.create_all(engine)
-#
-#         user = User("jean", "lucazzkkkeeezzeeeeees@teeest2.com", "commercial", "password")
-#         test_session.add(user)
-#         test_session.commit()
-#
-#         # Assurez-vous que les modifications sont bien enregistrées
-#         assert test_session.query(User).filter_by(name="jean").first() is not None
-#
-#
-#     # Cette méthode sera exécutée après chaque test pour nettoyer la base de données
-#     def teardown_method(self):
-#         test_session = Session()
-#         print("okeeeeeeeeeeeeeeeeeeeeeeee")
-#         test_session.query(User).delete()
-#         test_session.commit()
+from models import Base, User
+from unittest.mock import patch
+from ...fixture import db_session
+from controllers.role_controllers import  RoleController
+
+
+
+def test_filter_by_id(db_session):
+    with patch("models.users.session", db_session):  # Remplace la session globale par db_session
+        user = User("lucas", "lucas@test.com", "commercial", "password")
+        db_session.add(user)
+        db_session.commit()
+
+        # Maintenant, user.filter_by_id utilisera la session de test
+        find_user = user.filter_by_id(user.id)
+        assert find_user.name == "lucas"
+
+def test_role_from_departement(db_session):
+    with patch("models.users.session", db_session):  # Remplace la session globale par db_session
+        with patch("controllers.role_controllers.session", db_session):  # Remplace la session globale par
+            # db_session
+            role_controller = RoleController()
+            role_controller.init_role_database()
+            user = User("lucas", "luccas@test.com", "commercial", "password")
+            db_session.add(user)
+            db_session.commit()
+            assert user.role_id == 1

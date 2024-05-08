@@ -32,7 +32,7 @@ except Exception as e:
 
 try:
     role_controller = RoleController()
-    role_controller.init_role_database(session)
+    role_controller.init_role_database()
 except Exception as e:
     print("Une erreur s'est produite lors de l'initialisation de la base de données des rôles:", e)
     # Vous pouvez ajouter ici des opérations de gestion des erreurs, comme l'enregistrement dans un fichier journal, l'envoi d'un e-mail, etc.

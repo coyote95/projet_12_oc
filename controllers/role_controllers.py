@@ -1,7 +1,6 @@
 from views.users_view import UserView
 from models.role import Role
-# from settings.database import session
-
+from settings.database import session
 
 
 class RoleController:
@@ -9,7 +8,7 @@ class RoleController:
         self.model = Role
         self.view = UserView()
 
-    def init_role_database(self,session):
+    def init_role_database(self):
         init_roles = ['commercial', 'support', 'gestion']
         # controleur iniialisation base roles add
         for role in init_roles:

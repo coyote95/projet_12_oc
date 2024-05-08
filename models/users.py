@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from models.role import Role
 from . import Base
 from settings.database import session
+from settings.database import numero
 
 
 class User(Base):
@@ -81,7 +82,6 @@ class User(Base):
             self.role = session.query(Role).filter_by(role='support').first()
         else:
             raise ValueError("Invalid department value")
-        session.expunge(self.role)
 
     def get_clients_name(self):
         return [client.name for client in self.clients] if self.clients else []
@@ -90,6 +90,8 @@ class User(Base):
     def filter_by_id(user_id):
         return session.query(User).filter_by(id=user_id).first()
 
+
     @staticmethod
     def filter_all_users():
         return session.query(User).all()
+
