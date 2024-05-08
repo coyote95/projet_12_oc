@@ -5,8 +5,6 @@ from models.role import Role
 from . import Base
 from settings.database import session
 
-from enum import Enum as EnumPython
-
 
 class User(Base):
     __tablename__ = 'user'
@@ -83,6 +81,7 @@ class User(Base):
             self.role = session.query(Role).filter_by(role='support').first()
         else:
             raise ValueError("Invalid department value")
+        session.expunge(self.role)
 
     def get_clients_name(self):
         return [client.name for client in self.clients] if self.clients else []

@@ -10,22 +10,9 @@ from controllers.run import (RunInscription, RunConnexion,
                              RunCreateEvent, RunDeleteEvent, RunReadEvent, RunFilterEvent, RunUpdateEvent)
 from sentry_sdk import capture_exception, capture_message
 from functools import wraps
+from settings.database import session
 
 
-# def login(func):
-#     print("test")
-#
-#     @wraps(func)
-#     def wrapper():
-#         controller_auth = AuthController()
-#
-#         if controller_auth.valid_token():
-#             print('wrap')
-#             return func()
-#         else:
-#             return HomeMenuController()
-#
-#     return wrapper
 
 
 class ApplicationController:
@@ -157,4 +144,5 @@ class QuitController:# quitter si user_id different de 0 ne pas faire de lecture
             role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token()
             capture_message(f"Utilisateur {id_decode} déconnecté", level="info")
         self.view.display_title("Fin du programme")
+        session.close()
         sys.exit()
