@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from models.role import Role
 from . import Base
 from settings.database import session
-from settings.database import numero
+
 
 
 class User(Base):

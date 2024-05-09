@@ -5,17 +5,9 @@ from models import Base
 from unittest.mock import patch
 from controllers.role_controllers import RoleController
 from functools import wraps
-from models import User
+from models import User, Client, Contract, Event
+from datetime import datetime
 
-
-
-
-@pytest.fixture(scope="function")
-def users():
-    commercial=User("lucas", "lucas@test.com", "commercial", "password")
-    gestion=User("julien", "julien@test.com", "gestion", "password")
-    support=User("paul", "paul@test.com", "support", "password")
-    return [commercial,gestion,support]
 
 @pytest.fixture(scope="function")
 def db_session():
@@ -31,20 +23,38 @@ def db_session():
     session.close()
 
 
-def apply_patches(func):
-    @wraps(func)
-    def wrapper(db_session, *args, **kwargs):
-        with patch("models.users.session", db_session), \
-                patch("models.clients.session", db_session), \
-                patch("models.contract.session", db_session), \
-                patch("models.events.session", db_session), \
-                patch("models.users.session", db_session), \
-                patch("controllers.role_controllers.session", db_session), \
-                patch("controllers.clients_controllers.session", db_session), \
-                patch("controllers.contract_controllers.session", db_session), \
-                patch("controllers.event_controllers.session", db_session), \
-                patch("controllers.users_controllers.session", db_session):
-            role_controller = RoleController()
-            role_controller.init_role_database()
-            return func(db_session, *args, **kwargs)
-    return wrapper
+@pytest.fixture(scope="function")
+def patched_session(db_session):
+    with patch("models.users.session", db_session), \
+            patch("models.clients.session", db_session), \
+            patch("models.contract.session", db_session), \
+            patch("models.events.session", db_session), \
+            patch("models.users.session", db_session), \
+            patch("controllers.role_controllers.session", db_session), \
+            patch("controllers.clients_controllers.session", db_session), \
+            patch("controllers.contract_controllers.session", db_session), \
+            patch("controllers.event_controllers.session", db_session), \
+            patch("controllers.users_controllers.session", db_session):
+        role_controller = RoleController()
+        role_controller.init_role_database()
+        yield db_session
+
+
+@pytest.fixture(scope="function")
+def all_instances(patched_session):
+    user = User("Marc", "john.doe@example.com", "commercial", "password")
+    client = Client("Alice", "Smith", "alice@example.com", "1234567890", "XYZ Company")
+    contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
+    event = Event(
+        start_date=datetime(2024, 5, 15),
+        end_date=datetime(2024, 5, 16),
+        location="Conference Room",
+        participants=50,
+        notes="Example event",
+    )
+    client.commercial_id = user.id
+    contract.client_id = client.id
+    event.contract_id = contract.id
+    patched_session.add(user)
+    patched_session.commit()
+    return user, client, contract, event

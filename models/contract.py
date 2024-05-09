@@ -18,7 +18,7 @@ class Contract(Base):
     # one to one(1 evenement pour 1 contract)
     event = relationship("Event", back_populates="contract", uselist=False)
 
-    def __init__(self, total_price, remaining_price, signed, client_id):
+    def __init__(self, total_price, remaining_price, signed, client_id=None):
         self.total_price = total_price
         self.remaining_price = remaining_price
         self.signed = signed
