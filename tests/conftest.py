@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 from models import Base
 from unittest.mock import patch
 from controllers.role_controllers import RoleController
-from functools import wraps
 from models import User, Client, Contract, Event
 from datetime import datetime
 
@@ -41,7 +40,7 @@ def patched_session(db_session):
 
 
 @pytest.fixture(scope="function")
-def all_instances(patched_session):
+def session_all_instances(patched_session):
     user = User("Marc", "john.doe@example.com", "commercial", "password")
     client = Client("Alice", "Smith", "alice@example.com", "1234567890", "XYZ Company")
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
@@ -57,4 +56,4 @@ def all_instances(patched_session):
     event.contract_id = contract.id
     patched_session.add(user)
     patched_session.commit()
-    return user, client, contract, event
+    yield user, client, contract, event, patched_session

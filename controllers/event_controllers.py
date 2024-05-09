@@ -59,7 +59,7 @@ class EventController:
 
     def delete_event_by_id(self, user_id):
         event_id = self.view.input_id_event()
-        event = self.model.filter_by_event_id(event_id)
+        event = self.model.filter_by_id(event_id)
         if event:
             commercial_id = self.model.find_commercial_id(event_id)
             if commercial_id == user_id:
@@ -85,7 +85,7 @@ class EventController:
 
     def update_event(self, user_role, user_id):
         event_id = self.view.input_id_contract()
-        event = Event.filter_by_event_id(event_id)
+        event = Event.filter_by_id(event_id)
         if event:
             self.view.display_event(event)
 

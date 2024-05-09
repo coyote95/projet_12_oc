@@ -101,7 +101,7 @@ class Event(Base):
         return session.query(Event).filter_by(contract_id=contract_id).first()
 
     @staticmethod
-    def filter_by_event_id(event_id):
+    def filter_by_id(event_id):
         return session.query(Event).filter_by(id=event_id).first()
 
     @staticmethod
