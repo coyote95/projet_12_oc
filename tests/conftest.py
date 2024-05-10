@@ -41,7 +41,7 @@ def patched_session(db_session):
 
 @pytest.fixture(scope="function")
 def session_all_instances(patched_session):
-    user = User("Marc", "john.doe@example.com", "commercial", "password")
+    user = User("marc", "marc@test.com", "commercial", "password")
     client = Client("Alice", "Smith", "alice@example.com", "1234567890", "XYZ Company")
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
     event = Event(
