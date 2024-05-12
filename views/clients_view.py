@@ -23,12 +23,14 @@ class ClientView(BaseView):
     def input_phone():
         while True:
             try:
-                phone = input("Entrez votre numéro de téléphone:")
-                if len(phone) == 10 and phone.isdigit():
-                    return int(phone)
+                phone = int(input("Entrez votre numéro de téléphone:"))
+                if len(str(phone)) == 10:
+                    return phone
                 else:
+                    # Afficher un message d'erreur si la longueur n'est pas de 10 chiffres
                     ClientView.display_error_message("Votre numéro ne comporte pas 10 chiffres")
             except ValueError:
+                # Si l'entrée n'est pas un nombre valide, afficher un message d'erreur
                 ClientView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
@@ -44,9 +46,8 @@ class ClientView(BaseView):
     @staticmethod
     def input_id_client():
         while True:
-            client_id = input("Entrez l'id du client: ")
             try:
-                client_id = int(client_id)
+                client_id = int(input("Entrez l'id du client: "))
                 return client_id
             except ValueError:
                 ClientView.display_error_message("Vous n'avez pas saisi un numéro")
@@ -54,9 +55,8 @@ class ClientView(BaseView):
     @staticmethod
     def input_id_commercial():
         while True:
-            commercial_id = input("Entrez l'id du commercial: ")
             try:
-                commercial_id = int(commercial_id)
+                commercial_id = int(input("Entrez l'id du commercial: "))
                 return commercial_id
             except ValueError:
                 ClientView.display_error_message("Vous n'avez pas saisi un numéro")

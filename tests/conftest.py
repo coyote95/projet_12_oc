@@ -42,7 +42,7 @@ def patched_session(db_session):
 @pytest.fixture(scope="function")
 def session_all_instances(patched_session):
     user = User("marc", "marc@test.com", "commercial", "password")
-    client = Client("Alice", "Smith", "alice@example.com", "1234567890", "XYZ Company")
+    client = Client("martin", "alice", "alice@example.com", "1234567890", "XYZ Company")
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
     event = Event(
         start_date=datetime(2024, 5, 15),
@@ -51,9 +51,12 @@ def session_all_instances(patched_session):
         participants=50,
         notes="Example event",
     )
-    client.commercial_id = user.id
+
     contract.client_id = client.id
     event.contract_id = contract.id
     patched_session.add(user)
+    patched_session.add(client)
+    patched_session.add(contract)
+    patched_session.add(event)
     patched_session.commit()
     yield user, client, contract, event, patched_session
