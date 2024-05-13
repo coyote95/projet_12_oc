@@ -4,9 +4,9 @@ from views.base_view import BaseView
 
 class EventView(BaseView):
 
-    @staticmethod
-    def afficher_message(message):
-        print(message)
+    # @staticmethod
+    # def afficher_message(message):
+    #     print(message)
 
     @staticmethod
     def input_id_contract():
@@ -16,7 +16,8 @@ class EventView(BaseView):
                 contract_id = int(contract_id)
                 return contract_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                EventView.display_error_message("Vous n'avez pas saisi un numéro")
+
 
     @staticmethod
     def input_start_date():
@@ -27,7 +28,7 @@ class EventView(BaseView):
                 start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
                 return start_date
             except ValueError:
-                print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
+                EventView.display_error_message("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
 
     @staticmethod
     def input_end_date():
@@ -38,7 +39,7 @@ class EventView(BaseView):
                 end_date = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S")
                 return end_date
             except ValueError:
-                print("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
+                EventView.display_error_message("Format de date incorrect. Utilisez le format YYYY-MM-DD HH:MM.")
 
     @staticmethod
     def input_location():
@@ -52,7 +53,7 @@ class EventView(BaseView):
             if len(notes) < 255:
                 return notes
             else:
-                print("Veuillez reduire la taille de votre note")
+                EventView.display_error_message("Veuillez reduire la taille de votre note")
 
     @staticmethod
     def input_participants():
@@ -62,7 +63,8 @@ class EventView(BaseView):
                 participants = int(participants)
                 return participants
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                EventView.display_error_message("Vous n'avez pas saisi un numéro")
+
 
     @staticmethod
     def input_id_event():
@@ -72,7 +74,8 @@ class EventView(BaseView):
                 event_id = int(event_id)
                 return event_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                EventView.display_error_message("Vous n'avez pas saisi un numéro")
+
 
     @staticmethod
     def input_id_support():
@@ -82,7 +85,8 @@ class EventView(BaseView):
                 support_id = int(support_id)
                 return support_id
             except ValueError:
-                print("Vous n'avez pas écrit un entier.")
+                EventView.display_error_message("Vous n'avez pas saisi un numéro")
+
 
     @staticmethod
     def input_infos_event():
@@ -113,6 +117,8 @@ class EventView(BaseView):
                 return True
             elif answer == 'non':
                 return False
+            else:
+                EventView.display_error_message("Vous n'avez pas saisi 'oui' ou 'non'")
 
     @staticmethod
     def ask_event_update_field():
