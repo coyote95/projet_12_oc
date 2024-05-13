@@ -24,13 +24,12 @@ class ContractView(BaseView):
     @staticmethod
     def input_signed_contract():
         while True:
-            try:
-                signed_contract = input("Le client a-t-il signé le contrat (oui/non): ")
-                if signed_contract.lower() == "oui":
-                    return True
-                elif signed_contract.lower() == "non":
-                    return False
-            except ValueError:
+            signed_contract = input("Le client a-t-il signé le contrat (oui/non): ")
+            if signed_contract.lower() == "oui":
+                return True
+            elif signed_contract.lower() == "non":
+                return False
+            else:
                 ContractView.display_error_message("Vous n'avez pas saisi 'oui' ou 'non'")
 
     @staticmethod
@@ -118,6 +117,8 @@ class ContractView(BaseView):
                     print("Voici la liste des contrats non payés")
                     return 2
                 else:
-                    print("Vous n'avez pas saisi un numéro valide")
+                    ContractView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+
             except ValueError:
-                print("Vous devez saisir un numéro.")
+                ContractView.display_error_message("Vous n'avez pas saisi un numéro")
+

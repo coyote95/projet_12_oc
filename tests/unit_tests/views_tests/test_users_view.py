@@ -1,4 +1,4 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from views.users_view import UserView
 
 
@@ -29,7 +29,6 @@ def test_input_departement_invalid(monkeypatch, capsys):
     with patch('builtins.input', side_effect=['technicien', 'gestion']):
         UserView.input_departement()
     captured = capsys.readouterr()
-    print(captured)
     assert "Nom de département invalide." in captured.out
 
 
