@@ -1,46 +1,26 @@
-import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from models import Base
-from unittest.mock import patch
 from controllers.role_controllers import RoleController
 from models import User, Client, Contract, Event
 from datetime import datetime
+from settings.database import engine
+import pytest
+from settings.database import session
 
 
-@pytest.fixture(scope="function")
-def db_session():
-    engine = create_engine("sqlite:///:memory:", echo=False)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
+@pytest.fixture
+def init_session():
     Base.metadata.create_all(engine)
+    role_controller = RoleController()
+    role_controller.init_role_database()
 
     yield session  # Fournir la session aux tests
 
-    session.commit()
     session.close()
+    Base.metadata.drop_all(engine)
 
 
-@pytest.fixture(scope="function")
-def patched_session(db_session):
-    with patch("models.users.session", db_session), \
-            patch("models.clients.session", db_session), \
-            patch("models.contract.session", db_session), \
-            patch("models.events.session", db_session), \
-            patch("models.users.session", db_session), \
-            patch("controllers.role_controllers.session", db_session), \
-            patch("controllers.clients_controllers.session", db_session), \
-            patch("controllers.contract_controllers.session", db_session), \
-            patch("controllers.event_controllers.session", db_session), \
-            patch("controllers.users_controllers.session", db_session):
-        role_controller = RoleController()
-        role_controller.init_role_database()
-        yield db_session
-
-
-@pytest.fixture(scope="function")
-def session_all_instances(patched_session):
+@pytest.fixture
+def all_instances(init_session):
     user = User("marc", "marc@test.com", "commercial", "password")
     client = Client("martin", "alice", "alice@example.com", "1234567890", "XYZ Company")
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
@@ -54,9 +34,9 @@ def session_all_instances(patched_session):
 
     contract.client_id = client.id
     event.contract_id = contract.id
-    patched_session.add(user)
-    patched_session.add(client)
-    patched_session.add(contract)
-    patched_session.add(event)
-    patched_session.commit()
-    yield user, client, contract, event, patched_session
+    init_session.add(user)
+    init_session.add(client)
+    init_session.add(contract)
+    init_session.add(event)
+    init_session.commit()
+    yield user, client, contract, event, init_session

@@ -1,11 +1,11 @@
 from models import Contract
-from ...conftest import patched_session
+from settings.database import session
 
 
-def test_filter_by_id(patched_session):
+def test_filter_by_id(init_session):
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
-    patched_session.add(contract)
-    patched_session.commit()
+    session.add(contract)
+    session.commit()
     find_contract = Contract.filter_by_id(contract.id)
     assert find_contract.get_total_price() == 1000.0
 

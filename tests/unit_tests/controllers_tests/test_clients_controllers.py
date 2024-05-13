@@ -1,11 +1,10 @@
 from controllers.clients_controllers import ClientController
-from ...conftest import patched_session, session_all_instances
 from views.clients_view import ClientView
 from models import Client
 from unittest.mock import MagicMock
 
 
-def test_create_user(patched_session):
+def test_create_user(init_session):
     # Créer une instance UserController
     client_controller = ClientController()
     # Créer un mock pour UserView
@@ -24,8 +23,8 @@ def test_create_user(patched_session):
     assert find_client.surname == "manon"
 
 
-def test_delete_client_by_id(session_all_instances):
-    user, client, contract, event, session = session_all_instances
+def test_delete_client_by_id(all_instances):
+    user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
     mock_client_view = MagicMock(spec=ClientView)
     client_controller = ClientController()
@@ -41,8 +40,8 @@ def test_delete_client_by_id(session_all_instances):
     assert user_still_exists is None
 
 
-def test_delete_client_by_id_not_found(session_all_instances):
-    user, client, contract, event, session = session_all_instances
+def test_delete_client_by_id_not_found(all_instances):
+    user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
     mock_client_view = MagicMock(spec=ClientView)
     client_controller = ClientController()
@@ -56,8 +55,8 @@ def test_delete_client_by_id_not_found(session_all_instances):
     mock_client_view.display_warning_message.assert_called_once_with("Client non trouvé.")
 
 
-def test_delete_client_by_id_not_your_team(session_all_instances):
-    user, client, contract, event, session = session_all_instances
+def test_delete_client_by_id_not_your_team(all_instances):
+    user, client, contract, event, session = all_instances
     client.set_commercial_id(3)
     mock_client_view = MagicMock(spec=ClientView)
     client_controller = ClientController()
@@ -68,8 +67,8 @@ def test_delete_client_by_id_not_your_team(session_all_instances):
     mock_client_view.display_warning_message.assert_called_once_with("Ce client ne fait pas partie de votre équipe")
 
 
-def test_update_name_client(session_all_instances):
-    user, client, contract, event, session = session_all_instances
+def test_update_name_client(all_instances):
+    user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
     assert client.get_name() == "martin"
     mock_client_view = MagicMock(spec=ClientView)
@@ -82,8 +81,8 @@ def test_update_name_client(session_all_instances):
     mock_client_view.display_info_message.assert_called_once_with("Nom du client modifié avec succès.")
     assert client.get_name() == "dupont"
 
-def test_update_client_not_found(session_all_instances):
-    user, client, contract, event, session = session_all_instances
+def test_update_client_not_found(all_instances):
+    user, client, contract, event, session = all_instances
     mock_client_view = MagicMock(spec=ClientView)
     client_controller = ClientController()
     client_controller.view = mock_client_view

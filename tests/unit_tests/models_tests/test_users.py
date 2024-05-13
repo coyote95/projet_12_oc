@@ -1,24 +1,24 @@
 from models import User
-from ...conftest import  patched_session
 import bcrypt
+from settings.database import session
 
 
-def test_role_from_departement(patched_session):
+def test_role_from_departement(init_session):
     user = User("lucas", "luccas@test.com", "commercial", "password")
-    patched_session.add(user)
-    patched_session.commit()
+    session.add(user)
+    session.commit()
     assert user.role_id == 1
 
 
-def test_filter_by_id(patched_session):
-    user = User("lucas", "lucas@test.com", "commercial", "password")
-    patched_session.add(user)
-    patched_session.commit()
+def test_filter_by_id(init_session):
+    user = User("lucas", "lucas@test.ctom", "commercial", "password")
+    session.add(user)
+    session.commit()
     find_user = user.filter_by_id(user.id)
-    assert find_user.get_name()== "lucas"
+    assert find_user.get_name() == "lucas"
 
 
-def test_set_password():
+def test_set_password(init_session):
     user = User("lucas", "lucas@test.com", "commercial", None)
     password = "password"
     user.set_password(password)
