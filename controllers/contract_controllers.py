@@ -54,7 +54,6 @@ class ContractController:
                 self.view.display_info_message("Contrat supprimé avec succès.")
             else:
                 self.view.display_warning_message("Ce contrat de client ne fait pas partie de votre équipe")
-
         else:
             self.view.display_warning_message("contrat non trouvé.")
 
@@ -138,3 +137,5 @@ class ContractController:
                     self.view.display_warning_message("Option invalide.")
             else:
                 self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
+        else:
+            self.view.display_warning_message("Aucun contract trouvé avec cet ID")
