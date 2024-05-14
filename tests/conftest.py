@@ -29,7 +29,7 @@ def all_instances(init_session):
         end_date=datetime(2024, 5, 16,12,30),
         location="madrid",
         participants=50,
-        notes="Example event",
+        notes="RAS",
     )
 
     contract.client_id = client.id
