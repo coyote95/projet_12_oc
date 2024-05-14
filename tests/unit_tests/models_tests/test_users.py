@@ -1,9 +1,9 @@
 from models import User
 import bcrypt
-from settings.database import session
 
 
 def test_role_from_departement(init_session):
+    session = init_session
     user = User("lucas", "luccas@test.com", "commercial", "password")
     session.add(user)
     session.commit()
@@ -11,6 +11,7 @@ def test_role_from_departement(init_session):
 
 
 def test_filter_by_id(init_session):
+    session = init_session
     user = User("lucas", "lucas@test.ctom", "commercial", "password")
     session.add(user)
     session.commit()
@@ -19,6 +20,7 @@ def test_filter_by_id(init_session):
 
 
 def test_set_password(init_session):
+    session = init_session
     user = User("lucas", "lucas@test.com", "commercial", None)
     password = "password"
     user.set_password(password)

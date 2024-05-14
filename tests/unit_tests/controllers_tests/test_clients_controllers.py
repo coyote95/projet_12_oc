@@ -1,24 +1,17 @@
-from controllers.clients_controllers import ClientController
+from controllers import ClientController
 from views.clients_view import ClientView
-from models import Client,User
+from models import Client, User
 from unittest.mock import MagicMock
 
 
 def test_create_user(init_session):
-    # Créer une instance UserController
     client_controller = ClientController()
-    # Créer un mock pour UserView
     mock_client_view = MagicMock(spec=ClientView)
-    # Définir les entrées simulées pour la vue utilisateur
     mock_client_view.input_info_client.return_value = ("tarault", "manon", "manon@test.com", "0123654789",
                                                        "darty")
-    # Injecter la vue simulée dans le UserController
     client_controller.view = mock_client_view
-    # Simuler l'ajout d'un nouvel utilisateur à la base de données
     new_client = client_controller.create_client(1)
-    # Vérifier que la méthode input_infos_user() a été appelée
     mock_client_view.input_info_client.assert_called_once()
-    # Vérifier que les propriétés de l'utilisateur créé sont correctes
     find_client = Client.filter_by_id(new_client.id)
     assert find_client.surname == "manon"
 
@@ -81,6 +74,7 @@ def test_update_name_client(all_instances):
     mock_client_view.display_info_message.assert_called_once_with("Nom du client modifié avec succès.")
     assert client.get_name() == "dupont"
 
+
 def test_update_surname_client(all_instances):
     user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
@@ -94,6 +88,7 @@ def test_update_surname_client(all_instances):
     client_controller.update_client(user.id)
     mock_client_view.display_info_message.assert_called_once_with("Prénom du client modifié avec succès.")
     assert client.get_surname() == "laura"
+
 
 def test_update_email_client(all_instances):
     user, client, contract, event, session = all_instances
@@ -109,6 +104,7 @@ def test_update_email_client(all_instances):
     mock_client_view.display_info_message.assert_called_once_with("Email du client modifié avec succès.")
     assert client.get_email() == "laura@test.com"
 
+
 def test_update_telephone_client(all_instances):
     user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
@@ -123,6 +119,7 @@ def test_update_telephone_client(all_instances):
     mock_client_view.display_info_message.assert_called_once_with("Téléphone du client modifié avec succès.")
     assert client.get_phone() == "0123654789"
 
+
 def test_update_entreprise_client(all_instances):
     user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
@@ -136,6 +133,7 @@ def test_update_entreprise_client(all_instances):
     client_controller.update_client(user.id)
     mock_client_view.display_info_message.assert_called_once_with("Entreprise du client modifié avec succès.")
     assert client.get_company() == "KFC"
+
 
 def test_update_commercial_client(all_instances):
     user, client, contract, event, session = all_instances
@@ -172,6 +170,7 @@ def test_update_commercial_client_invalid(all_instances):
     mock_client_view.display_warning_message.assert_called_once_with("L'ID spécifié n'appartient pas à un commercial.")
     assert client.get_commercial_id() == 1
 
+
 def test_update_client_not_found(all_instances):
     user, client, contract, event, session = all_instances
     mock_client_view = MagicMock(spec=ClientView)
@@ -182,4 +181,3 @@ def test_update_client_not_found(all_instances):
     mock_client_view.input_name.return_value = "dupont"
     client_controller.update_client(user.id)
     mock_client_view.display_warning_message("Aucun client trouvé avec cet ID")
-

@@ -1,5 +1,5 @@
 from unittest.mock import patch
-from views.contract_view import ContractView
+from views import ContractView
 
 
 def test_input_total_price_invalid_no_float(monkeypatch, capsys):

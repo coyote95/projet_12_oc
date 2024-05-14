@@ -1,5 +1,5 @@
-from unittest.mock import patch, MagicMock
-from views.clients_view import ClientView
+from unittest.mock import patch
+from views import ClientView
 
 
 def test_input_name_return_upper(monkeypatch):
@@ -16,11 +16,13 @@ def test_input_company_return_lower(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: 'Darty')
     assert ClientView.input_company() == 'darty'
 
+
 def test_input_email_valid(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: 'Lucas@test.com')
     assert ClientView.input_email() == 'Lucas@test.com'
 
-def test_input_email_invalid(monkeypatch,capsys):
+
+def test_input_email_invalid(monkeypatch, capsys):
     with patch('builtins.input', side_effect=['Lucas_test.com', 'Lucas@test.com']):
         ClientView.input_email()
 
@@ -31,6 +33,7 @@ def test_input_email_invalid(monkeypatch,capsys):
 def test_input_phone_valid(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda _: '0123456780')
     assert ClientView.input_phone() == '0123456780'
+
 
 def test_input_phone_invalid_less_numbers(monkeypatch, capsys):
     with patch('builtins.input', side_effect=['123456', '0123456980']):

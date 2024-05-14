@@ -1,8 +1,8 @@
 from models import Client
-from settings.database import session
 
 
 def test_filter_by_id(init_session):
+    session = init_session
     client = Client("mola", "jessica", "jessica@test.com", "0123654789", "sncf")
     session.add(client)
     session.commit()

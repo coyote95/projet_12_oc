@@ -1,9 +1,9 @@
 from models import Event
 from datetime import datetime
-from settings.database import session
 
 
 def test_filter_by_id(init_session):
+    session = init_session
     event = Event(
         start_date=datetime(2024, 5, 15),
         end_date=datetime(2024, 5, 16),

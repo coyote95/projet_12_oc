@@ -1,5 +1,5 @@
 from unittest.mock import patch
-from views.users_view import UserView
+from views import UserView
 
 
 def test_input_name_return_upper(monkeypatch):

@@ -1,5 +1,5 @@
 from unittest.mock import patch
-from views.event_view import EventView
+from views import EventView
 from datetime import datetime
 
 
@@ -74,6 +74,7 @@ def test_ask_event_update_field_2(monkeypatch, capsys):
     with patch('builtins.input', return_value="2"):
         assert EventView.ask_event_update_field() == "date_fin"
 
+
 def test_ask_event_update_field_3(monkeypatch, capsys):
     with patch('builtins.input', return_value="3"):
         assert EventView.ask_event_update_field() == "localisation"
@@ -82,6 +83,7 @@ def test_ask_event_update_field_3(monkeypatch, capsys):
 def test_ask_event_update_field_4(monkeypatch, capsys):
     with patch('builtins.input', return_value="4"):
         assert EventView.ask_event_update_field() == "participant"
+
 
 def test_ask_event_update_field_5(monkeypatch, capsys):
     with patch('builtins.input', return_value="5"):
@@ -92,9 +94,11 @@ def test_ask_event_update_field_6(monkeypatch, capsys):
     with patch('builtins.input', return_value="6"):
         assert EventView.ask_event_update_field() == "contrat"
 
+
 def test_ask_event_update_field_7(monkeypatch, capsys):
     with patch('builtins.input', return_value="7"):
         assert EventView.ask_event_update_field() == "support"
+
 
 def test_ask_client_update_field_invalid_no_int(monkeypatch, capsys):
     with patch('builtins.input', side_effect=['marc', '1']):
@@ -110,4 +114,3 @@ def test_ask_client_update_field_8(monkeypatch, capsys):
 
     captured = capsys.readouterr()
     assert captured.out == "WARNING: Vous n'avez pas saisi un numéro valide\n"
-
