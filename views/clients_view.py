@@ -22,16 +22,16 @@ class ClientView(BaseView):
     @staticmethod
     def input_phone():
         while True:
-            try:
-                phone = int(input("Entrez votre numéro de téléphone:"))
-                if len(str(phone)) == 10:
-                    return phone
-                else:
-                    # Afficher un message d'erreur si la longueur n'est pas de 10 chiffres
-                    ClientView.display_error_message("Votre numéro ne comporte pas 10 chiffres")
-            except ValueError:
-                # Si l'entrée n'est pas un nombre valide, afficher un message d'erreur
-                ClientView.display_error_message("Vous n'avez pas saisi un numéro")
+            # try:
+            phone = input("Entrez votre numéro de téléphone:")
+            if phone.isdigit() and len(phone) == 10:
+                return phone
+            else:
+                # Afficher un message d'erreur si la longueur n'est pas de 10 chiffres
+                ClientView.display_error_message("Votre numéro ne comporte pas 10 chiffres")
+            # except ValueError:
+            #     # Si l'entrée n'est pas un nombre valide, afficher un message d'erreur
+            #     ClientView.display_error_message("Vous n'avez pas saisi un numéro")
 
     @staticmethod
     def input_email():

@@ -22,7 +22,7 @@ def init_session():
 @pytest.fixture
 def all_instances(init_session):
     user = User("marc", "marc@test.com", "commercial", "password")
-    client = Client("martin", "alice", "alice@example.com", "1234567890", "XYZ Company")
+    client = Client("martin", "alice", "alice@example.com", "0123456780", "DARTY")
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
     event = Event(
         start_date=datetime(2024, 5, 15),

@@ -28,9 +28,12 @@ def test_input_email_invalid(monkeypatch,capsys):
     assert captured.out == "ERROR: Adresse email invalide. Veuillez réessayer.\n"
 
 
+def test_input_phone_valid(monkeypatch):
+    monkeypatch.setattr('builtins.input', lambda _: '0123456780')
+    assert ClientView.input_phone() == '0123456780'
 
 def test_input_phone_invalid_less_numbers(monkeypatch, capsys):
-    with patch('builtins.input', side_effect=['123456', '1234567890']):
+    with patch('builtins.input', side_effect=['123456', '0123456980']):
         ClientView.input_phone()
 
     captured = capsys.readouterr()
@@ -38,11 +41,11 @@ def test_input_phone_invalid_less_numbers(monkeypatch, capsys):
 
 
 def test_input_phone_invalid_no_int(monkeypatch, capsys):
-    with patch('builtins.input', side_effect=['marc', '1234567890']):
+    with patch('builtins.input', side_effect=['marc', '0123654780']):
         ClientView.input_phone()
 
     captured = capsys.readouterr()
-    assert captured.out == "ERROR: Vous n'avez pas saisi un numéro\n"
+    assert captured.out == "ERROR: Votre numéro ne comporte pas 10 chiffres\n"
 
 
 def test_input_id_client_invalid_no_int(monkeypatch, capsys):

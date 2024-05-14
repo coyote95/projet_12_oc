@@ -1,6 +1,6 @@
 from controllers.clients_controllers import ClientController
 from views.clients_view import ClientView
-from models import Client
+from models import Client,User
 from unittest.mock import MagicMock
 
 
@@ -81,6 +81,97 @@ def test_update_name_client(all_instances):
     mock_client_view.display_info_message.assert_called_once_with("Nom du client modifié avec succès.")
     assert client.get_name() == "dupont"
 
+def test_update_surname_client(all_instances):
+    user, client, contract, event, session = all_instances
+    client.set_commercial_id(user.id)
+    assert client.get_surname() == "alice"
+    mock_client_view = MagicMock(spec=ClientView)
+    client_controller = ClientController()
+    client_controller.view = mock_client_view
+    mock_client_view.input_id_client.return_value = 1
+    mock_client_view.ask_client_update_field.return_value = "prenom"
+    mock_client_view.input_surname.return_value = "laura"
+    client_controller.update_client(user.id)
+    mock_client_view.display_info_message.assert_called_once_with("Prénom du client modifié avec succès.")
+    assert client.get_surname() == "laura"
+
+def test_update_email_client(all_instances):
+    user, client, contract, event, session = all_instances
+    client.set_commercial_id(user.id)
+    assert client.get_email() == "alice@example.com"
+    mock_client_view = MagicMock(spec=ClientView)
+    client_controller = ClientController()
+    client_controller.view = mock_client_view
+    mock_client_view.input_id_client.return_value = 1
+    mock_client_view.ask_client_update_field.return_value = "email"
+    mock_client_view.input_email.return_value = "laura@test.com"
+    client_controller.update_client(user.id)
+    mock_client_view.display_info_message.assert_called_once_with("Email du client modifié avec succès.")
+    assert client.get_email() == "laura@test.com"
+
+def test_update_telephone_client(all_instances):
+    user, client, contract, event, session = all_instances
+    client.set_commercial_id(user.id)
+    assert client.get_phone() == "0123456780"
+    mock_client_view = MagicMock(spec=ClientView)
+    client_controller = ClientController()
+    client_controller.view = mock_client_view
+    mock_client_view.input_id_client.return_value = 1
+    mock_client_view.ask_client_update_field.return_value = "telephone"
+    mock_client_view.input_phone.return_value = "0123654789"
+    client_controller.update_client(user.id)
+    mock_client_view.display_info_message.assert_called_once_with("Téléphone du client modifié avec succès.")
+    assert client.get_phone() == "0123654789"
+
+def test_update_entreprise_client(all_instances):
+    user, client, contract, event, session = all_instances
+    client.set_commercial_id(user.id)
+    assert client.get_company() == "DARTY"
+    mock_client_view = MagicMock(spec=ClientView)
+    client_controller = ClientController()
+    client_controller.view = mock_client_view
+    mock_client_view.input_id_client.return_value = 1
+    mock_client_view.ask_client_update_field.return_value = "entreprise"
+    mock_client_view.input_company.return_value = "KFC"
+    client_controller.update_client(user.id)
+    mock_client_view.display_info_message.assert_called_once_with("Entreprise du client modifié avec succès.")
+    assert client.get_company() == "KFC"
+
+def test_update_commercial_client(all_instances):
+    user, client, contract, event, session = all_instances
+    new_commercial = User("valentin", "valentin@test.com", "commercial", "password")
+    session.add(new_commercial)
+    session.commit()
+    client.set_commercial_id(user.id)
+    assert client.get_commercial_id() == 1
+    mock_client_view = MagicMock(spec=ClientView)
+    client_controller = ClientController()
+    client_controller.view = mock_client_view
+    mock_client_view.input_id_client.return_value = 1
+    mock_client_view.ask_client_update_field.return_value = "commercial"
+    mock_client_view.input_id_commercial.return_value = "2"
+    client_controller.update_client(user.id)
+    mock_client_view.display_info_message.assert_called_once_with("Commercial du client modifié avec succès.")
+    assert client.get_commercial_id() == 2
+
+
+def test_update_commercial_client_invalid(all_instances):
+    user, client, contract, event, session = all_instances
+    new_commercial = User("valentin", "valentin@test.com", "gestion", "password")
+    session.add(new_commercial)
+    session.commit()
+    client.set_commercial_id(user.id)
+    assert client.get_commercial_id() == 1
+    mock_client_view = MagicMock(spec=ClientView)
+    client_controller = ClientController()
+    client_controller.view = mock_client_view
+    mock_client_view.input_id_client.return_value = 1
+    mock_client_view.ask_client_update_field.return_value = "commercial"
+    mock_client_view.input_id_commercial.return_value = "2"
+    client_controller.update_client(user.id)
+    mock_client_view.display_warning_message.assert_called_once_with("L'ID spécifié n'appartient pas à un commercial.")
+    assert client.get_commercial_id() == 1
+
 def test_update_client_not_found(all_instances):
     user, client, contract, event, session = all_instances
     mock_client_view = MagicMock(spec=ClientView)
@@ -92,38 +183,3 @@ def test_update_client_not_found(all_instances):
     client_controller.update_client(user.id)
     mock_client_view.display_warning_message("Aucun client trouvé avec cet ID")
 
-
-# def test_display_error_message():
-#     # Créer un objet MagicMock pour simuler ClientView
-#     mock_client_view = MagicMock(spec=ClientView)
-#
-#     # Appeler la méthode display_error_message avec le message d'erreur spécifié
-#     mock_client_view.display_error_message("Votre numéro ne comporte pas 10 chiffres")
-#
-#     # Vérifier si display_error_message a été appelée avec le bon message d'erreur
-#     mock_client_view.display_error_message.assert_called_with("Votre numéro ne comporte pas 10 chiffres")
-#
-
-
-    # with patch('builtins.input', side_effect=['abc', '1234567890']):
-    #     ClientView.input_phone()
-    #
-    # captured = capsys.readouterr()
-    # assert captured.out == "ERROR: Vous n'avez pas saisi un numéro\n"
-
-# from unittest.mock import patch
-
-# def test_input_phone_invalid_should_return_none(monkeypatch, capsys):
-#     # Simuler une entrée utilisateur invalide
-#     monkeypatch.setattr('builtins.input', lambda _: 'abc')
-#
-#     # Utiliser patch pour éviter que le test ne boucle indéfiniment
-#     with patch('builtins.input', side_effect=['123456', 'abc', '1234567890']):
-#         assert ClientView.input_phone() == 1234567890
-#
-#     # Capturer la sortie d'erreur standard pour vérifier le message d'erreur
-#     captured = capsys.readouterr()
-#
-#     # Vérifier si l'un ou l'autre des messages d'erreur est présent dans la sortie capturée
-#     assert "ERROR: Votre numéro ne comporte pas 10 chiffres" in captured.out
-#     assert "ERROR: Vous n'avez pas saisi un numéro" in captured.out

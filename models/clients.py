@@ -11,7 +11,7 @@ class Client(Base):
     name = Column(String(255))
     surname = Column(String(255))
     email = Column(String(255), unique=True)
-    phone = Column(Integer)
+    phone = Column(String(10))
     company = Column(String(255))
     creation_date = Column(DateTime)
     last_update_date = Column(DateTime)
