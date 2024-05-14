@@ -84,7 +84,7 @@ class EventController:
             print(f"Une erreur s'est produite lors de la récupération des événements : {e}")
 
     def update_event(self, user_role, user_id):
-        event_id = self.view.input_id_contract()
+        event_id = self.view.input_id_event()
         event = Event.filter_by_id(event_id)
         if event:
             self.view.display_event(event)
@@ -120,7 +120,7 @@ class EventController:
                         event.set_location(new_location)
                         session.commit()
                         capture_message(f"Modification signature événement:{event.id}", level="info")
-                        self.view.display_info_message("Statut signature modifié avec succès.")
+                        self.view.display_info_message("Localisation modifié avec succès.")
 
                     elif choice == "participant":
                         new_participant = self.view.input_participants()

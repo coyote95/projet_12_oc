@@ -85,7 +85,7 @@ class Event(Base):
         self.support = support
 
     def set_support_id(self, support_id):
-        self.support = support_id
+        self.support_id = support_id
 
     def set_contract(self, contract):
         self.contract = contract
