@@ -14,7 +14,11 @@ class ContractController:
         client_id = self.view.input_id_client()
         client = Client.filter_by_id(client_id)
         if client:
+            print("bonjour")
+            print(client)
+            print(client.get_commercial_id())
             if client.get_commercial_id() == user_id or user_role == 'gestion':
+                # print("okkkk")
                 total_price = self.view.input_total_price()
                 while True:
                     remaining_price = self.view.input_remaining_price()
