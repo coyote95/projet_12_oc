@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 from models import Client, User
 
 
-def test_create_user(all_instances):
+def test_create_contract(all_instances):
     user, client, contract, event, session = all_instances
     client.set_commercial_id(user.id)
 
