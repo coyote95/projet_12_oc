@@ -2,12 +2,13 @@ import jwt
 from datetime import datetime, timedelta, timezone
 import os
 from settings.setting import secret_key
+from views.base_view import BaseView
 
 current_dir = os.path.dirname(__file__)  # Chemin absolu du répertoire courant
 parent_dir = os.path.dirname(current_dir)  # Chemin absolu du répertoire parent
 
 
-class AuthController:
+class AuthController(BaseView):
     def __init__(self, user=None):
         self.user = user
 
@@ -16,14 +17,15 @@ class AuthController:
             with open(os.path.join(parent_dir, '.token'), 'w') as token_file:
                 token_file.write(token)
         except IOError:
-            print("Erreur lors de l'écriture du fichier .token")
+            self.display_error_message("Erreur lors de l'écriture du fichier .token")
+
 
     def read_token(self):
         try:
             with open(os.path.join(parent_dir, '.token'), 'r') as token_file:
                 return token_file.read().strip()
         except IOError:
-            print("Erreur lors de la lecture du fichier .token")
+            self.display_error_message("Erreur lors de la lecture du fichier .token")
             return None
 
     def generate_token(self):
@@ -55,12 +57,12 @@ class AuthController:
             return payload
         except jwt.ExpiredSignatureError:
             # Le JWT a expiré
-            print("Le jeton a expiré. Vous devez vous réauthentifier.")
+            self.display_warning_message("Le jeton a expiré. Vous devez vous réauthentifier.")
             # refreesh login
             return False
         except jwt.InvalidTokenError:
             # Le JWT est invalide
-            print("Le jeton est invalide. Veuillez vous reconnecter.")
+            self.display_error_message("Le jeton est invalide. Veuillez vous reconnecter.")
             return False
 
     def decode_payload_role_token(self):
