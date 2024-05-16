@@ -1,10 +1,7 @@
-from controllers import ClientController
-from views.clients_view import ClientView
-from models import Client, User
+from models import User
 from unittest.mock import MagicMock, patch, Mock
-from views import ContractView
 from controllers.auth_controllers import AuthController
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 
 
 def test_store_token():
@@ -47,14 +44,12 @@ def test_read_token_io_error(capsys):
 
 def test_generate_token_valid(init_session):
     session = init_session
-    expiration_time = datetime(2024, 12, 30, 12, 30, 00)
     user = User("marc", "marc@test.com", "commercial", "password")
     session.add(user)
     session.commit()
 
     with patch('controllers.auth_controllers.AuthController.store_token') as mock_store_token:
         with patch('jwt.encode') as mock_encode:
-            # Définir le comportement de jwt.encode pour retourner un vrai jeton
             mock_encode.return_value = b"token"
             auth_controller = AuthController(user)
             token = auth_controller.generate_token()
@@ -63,19 +58,12 @@ def test_generate_token_valid(init_session):
 
 
 def test_valid_token_valid_token():
-    # Création d'une instance de AuthController
     auth_controller = AuthController()
 
-    # Mock de la méthode read_token pour retourner un token valide
     with patch.object(auth_controller, 'read_token') as mock_read_token:
         mock_read_token.return_value = "valid_token"
 
-        # Mock de jwt.decode pour retourner un payload
         with patch('jwt.decode') as mock_decode:
             mock_decode.return_value = {'user_id': 1, 'username': 'test_user'}
-
-            # Appel de la méthode valid_token
             result = auth_controller.valid_token()
-
-            # Vérification que le résultat est le payload décodé
             assert result == {'user_id': 1, 'username': 'test_user'}

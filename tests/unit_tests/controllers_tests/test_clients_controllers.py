@@ -4,7 +4,7 @@ from models import Client, User
 from unittest.mock import MagicMock
 
 
-def test_create_user(init_session):
+def test_create_client(init_session):
     client_controller = ClientController()
     mock_client_view = MagicMock(spec=ClientView)
     mock_client_view.input_info_client.return_value = ("tarault", "manon", "manon@test.com", "0123654789",
