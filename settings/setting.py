@@ -9,6 +9,7 @@ load_dotenv(dotenv_path)
 
 secret_key = os.getenv('SECRET_KEY')
 database = os.getenv('DATABASE')
+sentry = os.getenv('SENTRY')
 
 
 
