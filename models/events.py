@@ -15,7 +15,7 @@ class Event(Base):
     location = Column(String(255))
     participants = Column(Integer)
     notes = Column(String(255))
-    # one to one(1 contrat pour 1 evenement)
+    # one to one(1 contrat can have 1 evenement)
     contract_id = Column(Integer, ForeignKey('contract.id', ondelete='SET NULL'))
     contract = relationship("Contract", back_populates='event', uselist=False)
     # one to many(1support pour plusieurs event)

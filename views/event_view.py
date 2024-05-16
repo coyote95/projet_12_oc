@@ -4,10 +4,6 @@ from views.base_view import BaseView
 
 class EventView(BaseView):
 
-    # @staticmethod
-    # def afficher_message(message):
-    #     print(message)
-
     @staticmethod
     def input_id_contract():
         while True:
@@ -17,7 +13,6 @@ class EventView(BaseView):
                 return contract_id
             except ValueError:
                 EventView.display_error_message("Vous n'avez pas saisi un numéro")
-
 
     @staticmethod
     def input_start_date():
@@ -65,7 +60,6 @@ class EventView(BaseView):
             except ValueError:
                 EventView.display_error_message("Vous n'avez pas saisi un numéro")
 
-
     @staticmethod
     def input_id_event():
         while True:
@@ -76,7 +70,6 @@ class EventView(BaseView):
             except ValueError:
                 EventView.display_error_message("Vous n'avez pas saisi un numéro")
 
-
     @staticmethod
     def input_id_support():
         while True:
@@ -86,7 +79,6 @@ class EventView(BaseView):
                 return support_id
             except ValueError:
                 EventView.display_error_message("Vous n'avez pas saisi un numéro")
-
 
     @staticmethod
     def input_infos_event():

@@ -12,10 +12,10 @@ class Contract(Base):
     remaining_price = Column(Float)
     creation_date = Column(DateTime)
     signed = Column(Boolean)
-    # one to many(1 client pour plusieurs contract) contract=child
-    client_id = Column(Integer, ForeignKey('client.id', ondelete='SET NULL'))  # one to many
+    # one to many(1 client can have multipe contract) contract=child
+    client_id = Column(Integer, ForeignKey('client.id', ondelete='SET NULL'))
     client = relationship("Client", back_populates='contracts')
-    # one to one(1 evenement pour 1 contract)
+    # one to one(1 event can have  1 contract)
     event = relationship("Event", back_populates="contract", uselist=False)
 
     def __init__(self, total_price, remaining_price, signed, client_id=None):

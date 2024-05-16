@@ -1,7 +1,7 @@
-from views.users_view import UserView
+from views import UserView
 from settings.database import session
-from models.users import User
-from sentry_sdk import capture_exception, capture_message
+from models import User
+from sentry_sdk import capture_message
 
 
 class UserController:

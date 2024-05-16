@@ -15,13 +15,11 @@ class Client(Base):
     company = Column(String(255))
     creation_date = Column(DateTime)
     last_update_date = Column(DateTime)
-    # one to many (1 utilisateur peut avoir plusieur client) client=child
+    # one to many (1 user can have multiple clients) client=child
     commercial_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
     commercial = relationship('User', back_populates='clients')
-    # one to many (1client peut avoir plusieur contract ou event) client = parents
+    # one to many (1 client can have multiple contract ou event) client=parents
     contracts = relationship("Contract", back_populates="client", passive_deletes='all')
-
-    # events = relationship("Event", back_populates="client",passive_deletes='all')
 
     def __init__(self, name, surname, email, phone, company):
         self.name = name

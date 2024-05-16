@@ -1,9 +1,7 @@
-from models.events import Event
-from models.contract import Contract
-from models.users import User
-from views.event_view import EventView
+from models import Event, Contract, User
+from views import EventView
 from settings.database import session
-from sentry_sdk import capture_exception, capture_message
+from sentry_sdk import capture_message
 
 
 class EventController:

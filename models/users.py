@@ -6,7 +6,6 @@ from . import Base
 from settings.database import session
 
 
-
 class User(Base):
     __tablename__ = 'user'
 
@@ -15,12 +14,12 @@ class User(Base):
     email = Column(String(255), unique=True)
     departement = Column(Enum('commercial', 'support', 'gestion'))
     password = Column(String(255))
-    # one to many(1 utilisateur pour plusieurs clients)
+    # one to many(1 user can have multiple clients)
     clients = relationship('Client', back_populates="commercial", passive_deletes='all')
-    # one to many (1 role pour plusieurs utilisateur)
+    # one to many (1 role can have multiple users)
     role_id = Column(Integer, ForeignKey('role.id', ondelete='SET NULL'))
     role = relationship('Role', back_populates="users")
-    # one to many(1 support pour plusieurs evenement)
+    # one to many(1 support can have multiple events)
     events = relationship('Event', back_populates="support", passive_deletes='all')
 
     def __init__(self, name, email, departement, password):
@@ -64,13 +63,11 @@ class User(Base):
         self.departement = departement
 
     def set_password(self, password):
-        # Hasher et saler le mot de passe
         if password is not None:
             self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         return self.password
 
     def check_password(self, password):
-        # Vérifier si le mot de passe fourni correspond au mot de passe stocké
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
     def set_role_from_departement(self):
@@ -90,8 +87,6 @@ class User(Base):
     def filter_by_id(user_id):
         return session.query(User).filter_by(id=user_id).first()
 
-
     @staticmethod
     def filter_all_users():
         return session.query(User).all()
-

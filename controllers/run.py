@@ -1,39 +1,30 @@
 import controllers.menu_controllers
-from controllers.users_controllers import UserController
-from controllers.clients_controllers import ClientController
-from controllers.contract_controllers import ContractController
-from controllers.event_controllers import EventController
+from controllers import UserController, ClientController, ContractController, EventController
 from controllers.auth_controllers import AuthController
 from views.base_view import BaseView
 from models.users import User
 from models.role import Role
 from settings.database import session
-from sentry_sdk import capture_exception, capture_message
+from sentry_sdk import capture_message
 from functools import wraps
 
 
-# Décorateur pour vérifier la connection
 def login(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
         controller_auth = AuthController()
-        print("login")
         if controller_auth.valid_token():
-            print('token valide')
             return func(self, *args, **kwargs)
         else:
-            print('token invalide')
             return controllers.menu_controllers.HomeMenuController()
 
     return wrapper
 
 
-# Décorateur pour vérifier les autorisations
 def check_permissions(permissions):
     def decorator(func):
         @wraps(func)
         def wrapper(self, *args, **kwargs):
-            print("permission")
             if self.has_permissions(permissions):
                 return func(self, *args, **kwargs)
             else:
@@ -46,7 +37,6 @@ def check_permissions(permissions):
     return decorator
 
 
-# Classe de base pour toutes les actions
 class RunAction:
     def __init__(self):
         self.user_authcontroller = AuthController()
@@ -335,5 +325,3 @@ class RunUpdateEvent(RunAction):
 
     def get_menu_controller(self):
         return controllers.menu_controllers.EvenementMenuController()
-
-

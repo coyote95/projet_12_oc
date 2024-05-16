@@ -1,8 +1,7 @@
-from views.clients_view import ClientView
-from models.clients import Client
-from models.users import User
+from views import ClientView
+from models import Client, User
 from settings.database import session
-from sentry_sdk import capture_exception, capture_message
+from sentry_sdk import capture_message
 
 
 class ClientController:
@@ -23,14 +22,9 @@ class ClientController:
     def delete_client_by_id(self, user_id):
         client_id = self.view.input_id_client()
         client = self.model.filter_by_id(client_id)
-        print("BOOOOOONJOUUUUR")
         if client:
-            print("BOOOOOONJOUUUUR")
             self.view.display_client(client)
-            print(user_id)
-            print(user_id,client.get_commercial_id())
             if client.get_commercial_id() == user_id:
-
                 session.delete(client)
                 session.commit()
                 capture_message(f"Suppression client:{client.id}", level="info")

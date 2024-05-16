@@ -13,7 +13,6 @@ class UserView(BaseView):
     def input_email():
         while True:
             email = input("Entrez votre email: ")
-            # Expression régulière pour valider le format de l'email
             if re.match(r'^[\w\.-]+@[\w\.-]+$', email):
                 return email
             else:
@@ -47,7 +46,6 @@ class UserView(BaseView):
                 return user_id
             except ValueError:
                 UserView.display_error_message("Vous n'avez pas saisi un numéro")
-
 
     @staticmethod
     def ask_infos_user_login():
@@ -97,4 +95,3 @@ class UserView(BaseView):
 
             except ValueError:
                 UserView.display_error_message("Vous n'avez pas saisi un numéro")
-

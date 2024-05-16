@@ -8,11 +8,8 @@ from controllers.run import (RunInscription, RunConnexion,
                              RunCreateContract, RunDeleteContract, RunReadContract, RunFilterContract,
                              RunUpdateContract,
                              RunCreateEvent, RunDeleteEvent, RunReadEvent, RunFilterEvent, RunUpdateEvent)
-from sentry_sdk import capture_exception, capture_message
-from functools import wraps
+from sentry_sdk import capture_message
 from settings.database import session
-
-
 
 
 class ApplicationController:
@@ -133,7 +130,7 @@ class EvenementMenuController:
         return user_choice.handler
 
 
-class QuitController:# quitter si user_id different de 0 ne pas faire de lecture de token
+class QuitController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)

@@ -1,8 +1,8 @@
-from models.clients import Client
-from models.contract import Contract
-from views.contract_view import ContractView
+from models import Client
+from models import Contract
+from views import ContractView
 from settings.database import session
-from sentry_sdk import capture_exception, capture_message
+from sentry_sdk import capture_message
 
 
 class ContractController:
@@ -22,11 +22,9 @@ class ContractController:
                         break
                     else:
                         self.view.display_error_message("le prix restant à payer doit être inférieur au prix total")
-
                 signed = self.view.input_signed_contract()
                 new_contract = self.model(total_price=total_price, remaining_price=remaining_price,
                                           client_id=client_id, signed=signed)
-
                 session.add(new_contract)
                 session.commit()
                 capture_message(f"Création contrat:{new_contract.id}", level="info")
@@ -34,7 +32,6 @@ class ContractController:
                 return new_contract
             else:
                 self.view.display_warning_message("Ce client ne fait pas partie de votre équipe")
-
         else:
             self.view.display_warning_message("Client non trouvé pour l'ID donné.")
 
@@ -89,7 +86,6 @@ class ContractController:
                 except Exception as e:
                     self.view.display_error_message(
                         f"Une erreur s'est produite lors de la récupération des contrats: {e}")
-
         else:
             self.view.display_info_message("Aucun filtre contrat disponible")
 
