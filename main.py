@@ -17,7 +17,10 @@ try:
     role_controller = RoleController()
     role_controller.init_role_database()
 except Exception as e:
-    print("Une erreur s'est produite lors de l'initialisation de la base de données des rôles:", e)
+    print(
+        "Une erreur s'est produite lors de l'initialisation de la base de données des rôles:",
+        e,
+    )
     sys.exit(1)
 
 app = ApplicationController()

@@ -25,4 +25,4 @@ def test_set_password(init_session):
     password = "password"
     user.set_password(password)
     assert user.get_password() is not None
-    assert bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
+    assert bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8"))

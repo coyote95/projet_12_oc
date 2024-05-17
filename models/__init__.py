@@ -8,4 +8,5 @@ from .clients import Client
 from .contract import Contract
 from .events import Event
 from .role import Role
+
 # Ajoutez d'autres imports si nécessaire

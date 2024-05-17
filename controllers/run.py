@@ -30,7 +30,12 @@ Classes:
 """
 
 import controllers.menu_controllers
-from controllers import UserController, ClientController, ContractController, EventController
+from controllers import (
+    UserController,
+    ClientController,
+    ContractController,
+    EventController,
+)
 from controllers.auth_controllers import AuthController
 from views.base_view import BaseView
 from models.users import User
@@ -60,7 +65,8 @@ def check_permissions(permissions):
                 return func(self, *args, **kwargs)
             else:
                 BaseView.display_warning_message(
-                    f"Vous n'avez pas la permission d'effectuer cette action {permissions}.")
+                    f"Vous n'avez pas la permission d'effectuer cette action {permissions}."
+                )
                 return self.get_menu_controller()
 
         return wrapper
@@ -76,14 +82,21 @@ class RunAction:
 
     def has_permissions(self, permissions):
         if self.user_authcontroller.valid_token():
-            role_decode, id_decode = self.user_authcontroller.decode_payload_id_and_role_token()
+            role_decode, id_decode = (
+                self.user_authcontroller.decode_payload_id_and_role_token()
+            )
             self.id_user = id_decode
             self.role_user = role_decode
-            return all(permission in Role(role_decode).has_permissions() for permission in permissions)
+            return all(
+                permission in Role(role_decode).has_permissions()
+                for permission in permissions
+            )
         return False
 
     def get_menu_controller(self):
-        raise NotImplementedError("La méthode get_menu_controller doit être implémentée dans la classe fille.")
+        raise NotImplementedError(
+            "La méthode get_menu_controller doit être implémentée dans la classe fille."
+        )
 
 
 class RunInscription:
@@ -105,16 +118,23 @@ class RunConnexion:
                 user_authcontroller = AuthController(user)
                 try:
                     user_authcontroller.generate_token()
-                    return controllers.menu_controllers.EpicEventMenuController()  # id_decode,role_decode
+                    return (
+                        controllers.menu_controllers.EpicEventMenuController()
+                    )  # id_decode,role_decode
                 except Exception as token_error:
                     BaseView.display_error_message(
-                        f"Une erreur s'est produite lors de la génération du token : {token_error}")
+                        f"Une erreur s'est produite lors de la génération du token : {token_error}"
+                    )
 
             else:
-                BaseView.display_warning_message("Adresse e-mail ou mot de passe incorrect. Veuillez réessayer.")
+                BaseView.display_warning_message(
+                    "Adresse e-mail ou mot de passe incorrect. Veuillez réessayer."
+                )
                 return controllers.menu_controllers.HomeMenuController()
         except Exception as e:
-            BaseView.display_error_message(f"Connexion impossible en raison d'une erreur. : {e}")
+            BaseView.display_error_message(
+                f"Connexion impossible en raison d'une erreur. : {e}"
+            )
             return None
 
 

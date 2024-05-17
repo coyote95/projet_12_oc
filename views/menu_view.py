@@ -34,4 +34,4 @@ class HomeMenuView:
     @staticmethod
     def display_title(title):
         console = Console()
-        console.print(f'[bold magenta]*****   {title}   *****[/bold magenta]')
+        console.print(f"[bold magenta]*****   {title}   *****[/bold magenta]")

@@ -6,47 +6,48 @@ from settings.database import session
 
 class Client(Base):
     """
-       Represents a client entity in the database.
+    Represents a client entity in the database.
 
-       Attributes:
-           id (int): The unique identifier for the client.
-           name (str): The name of the client.
-           surname (str): The surname of the client.
-           email (str): The email address of the client (unique).
-           phone (str): The phone number of the client.
-           company (str): The company of the client.
-           creation_date (DateTime): The date and time when the client was created.
-           last_update_date (DateTime): The date and time when the client was last updated.
-           commercial_id (int): The foreign key referencing the user who is the commercial associated with the client.
-           commercial (relationship): Relationship with the User model representing the commercial associated with the client.
-           contracts (relationship): Relationship with the Contract model representing the contracts associated with the client.
+    Attributes:
+        id (int): The unique identifier for the client.
+        name (str): The name of the client.
+        surname (str): The surname of the client.
+        email (str): The email address of the client (unique).
+        phone (str): The phone number of the client.
+        company (str): The company of the client.
+        creation_date (DateTime): The date and time when the client was created.
+        last_update_date (DateTime): The date and time when the client was last updated.
+        commercial_id (int): The foreign key referencing the user who is the commercial associated with the client.
+        commercial (relationship): Relationship with the User model representing the commercial associated with the client.
+        contracts (relationship): Relationship with the Contract model representing the contracts associated with the client.
 
-       Methods:
-           __init__(name, surname, email, phone, company): Initializes a new Client object with provided attributes.
-           __repr__(): Returns a string representation of the Client object.
-           get_id(): Returns the ID of the client.
-           get_name(): Returns the name of the client.
-           get_surname(): Returns the surname of the client.
-           get_email(): Returns the email of the client.
-           get_phone(): Returns the phone number of the client.
-           get_company(): Returns the company of the client.
-           get_creation_date(): Returns the creation date of the client.
-           get_last_update_date(): Returns the last update date of the client.
-           get_commercial_id(): Returns the ID of the commercial associated with the client.
-           get_user_name(): Returns the name of the commercial associated with the client.
-           set_last_update_date(): Updates the last update date of the client to the current datetime.
-           set_id(client_id): Sets the ID of the client.
-           set_name(name): Sets the name of the client.
-           set_surname(surname): Sets the surname of the client.
-           set_email(email): Sets the email of the client.
-           set_phone(phone): Sets the phone number of the client.
-           set_company(company): Sets the company of the client.
-           set_commercial_id(user_id): Sets the commercial ID associated with the client.
-           filter_by_id(client_id): Returns the client with the specified ID.
-           filter_all_clients(): Returns all clients.
-           filter_by_commercial_id(commercial_id): Returns all clients associated with the specified commercial ID.
-       """
-    __tablename__ = 'client'
+    Methods:
+        __init__(name, surname, email, phone, company): Initializes a new Client object with provided attributes.
+        __repr__(): Returns a string representation of the Client object.
+        get_id(): Returns the ID of the client.
+        get_name(): Returns the name of the client.
+        get_surname(): Returns the surname of the client.
+        get_email(): Returns the email of the client.
+        get_phone(): Returns the phone number of the client.
+        get_company(): Returns the company of the client.
+        get_creation_date(): Returns the creation date of the client.
+        get_last_update_date(): Returns the last update date of the client.
+        get_commercial_id(): Returns the ID of the commercial associated with the client.
+        get_user_name(): Returns the name of the commercial associated with the client.
+        set_last_update_date(): Updates the last update date of the client to the current datetime.
+        set_id(client_id): Sets the ID of the client.
+        set_name(name): Sets the name of the client.
+        set_surname(surname): Sets the surname of the client.
+        set_email(email): Sets the email of the client.
+        set_phone(phone): Sets the phone number of the client.
+        set_company(company): Sets the company of the client.
+        set_commercial_id(user_id): Sets the commercial ID associated with the client.
+        filter_by_id(client_id): Returns the client with the specified ID.
+        filter_all_clients(): Returns all clients.
+        filter_by_commercial_id(commercial_id): Returns all clients associated with the specified commercial ID.
+    """
+
+    __tablename__ = "client"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
@@ -57,10 +58,10 @@ class Client(Base):
     creation_date = Column(DateTime)
     last_update_date = Column(DateTime)
     # one to many (1 user can have multiple clients) client=child
-    commercial_id = Column(Integer, ForeignKey('user.id', ondelete='SET NULL'))
-    commercial = relationship('User', back_populates='clients')
+    commercial_id = Column(Integer, ForeignKey("user.id", ondelete="SET NULL"))
+    commercial = relationship("User", back_populates="clients")
     # one to many (1 client can have multiple contract ou event) client=parents
-    contracts = relationship("Contract", back_populates="client", passive_deletes='all')
+    contracts = relationship("Contract", back_populates="client", passive_deletes="all")
 
     def __init__(self, name, surname, email, phone, company):
         self.name = name
@@ -72,8 +73,10 @@ class Client(Base):
         self.last_update_date = func.now()
 
     def __repr__(self):
-        return (f"<Client(nom_complet='{self.name}', email='{self.email}', téléphone='{self.phone}', entreprise="
-                f"'{self.company}')>")
+        return (
+            f"<Client(nom_complet='{self.name}', email='{self.email}', téléphone='{self.phone}', entreprise="
+            f"'{self.company}')>"
+        )
 
     def get_id(self):
         return self.id

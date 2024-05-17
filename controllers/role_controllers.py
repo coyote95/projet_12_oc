@@ -10,13 +10,13 @@ class RoleController:
 
     def init_role_database(self):
         """
-            Initialize the role database with predefined roles.
+        Initialize the role database with predefined roles.
 
-            This method checks if the roles 'commercial', 'support', and 'gestion'
-            exist in the database. If not, it creates them.
-            """
+        This method checks if the roles 'commercial', 'support', and 'gestion'
+        exist in the database. If not, it creates them.
+        """
 
-        init_roles = ['commercial', 'support', 'gestion']
+        init_roles = ["commercial", "support", "gestion"]
         for role in init_roles:
             existing_role = session.query(self.model).filter_by(role=role).first()
             if existing_role is None:

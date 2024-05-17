@@ -25,8 +25,8 @@ def all_instances(init_session):
     client = Client("martin", "alice", "alice@example.com", "0123456780", "DARTY")
     contract = Contract(total_price=1000.0, remaining_price=500.0, signed=True)
     event = Event(
-        start_date=datetime(2024, 5, 15,12,30),
-        end_date=datetime(2024, 5, 16,12,30),
+        start_date=datetime(2024, 5, 15, 12, 30),
+        end_date=datetime(2024, 5, 16, 12, 30),
         location="madrid",
         participants=50,
         notes="RAS",

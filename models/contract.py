@@ -6,42 +6,43 @@ from settings.database import session
 
 class Contract(Base):
     """
-       Represents a contract entity in the database.
+    Represents a contract entity in the database.
 
-       Attributes:
-           id (int): The unique identifier for the contract.
-           total_price (float): The total price of the contract.
-           remaining_price (float): The remaining amount to be paid for the contract.
-           creation_date (DateTime): The date and time when the contract was created.
-           signed (bool): A boolean indicating whether the contract is signed or not.
-           client_id (int): The foreign key referencing the client associated with the contract.
-           client (relationship): Relationship with the Client model representing the client associated with the contract.
-           event (relationship): Relationship with the Event model representing the event associated with the contract.
+    Attributes:
+        id (int): The unique identifier for the contract.
+        total_price (float): The total price of the contract.
+        remaining_price (float): The remaining amount to be paid for the contract.
+        creation_date (DateTime): The date and time when the contract was created.
+        signed (bool): A boolean indicating whether the contract is signed or not.
+        client_id (int): The foreign key referencing the client associated with the contract.
+        client (relationship): Relationship with the Client model representing the client associated with the contract.
+        event (relationship): Relationship with the Event model representing the event associated with the contract.
 
-       Methods:
-           __init__(total_price, remaining_price, signed, client_id=None): Initializes a new Contract object with provided attributes.
-           __str__(): Returns a string representation of the Contract object.
-           __repr__(): Returns a string representation of the Contract object.
-           get_id(): Returns the ID of the contract.
-           get_total_price(): Returns the total price of the contract.
-           get_remaining_price(): Returns the remaining price of the contract.
-           get_client_id(): Returns the ID of the client associated with the contract.
-           get_event(): Returns the event associated with the contract.
-           get_client(): Returns the client associated with the contract.
-           get_signed(): Returns whether the contract is signed or not.
-           set_id(contract_id): Sets the ID of the contract.
-           set_total_price(total_price): Sets the total price of the contract.
-           set_remaining_price(remaining_price): Sets the remaining price of the contract.
-           set_signed(signed): Sets whether the contract is signed or not.
-           set_client_id(client_id): Sets the client ID associated with the contract.
-           set_client(client): Sets the client associated with the contract.
-           set_event(event): Sets the event associated with the contract.
-           filter_by_id(contract_id): Returns the contract with the specified ID.
-           filter_all_contracts(): Returns all contracts.
-           filter_unsigned(): Returns all unsigned contracts.
-           filter_unpayed(): Returns all contracts with remaining price not equal to 0.
-       """
-    __tablename__ = 'contract'
+    Methods:
+        __init__(total_price, remaining_price, signed, client_id=None): Initializes a new Contract object with provided attributes.
+        __str__(): Returns a string representation of the Contract object.
+        __repr__(): Returns a string representation of the Contract object.
+        get_id(): Returns the ID of the contract.
+        get_total_price(): Returns the total price of the contract.
+        get_remaining_price(): Returns the remaining price of the contract.
+        get_client_id(): Returns the ID of the client associated with the contract.
+        get_event(): Returns the event associated with the contract.
+        get_client(): Returns the client associated with the contract.
+        get_signed(): Returns whether the contract is signed or not.
+        set_id(contract_id): Sets the ID of the contract.
+        set_total_price(total_price): Sets the total price of the contract.
+        set_remaining_price(remaining_price): Sets the remaining price of the contract.
+        set_signed(signed): Sets whether the contract is signed or not.
+        set_client_id(client_id): Sets the client ID associated with the contract.
+        set_client(client): Sets the client associated with the contract.
+        set_event(event): Sets the event associated with the contract.
+        filter_by_id(contract_id): Returns the contract with the specified ID.
+        filter_all_contracts(): Returns all contracts.
+        filter_unsigned(): Returns all unsigned contracts.
+        filter_unpayed(): Returns all contracts with remaining price not equal to 0.
+    """
+
+    __tablename__ = "contract"
 
     id = Column(Integer, primary_key=True)
     total_price = Column(Float)
@@ -49,8 +50,8 @@ class Contract(Base):
     creation_date = Column(DateTime)
     signed = Column(Boolean)
     # one to many(1 client can have multipe contract) contract=child
-    client_id = Column(Integer, ForeignKey('client.id', ondelete='SET NULL'))
-    client = relationship("Client", back_populates='contracts')
+    client_id = Column(Integer, ForeignKey("client.id", ondelete="SET NULL"))
+    client = relationship("Client", back_populates="contracts")
     # one to one(1 event can have  1 contract)
     event = relationship("Event", back_populates="contract", uselist=False)
 
@@ -62,12 +63,16 @@ class Contract(Base):
         self.creation_date = func.now()
 
     def __str__(self):
-        return (f"<Contrat:(id='{id}', client='{self.client_id}', prix= {self.total_price}, reste à payer= "
-                f"{self.remaining_price})>")
+        return (
+            f"<Contrat:(id='{id}', client='{self.client_id}', prix= {self.total_price}, reste à payer= "
+            f"{self.remaining_price})>"
+        )
 
     def __repr__(self):
-        return (f"<Contrat:(id='{id}', client='{self.client_id}', prix= {self.total_price}, reste à payer= "
-                f"{self.remaining_price})>")
+        return (
+            f"<Contrat:(id='{id}', client='{self.client_id}', prix= {self.total_price}, reste à payer= "
+            f"{self.remaining_price})>"
+        )
 
     def get_id(self):
         return self.id

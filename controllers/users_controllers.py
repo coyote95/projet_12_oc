@@ -40,7 +40,9 @@ class UserController:
 
     def create_user(self):
         name, email, departement, password = self.view.input_infos_user()
-        new_user = self.model(name=name, email=email, password=password, departement=departement)
+        new_user = self.model(
+            name=name, email=email, password=password, departement=departement
+        )
         session.add(new_user)
         session.commit()
         capture_message(f"Création utilisateur:{new_user.id}", level="info")
@@ -71,8 +73,10 @@ class UserController:
             else:
                 self.view.display_warning_message("Aucun utilisateur trouvé.")
         except Exception as e:
-            self.view.display_error_message(f"Une erreur s'est produite lors de la récupération "
-                                            f"des utilisateurs : {e}")
+            self.view.display_error_message(
+                f"Une erreur s'est produite lors de la récupération "
+                f"des utilisateurs : {e}"
+            )
 
     def filter_users(self):
         self.view.display_info_message("Aucun filtre utilisateur disponible")
@@ -89,28 +93,42 @@ class UserController:
                 user.set_name(new_name)
                 session.commit()
                 capture_message(f"Modification Nom utilisateur:{user.id}", level="info")
-                self.view.display_info_message("Nom de l'utilisateur modifié avec succès.")
+                self.view.display_info_message(
+                    "Nom de l'utilisateur modifié avec succès."
+                )
 
             elif choice == "departement":
                 new_departement = self.view.input_departement()
                 user.set_departement(new_departement)
                 user.set_role_from_departement()
                 session.commit()
-                capture_message(f"Modification departement utilisateur:{user.id}", level="info")
-                self.view.display_info_message("Département de l'utilisateur modifié avec succès.")
+                capture_message(
+                    f"Modification departement utilisateur:{user.id}", level="info"
+                )
+                self.view.display_info_message(
+                    "Département de l'utilisateur modifié avec succès."
+                )
 
             elif choice == "email":
                 new_email = self.view.input_email()
                 user.set_email(new_email)
                 session.commit()
-                capture_message(f"Modification email utilisateur:{user.id}", level="info")
-                self.view.display_info_message("Email de l'utilisateur modifié avec succès.")
+                capture_message(
+                    f"Modification email utilisateur:{user.id}", level="info"
+                )
+                self.view.display_info_message(
+                    "Email de l'utilisateur modifié avec succès."
+                )
 
             elif choice == "password":
                 new_password = self.view.input_password()
                 user.set_password(new_password)
                 session.commit()
-                capture_message(f"Modification mot de passe utilisateur:{user.id}", level="info")
-                self.view.display_info_message("Mot de passe de l'utilisateur modifié avec succès.")
+                capture_message(
+                    f"Modification mot de passe utilisateur:{user.id}", level="info"
+                )
+                self.view.display_info_message(
+                    "Mot de passe de l'utilisateur modifié avec succès."
+                )
             else:
                 self.view.display_error_message("Option invalide.")

@@ -9,12 +9,30 @@ import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView
 from controllers.auth_controllers import AuthController
-from controllers.run import (RunInscription, RunConnexion,
-                             RunCreateUser, RunDeleteUser, RunReadUser, RunFilterUser, RunUpdateUser,
-                             RunCreateClient, RunDeleteClient, RunReadClient, RunFilterClient, RunUpdateClient,
-                             RunCreateContract, RunDeleteContract, RunReadContract, RunFilterContract,
-                             RunUpdateContract,
-                             RunCreateEvent, RunDeleteEvent, RunReadEvent, RunFilterEvent, RunUpdateEvent)
+from controllers.run import (
+    RunInscription,
+    RunConnexion,
+    RunCreateUser,
+    RunDeleteUser,
+    RunReadUser,
+    RunFilterUser,
+    RunUpdateUser,
+    RunCreateClient,
+    RunDeleteClient,
+    RunReadClient,
+    RunFilterClient,
+    RunUpdateClient,
+    RunCreateContract,
+    RunDeleteContract,
+    RunReadContract,
+    RunFilterContract,
+    RunUpdateContract,
+    RunCreateEvent,
+    RunDeleteEvent,
+    RunReadEvent,
+    RunFilterEvent,
+    RunUpdateEvent,
+)
 from sentry_sdk import capture_message
 from settings.database import session
 
@@ -82,7 +100,9 @@ class UserMenuController:
 
 
 class ClientMenuController:
-    def __init__(self, ):
+    def __init__(
+        self,
+    ):
         self.id_decode = None
         self.role_decode = None
         self.menu = Menu()
@@ -145,7 +165,9 @@ class QuitController:
     def __call__(self, *args, **kwargs):
         user_authcontroller = AuthController()
         if user_authcontroller.valid_token():
-            role_decode, id_decode = user_authcontroller.decode_payload_id_and_role_token()
+            role_decode, id_decode = (
+                user_authcontroller.decode_payload_id_and_role_token()
+            )
             capture_message(f"Utilisateur {id_decode} déconnecté", level="info")
         self.view.display_title("Fin du programme")
         session.close()

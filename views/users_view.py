@@ -31,20 +31,26 @@ class UserView(BaseView):
     def input_email():
         while True:
             email = input("Entrez votre email: ")
-            if re.match(r'^[\w\.-]+@[\w\.-]+$', email):
+            if re.match(r"^[\w\.-]+@[\w\.-]+$", email):
                 return email
             else:
-                BaseView.display_error_message("Adresse email invalide. Veuillez réessayer.")
+                BaseView.display_error_message(
+                    "Adresse email invalide. Veuillez réessayer."
+                )
 
     @staticmethod
     def input_departement():
         while True:
-            departement = input("Entrez votre département (gestion, commercial, support) : ")
+            departement = input(
+                "Entrez votre département (gestion, commercial, support) : "
+            )
             if departement.lower() in ["gestion", "commercial", "support"]:
                 return departement.lower()
             else:
-                UserView.display_error_message("Nom de département invalide. Veuillez indiquer :"
-                                               " 'gestion', 'support' ou 'commercial'")
+                UserView.display_error_message(
+                    "Nom de département invalide. Veuillez indiquer :"
+                    " 'gestion', 'support' ou 'commercial'"
+                )
 
     @staticmethod
     def input_password():
@@ -93,13 +99,15 @@ class UserView(BaseView):
     def ask_user_update_field():
         while True:
             try:
-                choice = int(input(
-                    f"Quelle information voulez-vous modifier?\n"
-                    f"1: Nom\n"
-                    f"2: Département\n"
-                    f"3: Email\n"
-                    f"4: Password\n"
-                ))
+                choice = int(
+                    input(
+                        f"Quelle information voulez-vous modifier?\n"
+                        f"1: Nom\n"
+                        f"2: Département\n"
+                        f"3: Email\n"
+                        f"4: Password\n"
+                    )
+                )
                 if choice == 1:
                     return "nom"
                 elif choice == 2:
@@ -109,7 +117,9 @@ class UserView(BaseView):
                 elif choice == 4:
                     return "password"
                 else:
-                    UserView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+                    UserView.display_warning_message(
+                        "Vous n'avez pas saisi un numéro valide"
+                    )
 
             except ValueError:
                 UserView.display_error_message("Vous n'avez pas saisi un numéro")

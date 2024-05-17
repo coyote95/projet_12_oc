@@ -3,23 +3,23 @@ from views.base_view import BaseView
 
 class ContractView(BaseView):
     """
-      Provides methods for user input and displaying contract information.
+    Provides methods for user input and displaying contract information.
 
-      Inherits from:
-          BaseView: A base class providing methods to display messages in different colors.
+    Inherits from:
+        BaseView: A base class providing methods to display messages in different colors.
 
-      Methods:
-          input_total_price(): Prompts the user to input the total price of the contract.
-          input_remaining_price(): Prompts the user to input the remaining price to pay.
-          input_signed_contract(): Prompts the user to input whether the contract is signed or not.
-          display_signed_contract(signed_contract): Displays the status of the contract's signature.
-          input_id_client(): Prompts the user to input the client's ID associated with the contract.
-          input_id_contract(): Prompts the user to input the contract's ID.
-          input_prices(): Prompts the user to input both total and remaining prices.
-          display_contract(contract): Displays information about a contract.
-          ask_contract_update_field(): Asks the user which field of the contract they want to update.
-          menu_filter(): Displays a menu for filtering contract options.
-      """
+    Methods:
+        input_total_price(): Prompts the user to input the total price of the contract.
+        input_remaining_price(): Prompts the user to input the remaining price to pay.
+        input_signed_contract(): Prompts the user to input whether the contract is signed or not.
+        display_signed_contract(signed_contract): Displays the status of the contract's signature.
+        input_id_client(): Prompts the user to input the client's ID associated with the contract.
+        input_id_contract(): Prompts the user to input the contract's ID.
+        input_prices(): Prompts the user to input both total and remaining prices.
+        display_contract(contract): Displays information about a contract.
+        ask_contract_update_field(): Asks the user which field of the contract they want to update.
+        menu_filter(): Displays a menu for filtering contract options.
+    """
 
     @staticmethod
     def input_total_price():
@@ -48,7 +48,9 @@ class ContractView(BaseView):
             elif signed_contract.lower() == "non":
                 return False
             else:
-                ContractView.display_error_message("Vous n'avez pas saisi 'oui' ou 'non'")
+                ContractView.display_error_message(
+                    "Vous n'avez pas saisi 'oui' ou 'non'"
+                )
 
     @staticmethod
     def display_signed_contract(signed_contract):
@@ -97,13 +99,15 @@ class ContractView(BaseView):
     def ask_contract_update_field():
         while True:
             try:
-                choice = int(input(
-                    f"Quelle information voulez-vous modifier?\n"
-                    f"1:Prix total \n"
-                    f"2:Prix restant\n"
-                    f"3:Statut signature\n"
-                    f"4:Numéro de Client\n"
-                ))
+                choice = int(
+                    input(
+                        f"Quelle information voulez-vous modifier?\n"
+                        f"1:Prix total \n"
+                        f"2:Prix restant\n"
+                        f"3:Statut signature\n"
+                        f"4:Numéro de Client\n"
+                    )
+                )
                 if choice == 1:
                     return "prix_total"
                 elif choice == 2:
@@ -113,7 +117,9 @@ class ContractView(BaseView):
                 elif choice == 4:
                     return "client"
                 else:
-                    ContractView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+                    ContractView.display_warning_message(
+                        "Vous n'avez pas saisi un numéro valide"
+                    )
 
             except ValueError:
                 ContractView.display_error_message("Vous n'avez pas saisi un numéro")
@@ -122,12 +128,14 @@ class ContractView(BaseView):
     def menu_filter():
         while True:
             try:
-                choice = int(input(
-                    f"Quelle filtrage voulez-vous réaliser?\n"
-                    f"1: Liste des contrats non signés\n"
-                    f"2: Liste des contrats restants à payer\n"
-                    f"Votre choix: "
-                ))
+                choice = int(
+                    input(
+                        f"Quelle filtrage voulez-vous réaliser?\n"
+                        f"1: Liste des contrats non signés\n"
+                        f"2: Liste des contrats restants à payer\n"
+                        f"Votre choix: "
+                    )
+                )
                 if choice == 1:
                     print("Voici la liste des contrats non signés")
                     return 1
@@ -135,8 +143,9 @@ class ContractView(BaseView):
                     print("Voici la liste des contrats non payés")
                     return 2
                 else:
-                    ContractView.display_warning_message("Vous n'avez pas saisi un numéro valide")
+                    ContractView.display_warning_message(
+                        "Vous n'avez pas saisi un numéro valide"
+                    )
 
             except ValueError:
                 ContractView.display_error_message("Vous n'avez pas saisi un numéro")
-

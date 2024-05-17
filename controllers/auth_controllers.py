@@ -40,14 +40,14 @@ class AuthController(BaseView):
 
     def store_token(self, token):
         try:
-            with open(os.path.join(parent_dir, '.token'), 'w') as token_file:
+            with open(os.path.join(parent_dir, ".token"), "w") as token_file:
                 token_file.write(token)
         except IOError:
             self.display_error_message("Erreur lors de l'écriture du fichier .token")
 
     def read_token(self):
         try:
-            with open(os.path.join(parent_dir, '.token'), 'r') as token_file:
+            with open(os.path.join(parent_dir, ".token"), "r") as token_file:
                 return token_file.read().strip()
         except IOError:
             self.display_error_message("Erreur lors de la lecture du fichier .token")
@@ -57,25 +57,29 @@ class AuthController(BaseView):
         now_utc = datetime.now(timezone.utc)
         expiration = now_utc + timedelta(hours=1)
         payload = {
-            'user_id': self.user.id,
-            'username': self.user.name,
-            'roles': self.user.departement,
-            'exp': expiration.timestamp()
+            "user_id": self.user.id,
+            "username": self.user.name,
+            "roles": self.user.departement,
+            "exp": expiration.timestamp(),
         }
-        token = jwt.encode(payload, secret_key, algorithm='HS256')
+        token = jwt.encode(payload, secret_key, algorithm="HS256")
         self.store_token(token)
         return token
 
     def valid_token(self):
         token = self.read_token()
         try:
-            payload = jwt.decode(token, secret_key, algorithms=['HS256'])
+            payload = jwt.decode(token, secret_key, algorithms=["HS256"])
             return payload
         except jwt.ExpiredSignatureError:
-            self.display_warning_message("Le jeton a expiré. Vous devez vous réauthentifier.")
+            self.display_warning_message(
+                "Le jeton a expiré. Vous devez vous réauthentifier."
+            )
             return False
         except jwt.InvalidTokenError:
-            self.display_error_message("Le jeton est invalide. Veuillez vous reconnecter.")
+            self.display_error_message(
+                "Le jeton est invalide. Veuillez vous reconnecter."
+            )
             return False
 
     # def decode_payload_role_token(self):
