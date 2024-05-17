@@ -13,7 +13,7 @@ def init_session():
     role_controller = RoleController()
     role_controller.init_role_database()
 
-    yield session  # Fournir la session aux tests
+    yield session  # give session for tests
 
     session.close()
     Base.metadata.drop_all(engine)
