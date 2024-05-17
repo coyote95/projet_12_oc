@@ -1,3 +1,29 @@
+"""
+ClientController module for managing client-related operations.
+
+Classes:
+    ClientController: Manages client operations and interactions with the database and view.
+
+Methods:
+    __init__(self):
+        Initializes the ClientController with a Client model and ClientView.
+
+    create_client(self, user_id):
+        Creates a new client with user input and associates it with the specified user.
+
+    delete_client_by_id(self, user_id):
+        Deletes a client by ID if the client is associated with the specified user.
+
+    read_all_client(self):
+        Retrieves and displays all clients from the database.
+
+    filter_client(self, user_role, user_id):
+        Filters clients based on the user's role and displays them.
+
+    update_client(self, user_id):
+        Updates client information based on user input if the client is associated with the specified user.
+"""
+
 from views import ClientView
 from models import Client, User
 from settings.database import session

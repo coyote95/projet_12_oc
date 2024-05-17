@@ -3,6 +3,25 @@ from views.base_view import BaseView
 
 
 class ClientView(BaseView):
+    """
+      Provides methods for user input and displaying client information.
+
+      Inherits from:
+          BaseView: A base class providing methods to display messages in different colors.
+
+      Methods:
+          input_name(): Prompts the user to input their name.
+          input_surname(): Prompts the user to input their surname.
+          input_company(): Prompts the user to input their company.
+          input_phone(): Prompts the user to input their phone number.
+          input_email(): Prompts the user to input their email address.
+          input_id_client(): Prompts the user to input the client's ID.
+          input_id_commercial(): Prompts the user to input the commercial's ID.
+          input_info_client(): Prompts the user to input client information (name, surname, email, phone, company).
+          display_client(client): Displays information about a client.
+          ask_client_update_field(): Asks the user which field of the client they want to update.
+          filter_message(message): Displays a filter message.
+      """
 
     @staticmethod
     def input_name():

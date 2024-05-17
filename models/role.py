@@ -4,6 +4,20 @@ from . import Base
 
 
 class Role(Base):
+    """
+       Represents a role entity in the database.
+
+       Attributes:
+           id (int): The unique identifier for the role.
+           role (Enum): The role name, which can be one of 'commercial', 'support', or 'gestion'.
+           users (relationship): Relationship with the User model representing users associated with the role.
+
+       Methods:
+           __init__(role): Initializes a new Role object with the provided role name.
+           __str__(): Returns a string representation of the Role object.
+           __repr__(): Returns a string representation of the Role object.
+           has_permissions(): Returns a set of permissions associated with the role.
+       """
     __tablename__ = 'role'
 
     id = Column(Integer, primary_key=True)

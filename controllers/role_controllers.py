@@ -9,6 +9,12 @@ class RoleController:
         self.view = UserView()
 
     def init_role_database(self):
+        """
+            Initialize the role database with predefined roles.
+
+            This method checks if the roles 'commercial', 'support', and 'gestion'
+            exist in the database. If not, it creates them.
+            """
 
         init_roles = ['commercial', 'support', 'gestion']
         for role in init_roles:

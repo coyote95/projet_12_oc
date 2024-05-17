@@ -3,6 +3,24 @@ from views.base_view import BaseView
 
 
 class UserView(BaseView):
+    class UserView(BaseView):
+        """
+        Provides methods for user input and displaying user information.
+
+        Inherits from:
+            BaseView: A base class providing methods to display messages in different colors.
+
+        Methods:
+            input_name(): Prompts the user to input their name.
+            input_email(): Prompts the user to input their email address.
+            input_departement(): Prompts the user to input their department (gestion, commercial, support).
+            input_password(): Prompts the user to input their password (minimum 8 characters).
+            input_id_user(): Prompts the user to input the user's ID.
+            ask_infos_user_login(): Prompts the user to input name and password for user login.
+            input_infos_user(): Prompts the user to input information about the user.
+            display_user(user): Displays information about a user.
+            ask_user_update_field(): Asks the user which field of the user they want to update.
+        """
 
     @staticmethod
     def input_name():

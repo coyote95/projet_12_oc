@@ -3,6 +3,27 @@ from views.base_view import BaseView
 
 
 class EventView(BaseView):
+    """
+     Provides methods for user input and displaying event information.
+
+     Inherits from:
+         BaseView: A base class providing methods to display messages in different colors.
+
+     Methods:
+         input_id_contract(): Prompts the user to input the contract's ID associated with the event.
+         input_start_date(): Prompts the user to input the start date of the event.
+         input_end_date(): Prompts the user to input the end date of the event.
+         input_location(): Prompts the user to input the location of the event.
+         input_notes(): Prompts the user to input notes about the event.
+         input_participants(): Prompts the user to input the number of participants in the event.
+         input_id_event(): Prompts the user to input the event's ID.
+         input_id_support(): Prompts the user to input the support's ID.
+         input_infos_event(): Prompts the user to input information about the event.
+         display_event(event): Displays information about an event.
+         ask_event_update_field_support_id(): Asks the user if they want to update the support ID of the event.
+         ask_event_update_field(): Asks the user which field of the event they want to update.
+         filter_message(message): Prints a message for filtering events.
+     """
 
     @staticmethod
     def input_id_contract():

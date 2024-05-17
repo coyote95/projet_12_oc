@@ -1,3 +1,29 @@
+"""
+AuthController module for handling user authentication and JWT token operations.
+
+Classes:
+    AuthController: Inherits from BaseView for print message.
+
+Methods:
+    __init__(self, user=None):
+        Initializes the AuthController with an optional user.
+
+    store_token(self, token):
+        Stores the given token in a file.
+
+    read_token(self):
+        Reads the stored token from a file.
+
+    generate_token(self):
+        Generates a JWT token for the current user and stores it.
+
+    valid_token(self):
+        Validates the stored JWT token and returns the payload if valid.
+
+    decode_payload_id_and_role_token(self):
+        Decodes the user ID and roles from the token payload.
+"""
+
 import jwt
 from datetime import datetime, timedelta, timezone
 import os
@@ -52,10 +78,10 @@ class AuthController(BaseView):
             self.display_error_message("Le jeton est invalide. Veuillez vous reconnecter.")
             return False
 
-    def decode_payload_role_token(self):
-        payload = self.valid_token()
-        role = payload.get("roles")
-        return role
+    # def decode_payload_role_token(self):
+    #     payload = self.valid_token()
+    #     role = payload.get("roles")
+    #     return role
 
     def decode_payload_id_and_role_token(self):
         payload = self.valid_token()

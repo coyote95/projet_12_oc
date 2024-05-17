@@ -1,3 +1,32 @@
+"""
+UserController module for managing user-related operations.
+
+Classes:
+    UserController: Manages user operations and interactions with the database and view.
+
+Methods:
+    __init__(self):
+        Initializes the UserController with a User model and UserView.
+
+    create_user(self):
+        Creates a new user with input information.
+
+    delete_user_by_id(self):
+        Deletes a user by ID if the user exists.
+
+    connecter_user(self):
+        Asks for user login information.
+
+    read_all_users(self):
+        Retrieves and displays all users from the database.
+
+    filter_users(self):
+        Displays a message that no user filters are available.
+
+    update_user(self):
+        Updates user information based on user input if the user exists.
+"""
+
 from views import UserView
 from settings.database import session
 from models import User

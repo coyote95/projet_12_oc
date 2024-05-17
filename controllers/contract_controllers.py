@@ -1,3 +1,28 @@
+"""
+ContractController module for managing contract-related operations.
+
+Classes:
+    ContractController: Manages contract operations and interactions with the database and view.
+
+Methods:
+    __init__(self):
+        Initializes the ContractController with a Contract model and ContractView.
+
+    create_contract(self, user_role, user_id):
+        Creates a new contract with user input if the user is authorized.
+
+    delete_contract_by_id(self, user_role, user_id):
+        Deletes a contract by ID if the user is authorized.
+
+    read_all_contracts(self):
+        Retrieves and displays all contracts from the database.
+
+    filter_contracts(self, user_role):
+        Filters and displays contracts based on the user's role and selected filter.
+
+    update_contract(self, user_role, user_id):
+        Updates contract information based on user input if the user is authorized.
+"""
 from models import Client
 from models import Contract
 from views import ContractView

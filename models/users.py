@@ -7,6 +7,39 @@ from settings.database import session
 
 
 class User(Base):
+    """
+       Represents a user entity in the database.
+
+       Attributes:
+           id (int): The unique identifier for the user.
+           name (str): The name of the user.
+           email (str): The email address of the user (unique).
+           department (Enum): The department of the user, which can be one of 'commercial', 'support', or 'gestion'.
+           password (str): The hashed password of the user.
+           clients (relationship): Relationship with the Client model representing clients associated with the user.
+           role (relationship): Relationship with the Role model representing the role of the user.
+           events (relationship): Relationship with the Event model representing events associated with the user.
+
+       Methods:
+           __init__(name, email, department, password): Initializes a new User object with the provided attributes.
+           __str__(): Returns a string representation of the User object.
+           __repr__(): Returns a string representation of the User object.
+           get_id(): Returns the user's ID.
+           get_name(): Returns the user's name.
+           get_email(): Returns the user's email address.
+           get_department(): Returns the user's department.
+           get_password(): Returns the user's hashed password.
+           set_id(user_id): Sets the user's ID.
+           set_name(name): Sets the user's name.
+           set_email(email): Sets the user's email address.
+           set_department(department): Sets the user's department.
+           set_password(password): Sets and hashes the user's password.
+           check_password(password): Checks if the provided password matches the user's hashed password.
+           set_role_from_department(): Sets the user's role based on their department.
+           get_clients_name(): Returns a list of names of clients associated with the user.
+           filter_by_id(user_id): Returns the user with the specified ID.
+           filter_all_users(): Returns all users in the database.
+       """
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)

@@ -1,3 +1,34 @@
+"""
+Run Action Module
+
+This module defines classes for running various actions within the EPIC Events application.
+
+Classes:
+    - RunAction: Base class for running actions.
+    - RunInscription: Class for running the user registration action.
+    - RunConnexion: Class for running the user login action.
+    - RunCreateUser: Class for running the user creation action.
+    - RunDeleteUser: Class for running the user deletion action.
+    - RunReadUser: Class for running the user reading action.
+    - RunFilterUser: Class for running the user filtering action.
+    - RunUpdateUser: Class for running the user updating action.
+    - RunCreateClient: Class for running the client creation action.
+    - RunDeleteClient: Class for running the client deletion action.
+    - RunReadClient: Class for running the client reading action.
+    - RunFilterClient: Class for running the client filtering action.
+    - RunUpdateClient: Class for running the client updating action.
+    - RunCreateContract: Class for running the contract creation action.
+    - RunDeleteContract: Class for running the contract deletion action.
+    - RunReadContract: Class for running the contract reading action.
+    - RunFilterContract: Class for running the contract filtering action.
+    - RunUpdateContract: Class for running the contract updating action.
+    - RunCreateEvent: Class for running the event creation action.
+    - RunDeleteEvent: Class for running the event deletion action.
+    - RunReadEvent: Class for running the event reading action.
+    - RunFilterEvent: Class for running the event filtering action.
+    - RunUpdateEvent: Class for running the event updating action.
+"""
+
 import controllers.menu_controllers
 from controllers import UserController, ClientController, ContractController, EventController
 from controllers.auth_controllers import AuthController

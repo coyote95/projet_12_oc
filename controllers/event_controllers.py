@@ -1,3 +1,29 @@
+"""
+EventController module for managing event-related operations.
+
+Classes:
+    EventController: Manages event operations and interactions with the database and view.
+
+Methods:
+    __init__(self):
+        Initializes the EventController with an Event model and EventView.
+
+    create_event(self, user_id):
+        Creates a new event with user input if the user is authorized.
+
+    delete_event_by_id(self, user_id):
+        Deletes an event by ID if the user is authorized.
+
+    read_all_events(self):
+        Retrieves and displays all events from the database.
+
+    update_event(self, user_role, user_id):
+        Updates event information based on user input if the user is authorized.
+
+    filter_events(self, user_role, user_id):
+        Filters and displays events based on the user's role and selected filter.
+"""
+
 from models import Event, Contract, User
 from views import EventView
 from settings.database import session

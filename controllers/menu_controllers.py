@@ -1,3 +1,10 @@
+"""
+EPIC Events Application
+
+This module defines the main application flow and the controllers for handling
+various menus and operations in the EPIC Events application.
+"""
+
 import sys
 from models.menu import Menu
 from views.menu_view import HomeMenuView

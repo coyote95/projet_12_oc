@@ -2,6 +2,24 @@ from views.base_view import BaseView
 
 
 class ContractView(BaseView):
+    """
+      Provides methods for user input and displaying contract information.
+
+      Inherits from:
+          BaseView: A base class providing methods to display messages in different colors.
+
+      Methods:
+          input_total_price(): Prompts the user to input the total price of the contract.
+          input_remaining_price(): Prompts the user to input the remaining price to pay.
+          input_signed_contract(): Prompts the user to input whether the contract is signed or not.
+          display_signed_contract(signed_contract): Displays the status of the contract's signature.
+          input_id_client(): Prompts the user to input the client's ID associated with the contract.
+          input_id_contract(): Prompts the user to input the contract's ID.
+          input_prices(): Prompts the user to input both total and remaining prices.
+          display_contract(contract): Displays information about a contract.
+          ask_contract_update_field(): Asks the user which field of the contract they want to update.
+          menu_filter(): Displays a menu for filtering contract options.
+      """
 
     @staticmethod
     def input_total_price():
