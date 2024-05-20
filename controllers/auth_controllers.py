@@ -82,11 +82,6 @@ class AuthController(BaseView):
             )
             return False
 
-    # def decode_payload_role_token(self):
-    #     payload = self.valid_token()
-    #     role = payload.get("roles")
-    #     return role
-
     def decode_payload_id_and_role_token(self):
         payload = self.valid_token()
         role = payload.get("roles")
