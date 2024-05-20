@@ -19,6 +19,6 @@ Install project with powershell windows:
 You need to create an .env file with your environment variable:
 
 SECRET_KEY="your_sercret_key"  
-DATABASE="path_databas"  
+DATABASE="path_database"  
 SENTRY="url_sentry"
     
